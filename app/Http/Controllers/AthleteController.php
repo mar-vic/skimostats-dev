@@ -350,6 +350,9 @@ class AthleteController extends Controller
             ]];
         });
 
+        // TODO: sort the collection by ranking categories (while removing the ordering from query builder)
+        // TODO: sort race events by their date
+
         return $grouppedByRace->slice(0, 10);
     }
 }
