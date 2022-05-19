@@ -1,0 +1,19 @@
+.instafeed {
+    height: 200px;
+    background: #eee;
+    position: relative;
+    &::before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        content: 'Loading Instagram feed...';
+        z-index: 0;
+    }
+
+    img {
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+    }
+}

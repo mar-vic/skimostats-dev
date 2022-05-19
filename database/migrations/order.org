@@ -1,0 +1,12 @@
+* Order
+
+1) add_slug_to_race_types_table -> add_relay_race_and_youth_mixed
+
+* Errors
+
+1) Migrating update_foreing_key_rankings results in General error: 1826
+   Duplicate foreign key constraint name 'rankings_participantid_foreign
+
+   - Seems like there is already a constraint with the same name in effect
+
+     - Should I first drop the old constraint or alter the name of the new one?

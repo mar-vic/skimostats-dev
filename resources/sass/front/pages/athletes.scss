@@ -1,0 +1,60 @@
+.athletes-top {
+    background: url('/images/parts/athletes/athletes-bg1.jpg') #ffe200 no-repeat right / cover;
+
+    &--detail {
+        background: url('/images/parts/latest/middle.png') #ffe200 no-repeat bottom 5px right -50px;
+        background-size: 500px;
+    }
+}
+
+.athlete-list {
+    background: url('/images/parts/latest/middle.png') no-repeat bottom 5px left -100px;
+    background-size: 500px;
+}
+
+
+.athlete {
+    &__profile-image {
+        box-shadow: 0 0 15px rgba(0,0,0,.4);
+        max-width: 100%;
+        max-height: 450px;
+    }
+
+    &__name-placeholder {
+        position: absolute;
+        font-weight: 800;
+        font-size: 180px;
+        opacity: .1;
+        pointer-events: none;
+        user-select: none;
+        left: -90px;
+        top: -10px;
+        line-height: .9;
+    }
+
+    &__social-links {
+        display: flex;
+        align-items: center;
+
+        $asize: 21px;
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: $asize;
+            height: $asize;
+            background: black;
+            color: #ffe200;
+            transition: .2s all ease;
+            border-radius: 50%;
+            font-size: 11px;
+            margin-right: 3px;
+
+            &:hover, &:active, &:focus {
+                text-decoration: none;
+                color: #fff;
+                background: #444;
+            }
+        }
+    }
+}

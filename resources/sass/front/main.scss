@@ -1,0 +1,29 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Barlow+Condensed:400,700|Open+Sans:400,700&display=swap');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Global
+@import 'global/transitions';
+@import 'global/typography';
+@import 'global/utilities';
+
+// Components
+@import 'components/topbar';
+@import 'components/latest-results';
+@import 'components/footer';
+@import 'components/tables';
+@import 'components/flag-icon';
+@import 'components/badges';
+@import 'components/pagination';
+@import 'components/instafeed';
+@import 'components/dropdown';
+
+// Pages
+@import 'pages/layout';
+@import 'pages/homepage';
+@import 'pages/athletes';

@@ -1,0 +1,48 @@
+body {
+    background: $white;
+    font-family: $font-family-default;
+
+    @include media-breakpoint-down(md) {
+        padding-top: $topbar-mobile-height;
+    }
+}
+
+.bg-logo {
+    background: url(/images/parts/bg-logo.png) no-repeat bottom -70px left -80px;
+    background-size: 35%;
+}
+
+.bg-logo-el {
+    background: url(/images/parts/bg-logo.png) no-repeat center center / cover;
+    width: 500px;
+    height: 400px;
+    position: absolute;
+    bottom: 5px;
+    z-index: -1;
+    pointer-events: none;
+    left: -10%;
+    max-width: 110%;
+    opacity: .6;
+}
+
+.bg-text {
+    font-family: $font-family-heading;
+    color: #EEEDEE;
+    font-size: 200px;
+    text-transform: uppercase;
+    position: absolute;
+    top: 0;
+    letter-spacing: -6px;
+    font-weight: 800;
+    line-height: 1;
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+    left: -10%;
+    max-width: 110%;
+    overflow: hidden;
+    background: #fff;
+    padding-bottom: 10px;
+    padding-right: 80px;
+    box-shadow: 0 0 20px #fff;
+}

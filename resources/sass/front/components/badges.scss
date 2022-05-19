@@ -1,0 +1,18 @@
+.badge {
+    &--custom {
+        font-weight: normal;
+        border: 1px #bebfc1 solid;
+        background: $white;
+        padding: 0.6em 0.9em;
+        color: #000;
+
+        &:hover, &:active, &:focus {
+            background: #eee;
+        }
+    }
+
+    &.badge-active {
+        background: #15174a;
+        color: $white;
+    }
+}

@@ -1,0 +1,104 @@
+.homepage {
+    &__header {
+        display: flex;
+        align-items: center;
+        color: $white;
+        height: 350px;
+        background: url('/images/news/1.jpg') no-repeat center center / cover;
+
+        &-subtitle, &-title {
+            font-family: $font-family-heading;
+            font-weight: bold;
+            font-size: 50px;
+            line-height: 1;
+        }
+
+        &-title {
+            font-size: 80px;
+        }
+
+        &-read-more {
+            color: $white;
+            display: inline-block;
+            padding-right: 32px;
+            line-height: 2;
+            background: url('/images/arrow-right.png') no-repeat right 10px center;
+            transition: .2s all ease;
+            opacity: .8;
+
+            &:hover, &:active, &:focus {
+                opacity: 1;
+                color: $white;
+                text-decoration: none;
+                background-position: right 0px center;
+            }
+        }
+    }
+
+    &__info-strip {
+        background: $blue;
+        padding: 20px 0;
+        color: $white;
+    }
+
+    &__upcoming-races {
+        background: url('/images/parts/upcoming-bg.jpg') #fff no-repeat bottom right / cover;
+
+        &-title {
+            width:275px;
+            position:absolute;
+            left:0;
+            top:50%;
+            transform:translateY(-50%);
+
+            @include media-breakpoint-down(lg) {
+                position: relative;
+                left: auto;
+                top: auto;
+                width: auto;
+                transform: translateY(0);
+
+                .latest-results__left-text {
+                    writing-mode: inherit;
+                    transform: rotate(0deg);
+                    font-size: 60px;
+                }
+            }
+        }
+    }
+
+    &__stats {
+        padding: 80px 0;
+        background: url('/images/parts/stats-bg.jpg') #fff no-repeat top center / contain;
+
+        @include media-breakpoint-down(md) {
+            padding: 20px 0;
+        }
+
+        &-card {
+            background: rgba(255,255,255,.9);
+            flex-basis: 40%;
+            padding: 15px 30px;
+
+            @include media-breakpoint-down(md) {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    &__cookies-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px 0;
+        color: #fff;
+        background: $blue;
+        z-index: 10000;
+
+        a {
+            color: #fff;
+        }
+    }
+}

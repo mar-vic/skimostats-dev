@@ -1,0 +1,46 @@
+.body {
+    font-family: $font-family-default;
+}
+
+.h1,.h2,.h3,
+h1, h2, h3 {
+    font-family: $font-family-heading;
+}
+
+.font-heading {
+    font-family: $font-family-heading;
+}
+
+.font-size-xlarge {
+    font-size: 50px;
+}
+
+.font-size-xsmall {
+    font-size: 10px;
+}
+
+.text-yellow {
+    color: $yellow;
+}
+
+.text-blue {
+    color: $blue;
+}
+
+.va-05 {
+    vertical-align: 0.5em;
+}
+.va-0 {
+    vertical-align: 0em;
+}
+
+.page-heading {
+    font-size: 50px;
+    line-height: .8;
+}
+
+@include media-breakpoint-down(sm) {
+    .text-nowrap-mobile {
+        white-space: nowrap;
+    }
+}

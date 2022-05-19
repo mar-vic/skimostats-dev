@@ -1,0 +1,56 @@
+.table {
+
+    &--races {
+        thead th {
+            background: url('/images/line-horizontal.png') repeat-x top left, url('/images/line-horizontal.png') repeat-x bottom left;
+        }
+        tbody td, thead th {
+            border: 0;
+            padding: 0.5rem;
+        }
+        tbody tr {
+            &:first-child {
+                td {
+                    padding-top: 1rem;
+                }
+            }
+        }
+
+        &-striped {
+            tbody {
+                tr:nth-child(2n - 1) {
+                    background: #e5e4ea;
+                }
+                tr:first-child td {
+                    padding-top: .5rem !important;
+                }
+
+                tr.dnf {
+                    background: #fee;
+                    td {
+                        border-bottom: 1px #fff solid;
+                    }
+                }
+            }
+        }
+    }
+
+    &--shrinked {
+        max-height: 350px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__unshrink {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 5px 15px;
+        padding-top: 50px;
+        text-align: center;
+        background: rgb(255,255,255);
+        background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+        text-shadow: 0 0 10px #fff;
+    }
+}
