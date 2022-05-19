@@ -310,6 +310,7 @@ class AthleteController extends Controller
         $queryBuilder = DB::table('rankings')
              ->where('athleteId', '=', $athlete->id)
              ->whereNotNull('rankings.rankingCategoryId')
+             ->whereRaw('rankings.rank in (1, 2, 3, 4)')
              ->join('race_events as events', 'events.id', 'rankings.raceEventId')
              ->join('races', 'races.id', 'events.raceId')
              // ->groupBy('races.id')
@@ -326,11 +327,29 @@ class AthleteController extends Controller
                           "else 10 ".
                           "end asc")
              // ->limit(10)
-             ->selectRaw('events.id as participations, '.
+             ->selectRaw('races.id as raceId, '.
                          'races.name as raceName, '.
-                         'races.rankingCategoryId as rankingCategory');
+                         'races.rankingCategoryId as rankingCategory, '.
+                         'events.name as eventName, '.
+                         'events.slug as eventSlug, '.
+                         'rankings.points, '.
+                         'rankings.rank');
 
-        return $queryBuilder->get();
+        // get the collection from querybuilder
+        $collection = $queryBuilder->get();
+
+        // group the collection by races
+        $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
+            return [$item->raceId => [
+                    'raceName' => $item->raceName,
+                    'eventName' => $item->eventName,
+                    'eventSlug' => $item->eventSlug,
+                    'points' => $item->points,
+                    'rank' => $item->rank,
+                    'rankingCategoryId' => $item->rankingCategory
+            ]];
+        });
+
+        return $grouppedByRace->slice(0, 10);
     }
-
 }
