@@ -335,7 +335,7 @@ class AthleteController extends Controller
                          'rankings.points, '.
                          'rankings.rank');
 
-        // get the collection from querybuilder
+        // get php collection object from querybuilder
         $collection = $queryBuilder->get();
 
         // group the collection by races
