@@ -343,12 +343,18 @@ class FrontController extends Controller
         //         ->groupBy('rankings.raceTypeId')
         //         ->get();
 
+        // New TOP Results by MV
+        $topResultsNew = $this->topResults($athlete);
+        // dd($topResultsNew);
+        // END new TOP Results
+
         $athleteService = new AthleteService();
         $pointsPerSpecialty = $athleteService->getPointsPerSpecialty($athlete);
 
         return view('front.athlete-detail', [
             'athlete' => $athlete,
             'topResults' => $topResults,
+            'topResultsNew' => $topResultsNew,
             'customTopResults' => $customTopResults,
             'pointsPerSpecialty' => $pointsPerSpecialty,
         ]);
@@ -553,8 +559,6 @@ class FrontController extends Controller
 
     public function raceOverview(Request $request, string $slug, int $year = 0) {
 
-
-
         $race = Race::where('slug', $slug)->first();
 
         if (!$race) {
@@ -632,5 +636,80 @@ class FrontController extends Controller
             $start,
             $end,
         ];
+    }
+
+    // New stuff by MV
+    public function topResults(Athlete $athlete) {
+        // return the top results of the athlete
+        // top results are grouped by races and order by category IDs as follows: 6, 5, 1, 7, 8, 2, 4, 11, 3, 10
+        $queryBuilder = DB::table('rankings')
+             ->where('athleteId', '=', $athlete->id)
+             ->whereNotNull('rankings.rankingCategoryId')
+             ->whereRaw('rankings.rank in (1, 2, 3, 4)')
+             ->join('race_events as events', 'events.id', 'rankings.raceEventId')
+             ->join('races', 'races.id', 'events.raceId')
+             // ->groupBy('races.id')
+             // ->orderByRaw("case races.rankingCategoryId ".
+             //              "when 6 then 1 ".
+             //              "when 5 then 2 ".
+             //              "when 1 then 3 ".
+             //              "when 7 then 4 ".
+             //              "when 8 then 5 ".
+             //              "when 2 then 6 ".
+             //              "when 4 then 7 ".
+             //              "when 11 then 8 ".
+             //              "when 3 then 9 ".
+             //              "else 10 ".
+             //              "end asc")
+             // ->limit(10)
+             ->selectRaw('races.id as raceId, '.
+                         'races.name as raceName, '.
+                         'races.rankingCategoryId as rankingCategory, '.
+                         'events.name as eventName, '.
+                         'events.slug as eventSlug, '.
+                         'events.startDate as date, '.
+                         'rankings.points, '.
+                         'rankings.rank');
+
+        // get php collection object from querybuilder
+        $collection = $queryBuilder->get();
+
+        // group the collection by races
+        $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
+            return [$item->raceId => [
+                    'raceName' => $item->raceName,
+                    'eventName' => $item->eventName,
+                    'eventSlug' => $item->eventSlug,
+                    'eventDate' => $item->date,
+                    'points' => $item->points,
+                    'rank' => $item->rank,
+                    'rankingCategoryId' => $item->rankingCategory,
+                    'raceId' => $item->raceId
+            ]];
+        });
+
+        // sort the collection by rankingCategoryId
+        $sorted = $grouppedByRace->sort(function ($a, $b) {
+            $rnkCatsScores = [
+                6 => 1,
+                5 => 2,
+                1 => 3,
+                7 => 4,
+                8 => 5,
+                2 => 6,
+                4 => 7,
+                11 => 8,
+                3 => 9,
+                10 => 10,
+                9 => 10
+            ];
+
+            $aScore = $rnkCatsScores[$a[0]["rankingCategoryId"]];
+            $bScore = $rnkCatsScores[$b[0]["rankingCategoryId"]];
+
+            return $aScore - $bScore;
+        });
+
+        return $sorted->values()->slice(0, 8);
     }
 }

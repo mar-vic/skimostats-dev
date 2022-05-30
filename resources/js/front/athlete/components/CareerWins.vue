@@ -80,6 +80,7 @@
 </template>
 <script>
 
+// VUE Libraries
 import moment from 'moment'
 import { mapState } from 'vuex'
 

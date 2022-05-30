@@ -167,32 +167,37 @@
                 <div class="horizontal-line mb-4 mt-2"></div>
 
                 @if (count($topResults) > 0)
+
+                <!-- TOP RESULTS AND POINTS PER SPECIALTY ROW -->
                 <div class="row">
+
                     <div class="col-md-6 mb-4 mb-md-0">
                         <h2 class="h1 text-uppercase font-weight-bold">Top results</h2>
 
-                            <table style="width:100%;font-size:13px;" class="font-size-xsmall">
-                            @foreach ($topResults as $result)
-                                @if ($result->event)
-                                    <tr>
-                                        <td style="width: 30px;padding-right:4px;">{{ Helper::addOrdinalNumberSuffix($result->rank) }}</td>
-                                        <td>
-                                            <a href="{{route('raceEventDetail.slug.category', [$result->event->slug, $result->category->slug])}}">
-                                                <div class="d-flex align-items-center">
-                                                    @if($result->event->country)
-                                                        <img src="{{ asset('images/flags/flags-mini/'. strtolower($result->event->country->code) . '.png') }}" alt="" class="flag-icon--micro mr-2">
-                                                    @endif
-                                                    <div>
-                                                        {{ $result->event->optionalName ?? $result->event->name }}
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                            </table>
+                        @foreach ($topResultsNew as $race)
+                        <div class="row">
+
+                            <!-- RACE NAME -->
+                            <div class="col-auto font-size-xsmall" style="font-size:13px;">
+                                <strong>{{ $race[0]["raceName"] }}: </strong>
+                            </div>
+
+                            <!-- MEDALS -->
+                            <div class="col font-size-xsmall px-1" style="font-size:13px;">
+                                @foreach ($race->sortBy('rank') as $event)
+                                <a href="/event/{{ $event['eventSlug'] }}"
+                                   class="fa fa-medal"
+                                   title="{{ Helper::addOrdinalNumberSuffix($event['rank']) }} at {{ $event['eventName'] }}"
+                                   style="@if ($event['rank'] == 1) color:#9b870c; @elseif ($event['rank'] == 2) color:#a9a9a9; @elseif ($event['rank'] == 3) color:#a57164; @else color:#7b3f00; @endif text-decoration:none;"></a>
+                                @endforeach
+                            </div>
+
+                        </div>
+                        @endforeach
+
                     </div>
+
+                    <!-- POINTS PER SPECIALTY -->
                     @if(count($pointsPerSpecialty))
                     <div class="col-md-6">
                         <h2 class="h1 text-uppercase font-weight-bold">Points per specialty</h2>
@@ -213,6 +218,12 @@
                     @endif
                 </div>
                 @endif
+                <!-- END TOP RESULTS AND PPS -->
+
+                @if (count($topResultsNew) > 0)
+                @endif
+                <!-- END NEW TOP RESULTS -->
+
             </div>
         </div>
     </div>
@@ -221,15 +232,6 @@
 
 
 </div>
-
-<h1>CAREER WINS</h1>
-
-<ul>
-@foreach ($athlete->getCareerWins() as $win)
-<li><a href="#">{{ $win->name }}</a></li>
-@endforeach
-</ul>
-
 
 {{-- @if($athlete->hasSocialLink('instagram'))
     <div class="instafeed text-nowrap overflow-hidden" id="instafeed"></div>

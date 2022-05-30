@@ -314,24 +314,25 @@ class AthleteController extends Controller
              ->join('race_events as events', 'events.id', 'rankings.raceEventId')
              ->join('races', 'races.id', 'events.raceId')
              // ->groupBy('races.id')
-             ->orderByRaw("case races.rankingCategoryId ".
-                          "when 6 then 1 ".
-                          "when 5 then 2 ".
-                          "when 1 then 3 ".
-                          "when 7 then 4 ".
-                          "when 8 then 5 ".
-                          "when 2 then 6 ".
-                          "when 4 then 7 ".
-                          "when 11 then 8 ".
-                          "when 3 then 9 ".
-                          "else 10 ".
-                          "end asc")
+             // ->orderByRaw("case races.rankingCategoryId ".
+             //              "when 6 then 1 ".
+             //              "when 5 then 2 ".
+             //              "when 1 then 3 ".
+             //              "when 7 then 4 ".
+             //              "when 8 then 5 ".
+             //              "when 2 then 6 ".
+             //              "when 4 then 7 ".
+             //              "when 11 then 8 ".
+             //              "when 3 then 9 ".
+             //              "else 10 ".
+             //              "end asc")
              // ->limit(10)
              ->selectRaw('races.id as raceId, '.
                          'races.name as raceName, '.
                          'races.rankingCategoryId as rankingCategory, '.
                          'events.name as eventName, '.
                          'events.slug as eventSlug, '.
+                         'events.startDate as date, '.
                          'rankings.points, '.
                          'rankings.rank');
 
@@ -344,15 +345,38 @@ class AthleteController extends Controller
                     'raceName' => $item->raceName,
                     'eventName' => $item->eventName,
                     'eventSlug' => $item->eventSlug,
+                    'eventDate' => $item->date,
                     'points' => $item->points,
                     'rank' => $item->rank,
-                    'rankingCategoryId' => $item->rankingCategory
+                    'rankingCategoryId' => $item->rankingCategory,
+                    'raceId' => $item->raceId
             ]];
         });
 
-        // TODO: sort the collection by ranking categories (while removing the ordering from query builder)
+        // sort the collection by rankingCategoryId
+        $sorted = $grouppedByRace->sort(function ($a, $b) {
+            $rnkCatsScores = [
+                6 => 1,
+                5 => 2,
+                1 => 3,
+                7 => 4,
+                8 => 5,
+                2 => 6,
+                4 => 7,
+                11 => 8,
+                3 => 9,
+                10 => 10,
+                9 => 10
+            ];
+
+            $aScore = $rnkCatsScores[$a[0]["rankingCategoryId"]];
+            $bScore = $rnkCatsScores[$b[0]["rankingCategoryId"]];
+
+            return $aScore - $bScore;
+        });
+
         // TODO: sort race events by their date
 
-        return $grouppedByRace->slice(0, 10);
+        return $sorted->values();
     }
 }

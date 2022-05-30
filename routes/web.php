@@ -44,6 +44,7 @@ Auth::routes(['register' => false]);
     Route::get('/v1/athlete/{athlete}/career-wins', 'AthleteController@careerWins');
     Route::get('/v1/athlete/{athlete}/top-results', 'AthleteController@topResults');
 
+
     // Rankings
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');
     Route::get('/rankings/skimostats/all-time/{category}', 'RankingController@rankingAllTime')->name('rankings.all-time');
