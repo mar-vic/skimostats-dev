@@ -131,6 +131,5 @@ export default {
             this.orderBy = orderBy
         }
     }
-
 }
 </script>

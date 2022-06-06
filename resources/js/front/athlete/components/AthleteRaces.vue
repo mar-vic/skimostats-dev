@@ -9,6 +9,7 @@
                     </div>
                     <div v-else class="py-5">
                         <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Results per season: {{ year }}</h1>
+                        <h2 class="font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">racedays in the season: {{ raceDays }}</h2>
 
                         <div class="d-flex mb-2">
                             <div class="font-weight-bold text-uppercase text-blue">Select season:</div>
@@ -127,7 +128,7 @@ export default {
     },
     computed: {
         ...mapState(['athleteId']),
-        ...mapState('races', ['races', 'error', 'year', 'years', 'loading']),
+        ...mapState('races', ['races', 'error', 'year', 'years', 'loading', 'raceDays']),
 
         filteredRaces() {
             return this.races.sort((a, b) => {
@@ -159,6 +160,11 @@ export default {
             this.loadingRaces = true
             try {
                 await this.$store.dispatch('races/loadRaces', {
+                    athleteId: this.athleteId,
+                    year,
+                })
+
+                await this.$store.dispatch('races/loadRaceDays', {
                     athleteId: this.athleteId,
                     year,
                 })

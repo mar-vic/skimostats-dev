@@ -6,6 +6,7 @@
     </div>
 </template>
 <script>
+
 import RankingStrip from './RankingStrip.vue'
 import AthleteRaces from './AthleteRaces.vue'
 import CareerWins from './CareerWins.vue'

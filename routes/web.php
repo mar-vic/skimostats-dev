@@ -43,6 +43,7 @@ Auth::routes(['register' => false]);
     // New stuff by MV
     Route::get('/v1/athlete/{athlete}/career-wins', 'AthleteController@careerWins');
     Route::get('/v1/athlete/{athlete}/top-results', 'AthleteController@topResults');
+    Route::get('/v1/athlete/{athlete}/race-days/{year}', 'AthleteController@raceDays');
 
 
     // Rankings

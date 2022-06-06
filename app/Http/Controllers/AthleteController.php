@@ -11,6 +11,7 @@ use App\Ranking;
 use App\Enums\RankingType;
 use App\Services\AthleteService;
 use Carbon\Carbon;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
@@ -378,5 +379,21 @@ class AthleteController extends Controller
         // TODO: sort race events by their date
 
         return $sorted->values();
+    }
+
+    public function raceDays(Request $request, Athlete $athlete, $year)
+    {
+        // return the number of race days of an athelte in given year
+        $queryBuilder = DB::table('race_event_entries as entries')
+                      ->join('race_event_participants as participants', 'participants.id', 'entries.raceEventParticipantId')
+                      ->join('race_events as events', 'events.id', 'entries.raceEventId')
+                      ->where('participants.athleteId', '=', $athlete->id)
+                      ->where('events.year', '=', $year)
+                      ->whereRaw("events.name not like '%general classification%'")
+                      ->groupBy('participants.athleteId')
+                      ->selectRaw('count(entries.id) as raceDays');
+
+        // return $queryBuilder->get()[0]->raceDays;
+        return $queryBuilder->get()->first();
     }
 }

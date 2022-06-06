@@ -8,7 +8,6 @@ export default {
         return {
             error: '',
             athleteId: null,
-
             athlete: null,
             opponent: null,
         }
@@ -18,15 +17,19 @@ export default {
         SET_ERROR(state, e) {
             state.error = e
         },
+
         SET_ATHLETE_ID(state, id) {
             state.athleteId = id
         },
+
         SET_ATHLETE: (state, data) => state.athlete = data,
+
         SET_OPPONENT: (state, data) => state.opponent = data,
     },
 
     actions: {
         async fetchAthlete({ commit }, athleteId) {
+
             const { data } = await axios.get(`/v1/athlete/${athleteId}`)
 
             commit('SET_ATHLETE', data)

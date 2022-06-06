@@ -12,10 +12,12 @@ export default {
              cachedRaces: {},
              error: '',
              loading: false,
+             raceDays: null,
+             cachedRaceDays: {},
          }
      },
 
-     mutations: {
+    mutations: {
         SET_ERROR(state, e) {
             state.error = e
         },
@@ -24,6 +26,11 @@ export default {
             state.year = year
             state.races = races
             state.cachedRaces[year] = races
+        },
+
+        SET_RACE_DAYS(state, { year, raceDays }) {
+            state.raceDays = raceDays;
+            state.cachedRaceDays[year] = raceDays;
         },
 
         SET_YEARS(state, years) {
@@ -48,6 +55,7 @@ export default {
                 if (years.length) {
                     commit('SET_YEARS', years)
                     await dispatch('loadRaces', { athleteId, year: years[0]})
+                    await dispatch('loadRaceDays', { athleteId, year: years[0]})
                 }
                 commit ('SET_LOADING', false)
             } catch(e) {
@@ -66,6 +74,17 @@ export default {
             }
             const { data: racesResult } = await axios.get(`/v1/athlete/${athleteId}/races/${year}`)
             commit('SET_RACES', racesResult)
+         },
+
+         async loadRaceDays({ commit, state}, { athleteId, year }) {
+             if (state.cachedRaceDays[year]) {
+                 commit('SET_RACE_DAYS', {
+                     year,
+                     races: state.cachedRaceDays[year],
+                 })
+             }
+             const { data } = await axios.get(`/v1/athlete/${athleteId}/race-days/${year}`);
+             commit('SET_RACE_DAYS', { year, raceDays: data.raceDays });
          },
      },
 }
