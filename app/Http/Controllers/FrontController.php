@@ -345,7 +345,16 @@ class FrontController extends Controller
 
         // New TOP Results by MV
         $topResultsNew = $this->topResults($athlete);
-        // dd($topResultsNew);
+        $grouppedRankCounts = array();
+
+        foreach($topResultsNew as $raceResults) {
+            $ranks = array();
+            foreach($raceResults as $result) {
+                $ranks[] = $result['rank'];
+            }
+            $grouppedRankCounts[$result['raceName']] = collect($ranks)->countBy();
+        }
+        // dd($grouppedRankCounts);
         // END new TOP Results
 
         $athleteService = new AthleteService();
@@ -355,6 +364,7 @@ class FrontController extends Controller
             'athlete' => $athlete,
             'topResults' => $topResults,
             'topResultsNew' => $topResultsNew,
+            'allRankCounts' => $grouppedRankCounts,
             'customTopResults' => $customTopResults,
             'pointsPerSpecialty' => $pointsPerSpecialty,
         ]);

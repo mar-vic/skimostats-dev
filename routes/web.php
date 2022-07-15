@@ -40,11 +40,12 @@ Auth::routes(['register' => false]);
     Route::get('/v1/athlete/{athlete}/races/{year}', 'AthleteController@races');
     Route::get('/v1/athlete/{athlete}/ranking-per-season', 'AthleteController@rankingPerSeason');
     Route::get('/v1/athlete/{athlete}/races-per-country', 'AthleteController@racesPerCountry');
-    // New stuff by MV
-    Route::get('/v1/athlete/{athlete}/career-wins', 'AthleteController@careerWins');
-    Route::get('/v1/athlete/{athlete}/top-results', 'AthleteController@topResults');
-    Route::get('/v1/athlete/{athlete}/race-days/{year}', 'AthleteController@raceDays');
-
+    // NEW STUFF BY MV
+    Route::get('/v1/athlete/{athlete}/career-wins', 'AthleteController@careerWins'); // Athlete's wins throughout their career
+    Route::get('/v1/athlete/{athlete}/top-results', 'AthleteController@topResults');  // Top results of an athlete
+    Route::get('/v1/athlete/{athlete}/race-days/{year}', 'AthleteController@raceDays');  // Days raced in a season
+    Route::get('/v1/athlete/{athlete}/elevation/{year}', 'AthleteController@elevation'); // Elevation overcome by an athlete during a season
+    Route::get('/v1/athlete/{athlete}/seasonSummary/{year}', 'AthleteController@seasonSummary'); // summary stats for a season <elevation, raceDays, points>
 
     // Rankings
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');
