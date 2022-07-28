@@ -280,13 +280,17 @@ class AthleteController extends Controller
 
     // NEW STUFF by MV
     public function careerWins(Request $request, Athlete $athlete) {
-        // returns all wins in the athletes career
-        $queryBuilder = DB::table('rankings')
-                      ->join('race_types', 'rankings.raceTypeId', 'race_types.id')
-                      ->join('race_events as events', 'rankings.raceEventId', 'events.id')
+        $queryBuilder = DB::table('race_events as events')
+                      ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+                      ->join('race_event_entries as entries', function ($qb) {
+                          $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                             ->orOn('entries.raceEventTeamId', '=', 'participants.raceEventTeamId');
+                      })
+                      ->join('race_types', 'race_types.id', 'events.type')
+                      ->leftJoin('rankings', 'participants.id', 'rankings.participantId')
                       ->join('categories', 'rankings.categoryId', 'categories.id')
-                      ->join('countries', 'events.countryId', 'countries.id')
-                      ->where('rankings.athleteId', $athlete->id)
+                      ->leftJoin('countries', 'events.countryId', 'countries.id')
+                      ->where('participants.athleteId', $athlete->id)
                       ->where('rankings.rank', 1)
                       ->whereRaw('rankings.rankingCategoryId in (1, 2, 4, 5, 6, 7, 8, 9, 10, 13)')
                       ->select(
@@ -395,5 +399,43 @@ class AthleteController extends Controller
 
         // return $queryBuilder->get()[0]->raceDays;
         return $queryBuilder->get()->first();
+    }
+
+    public function elevation(Request $request, Athlete $athlete, $year)
+    {
+        // return the elevation overcome by an athlete during a season
+        $queryBuilder = DB::table('race_event_participants as participants')
+                      ->join('race_events as events', 'participants.raceEventId', 'events.id')
+                      ->where('participants.id', '=', $athlete->id)
+                      // ->where('events.year', '=', $year)  // TODO: the seasons needs to be selected, not year
+                      ->groupBy('events.year')
+                      ->selectRaw('sum(events.elevation)');
+
+        return $queryBuilder->get();
+    }
+
+    public function seasonSummary(Request $request, Athlete $athlete, $year)
+    {
+        $timespan = Ranking::getRankingYearTimespan($year);
+
+        $builder = DB::table('race_events as re')
+                 ->selectRaw('sum(rnk.points) as Points, sum(DATEDIFF(re.endDate, re.startDate) + 1) as RaceDays, sum(re.elevation) as Elevation')
+                 ->join('race_event_participants as rep', 'rep.raceEventId', 're.id')
+                 ->join('categories as cat', 'cat.id', 'rep.categoryId')
+                 ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
+                 ->join('race_event_entries as ree', function($qb) {
+                     $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
+                        ->orOn('ree.raceEventTeamId', '=', 'ret.id');
+                 })
+                 ->leftJoin('rankings as rnk', function($qb) {
+                     $qb->on('rnk.participantId', '=', 'rep.id')
+                        ->where('rnk.type', 1)
+                        ->whereIn('rnk.categoryId', [1, 2]);
+                 })
+                 // ->leftJoin('race_types as rt', 'rt.id', 're.type')
+                 ->where('rep.athleteId', $athlete->id)
+                 ->whereBetween('re.startDate', $timespan);
+
+        return $builder->get()->first();
     }
 }

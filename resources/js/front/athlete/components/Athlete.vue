@@ -5,17 +5,17 @@
         <ranking-strip />
     </div>
 </template>
-<script>
 
+<script>
 import RankingStrip from './RankingStrip.vue'
 import AthleteRaces from './AthleteRaces.vue'
 import CareerWins from './CareerWins.vue'
 
 export default {
-    components: {
-        AthleteRaces,
-        CareerWins,
-        RankingStrip,
-    },
+  components: {
+    AthleteRaces,
+    CareerWins,
+    RankingStrip
+  }
 }
 </script>

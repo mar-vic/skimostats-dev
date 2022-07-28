@@ -2209,6 +2209,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -2352,6 +2353,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
  // SKIMO COMPONENTS
 
 
@@ -2378,7 +2381,7 @@ var compareNumber = function compareNumber(a, b, sort, orderBy) {
       sort: 'desc'
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['athleteId']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])('races', ['races', 'error', 'year', 'years', 'loading', 'raceDays']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['athleteId']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])('races', ['races', 'error', 'year', 'years', 'loading', 'raceDays', 'seasonSummary']), {
     filteredRaces: function filteredRaces() {
       var _this = this;
 
@@ -2435,24 +2438,31 @@ var compareNumber = function compareNumber(a, b, sort, orderBy) {
                 });
 
               case 8:
-                _context.next = 13;
-                break;
+                _context.next = 10;
+                return this.$store.dispatch('races/loadSeasonSummary', {
+                  athleteId: this.athleteId,
+                  year: year
+                });
 
               case 10:
-                _context.prev = 10;
+                _context.next = 15;
+                break;
+
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](3);
                 this.$store.commit('SET_ERROR', _context.t0);
 
-              case 13:
+              case 15:
                 this.openYearDropdown = false;
                 this.loadingRaces = false;
 
-              case 15:
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 10]]);
+        }, _callee, this, [[3, 12]]);
       }));
 
       function loadRaces(_x) {
@@ -2478,6 +2488,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _shared_components_Flag_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../shared/components/Flag.vue */ "./resources/js/front/shared/components/Flag.vue");
+//
 //
 //
 //
@@ -2545,6 +2556,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2581,6 +2593,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
 //
 //
 //
@@ -26608,7 +26621,17 @@ var render = function() {
                     staticClass:
                       "font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4"
                   },
-                  [_vm._v("racedays in the season: " + _vm._s(_vm.raceDays))]
+                  [
+                    _vm._v(
+                      "\n            season summary: " +
+                        _vm._s(_vm.seasonSummary.Elevation) +
+                        " D+ in " +
+                        _vm._s(_vm.seasonSummary.RaceDays) +
+                        " days with " +
+                        _vm._s(_vm.seasonSummary.Points) +
+                        " SkiMo Stats Points\n          "
+                    )
+                  ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "d-flex mb-2" }, [
@@ -26636,9 +26659,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                " +
+                            "\n                " +
                               _vm._s(_vm.year) +
-                              "\n                                "
+                              "\n                "
                           ),
                           _c("i", { staticClass: "fas fa-caret-down" })
                         ]
@@ -26667,9 +26690,9 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                  " +
                                   _vm._s(y) +
-                                  "\n                                "
+                                  "\n                "
                               )
                             ]
                           )
@@ -26874,11 +26897,7 @@ var render = function() {
               })
             : _vm._e(),
           _vm._v(" "),
-          _c("div", [
-            _vm._v(
-              "\n                " + _vm._s(_vm.item.name) + "\n            "
-            )
-          ])
+          _c("div", [_vm._v("\n        " + _vm._s(_vm.item.name) + "\n      ")])
         ],
         1
       )
@@ -26939,11 +26958,7 @@ var render = function() {
             : _vm._e(),
           _vm._v(" "),
           _c("div", [
-            _vm._v(
-              "\n                " +
-                _vm._s(_vm.item.eventName) +
-                "\n            "
-            )
+            _vm._v("\n        " + _vm._s(_vm.item.eventName) + "\n      ")
           ])
         ],
         1
@@ -41773,7 +41788,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       error: '',
       loading: false,
       raceDays: null,
-      cachedRaceDays: {}
+      cachedRaceDays: {},
+      seasonSummary: {},
+      cachedSummary: {}
     };
   },
   mutations: {
@@ -41790,9 +41807,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     SET_RACE_DAYS: function SET_RACE_DAYS(state, _ref2) {
       var year = _ref2.year,
           raceDays = _ref2.raceDays;
-      console.log('from SET_RACE_DAYS: ', year, raceDays);
       state.raceDays = raceDays;
       state.cachedRaceDays[year] = raceDays;
+    },
+    SET_SEASON_SUMMARY: function SET_SEASON_SUMMARY(state, _ref3) {
+      var year = _ref3.year,
+          seasonSummary = _ref3.seasonSummary;
+      state.seasonSummary = seasonSummary;
+      state.cachedSummary[year] = seasonSummary;
     },
     SET_YEARS: function SET_YEARS(state, years) {
       state.years = years;
@@ -41808,22 +41830,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     init: function () {
       var _init = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref3, athleteId) {
-        var commit, dispatch, _ref4, years;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref4, athleteId) {
+        var commit, dispatch, _ref5, years;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref3.commit, dispatch = _ref3.dispatch;
+                commit = _ref4.commit, dispatch = _ref4.dispatch;
                 commit('SET_LOADING', true);
                 _context.prev = 2;
                 _context.next = 5;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/v1/athlete/".concat(athleteId, "/race-year-list"));
 
               case 5:
-                _ref4 = _context.sent;
-                years = _ref4.data;
+                _ref5 = _context.sent;
+                years = _ref5.data;
 
                 if (!years.length) {
                   _context.next = 13;
@@ -41839,7 +41861,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 11:
                 _context.next = 13;
-                return dispatch('loadRaceDays', {
+                return dispatch('loadSeasonSummary', {
                   athleteId: athleteId,
                   year: years[0]
                 });
@@ -41872,15 +41894,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadRaces: function () {
       var _loadRaces = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref5, _ref6) {
-        var commit, state, athleteId, year, _ref7, racesResult;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref6, _ref7) {
+        var commit, state, athleteId, year, _ref8, racesResult;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commit = _ref5.commit, state = _ref5.state;
-                athleteId = _ref6.athleteId, year = _ref6.year;
+                commit = _ref6.commit, state = _ref6.state;
+                athleteId = _ref7.athleteId, year = _ref7.year;
 
                 if (!state.cachedRaces[year]) {
                   _context2.next = 5;
@@ -41898,8 +41920,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/v1/athlete/".concat(athleteId, "/races/").concat(year));
 
               case 7:
-                _ref7 = _context2.sent;
-                racesResult = _ref7.data;
+                _ref8 = _context2.sent;
+                racesResult = _ref8.data;
                 commit('SET_RACES', racesResult);
 
               case 10:
@@ -41919,15 +41941,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadRaceDays: function () {
       var _loadRaceDays = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref8, _ref9) {
-        var commit, state, athleteId, year, _ref10, data;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref9, _ref10) {
+        var commit, state, athleteId, year, _ref11, data;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                commit = _ref8.commit, state = _ref8.state;
-                athleteId = _ref9.athleteId, year = _ref9.year;
+                commit = _ref9.commit, state = _ref9.state;
+                athleteId = _ref10.athleteId, year = _ref10.year;
 
                 if (state.cachedRaceDays[year]) {
                   commit('SET_RACE_DAYS', {
@@ -41940,15 +41962,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/v1/athlete/".concat(athleteId, "/race-days/").concat(year));
 
               case 5:
-                _ref10 = _context3.sent;
-                data = _ref10.data;
-                console.log('from loadRaceDays: ', year, data.raceDays);
+                _ref11 = _context3.sent;
+                data = _ref11.data;
                 commit('SET_RACE_DAYS', {
                   year: year,
                   raceDays: data.raceDays
                 });
 
-              case 9:
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -41961,6 +41982,51 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return loadRaceDays;
+    }(),
+    loadSeasonSummary: function () {
+      var _loadSeasonSummary = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref12, _ref13) {
+        var commit, state, athleteId, year, _ref14, data;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                commit = _ref12.commit, state = _ref12.state;
+                athleteId = _ref13.athleteId, year = _ref13.year;
+
+                if (state.cachedSummary[year]) {
+                  commit('SET_SEASON_SUMMARY', {
+                    year: year,
+                    seasonSummary: state.cachedSummary[year]
+                  });
+                }
+
+                _context4.next = 5;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/v1/athlete/".concat(athleteId, "/seasonSummary/").concat(year));
+
+              case 5:
+                _ref14 = _context4.sent;
+                data = _ref14.data;
+                commit('SET_SEASON_SUMMARY', {
+                  year: year,
+                  seasonSummary: data
+                });
+
+              case 8:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      function loadSeasonSummary(_x7, _x8) {
+        return _loadSeasonSummary.apply(this, arguments);
+      }
+
+      return loadSeasonSummary;
     }()
   }
 });
