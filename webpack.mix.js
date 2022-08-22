@@ -12,16 +12,17 @@ const mix = require('laravel-mix');
  */
 
 mix
-   .js('resources/js/app.js', 'public/js')
-   // Front
-   .js('resources/js/front/landing-page/landing.js', 'public/js')
-   .js('resources/js/front/races/races.js', 'public/js')
-   .js('resources/js/front/athlete/athlete.js', 'public/js')
-   .js('resources/js/front/race-event/race-event.js', 'public/js')
-   .js('resources/js/main.js', 'public/js')
-   .sass('resources/sass/front/main.scss', 'public/css')
+  .js('resources/js/app.js', 'public/js')
+// Front
+  .js('resources/js/front/landing-page/landing.js', 'public/js')
+  .js('resources/js/front/races/races.js', 'public/js')
+  .js('resources/js/front/athlete/athlete.js', 'public/js')
+  .js('resources/js/front/race-event/race-event.js', 'public/js')
+  .js('resources/js/front/statistics/statistics.js', 'public/js')
+  .js('resources/js/main.js', 'public/js')
+  .sass('resources/sass/front/main.scss', 'public/css')
 
-   // Admin
-   .js('resources/js/admin/rankings-manager/rankings-manager.js', 'public/js/admin')
+// Admin
+  .js('resources/js/admin/rankings-manager/rankings-manager.js', 'public/js/admin')
 
-   .version();
+  .version();
