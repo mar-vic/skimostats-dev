@@ -46,6 +46,9 @@ Auth::routes(['register' => false]);
     Route::get('/v1/athlete/{athlete}/race-days/{year}', 'AthleteController@raceDays');  // Days raced in a season
     Route::get('/v1/athlete/{athlete}/elevation/{year}', 'AthleteController@elevation'); // Elevation overcome by an athlete during a season
     Route::get('/v1/athlete/{athlete}/seasonSummary/{year}', 'AthleteController@seasonSummary'); // summary stats for a season <elevation, raceDays, points>
+    // Statistics
+    Route::get('/v1/statistics/mostWins', 'StatisticsController@mostWins');
+    Route::get('/v1/statistics/mostWinsWithCats', 'StatisticsController@mostWinsWithCategories');
 
     // Rankings
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');

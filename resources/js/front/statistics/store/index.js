@@ -1,0 +1,106 @@
+import axios from 'axios'
+
+export default {
+  state () {
+    return {
+      error: '',
+      data: null,
+      loading: false,
+      newData: null,
+      statsCategories: [
+        { id: 'cat1', isSelected: true, shortName: 'victories', longName: 'Victories', dataSource: '/v1/statistics/mostWins', path: '/victories' },
+        { id: 'cat2', isSelected: false, shortName: 'race days', longName: 'Most race days', dataSource: '/racedays', path: '/victories' },
+        { id: 'cat3', isSelected: false, shortName: 'points per month', longName: 'Points per month', dataSource: '/ppm', path: '/victories' },
+        { id: 'cat4', isSelected: false, shortName: 'points per age', longName: 'Points per age', dataSource: '/ppa', path: '/victories' },
+        { id: 'cat5', isSelected: false, shortName: 'vertical meters', longName: 'Most vertical meters', dataSource: '/vermeters', path: '/victories' },
+        { id: 'cat6', isSelected: false, shortName: 'grand course victories', longName: 'Grand Course Victories', dataSource: '/gcvics', path: '/victories' },
+        { id: 'cat7', isSelected: false, shortName: 'world cup victories', longName: 'World Cup Victories', dataSource: '/wcvic', path: '/victories' },
+        { id: 'cat8', isSelected: false, shortName: 'wins by countries', longName: 'Most wins by countries', dataSource: '/mwc', path: '/victories' },
+        { id: 'cat9', isSelected: false, shortName: 'chocolates', longName: 'Most chocolates', dataSource: '/mchocs', path: '/victories' },
+        { id: 'cat10', isSelected: false, shortName: 'Top 10 finishes', longName: 'Most Top 10 finishes', dataSource: '/toptens', path: '/victories' },
+        { id: 'cat11', isSelected: false, shortName: 'number of nations', longName: 'The number of nations...', dataSource: '/nations', path: '/victories' },
+        { id: 'cat12', isSelected: false, shortName: 'active athletes', longName: 'Active athletes', dataSource: '/active_athletes', path: '/victories' },
+        { id: 'cat13', isSelected: false, shortName: 'different', longName: 'Number of different', dataSource: '/diffs', path: '/victories' },
+        { id: 'cat14', isSelected: false, shortName: 'nations raced in', longName: 'Most nations raced in', dataSource: '/nations', path: '/victories' },
+        { id: 'cat15', isSelected: false, shortName: 'youngest athletes', longName: 'Youngest athletes', dataSource: '/youngest', path: '/victories' },
+        { id: 'cat16', isSelected: false, shortName: 'oldest athletes', longName: 'Oldest athletes', dataSource: '/oldest', path: '/victories' },
+        { id: 'cat17', isSelected: false, shortName: 'Points per raceday', longName: 'Most points per raceday', dataSource: '/ppr', path: '/victories' }
+      ]
+    }
+  },
+
+  mutations: {
+    SET_ERROR (state, e) {
+      state.error = e
+    },
+
+    SET_LOADING (state, loading) {
+      state.loading = loading
+    },
+
+    SET_CATEGORY (state, categoryId) {
+      state.statsCategories = state.statsCategories.map(category => {
+        if (category.id === categoryId) {
+          category.isSelected = true
+        } else {
+          category.isSelected = false
+        }
+        return category
+      })
+    },
+
+    SET_NEW_DATA (state, data) {
+      state.newData = data
+    },
+
+    SET_DATA (state, data) {
+      state.data = data
+    }
+  },
+
+  getters: {
+    selectedCategory (state) {
+      return state.statsCategories.find(category => category.isSelected)
+    },
+
+    raceCategories (state) {
+      console.log(`In raceCategories getter. newData is: ${state.newData}`)
+      return Object.keys(state.newData)
+    }
+  },
+
+  actions: {
+    async initStatistics ({ dispatch, commit, getters }) {
+      commit('SET_LOADING', true)
+      try {
+        await Promise.all([
+          dispatch('selectCategory', 'cat1'),
+          dispatch('loadNewData')
+        ])
+      } catch (e) {
+        commit('SET_ERROR', e)
+      }
+      commit('SET_LOADING', false)
+    },
+
+    async selectCategory ({ commit, getters }, categoryId) {
+      commit('SET_CATEGORY', categoryId)
+      try {
+        const { data } = await axios.get(getters.selectedCategory.dataSource)
+        commit('SET_ERROR', '')
+        commit('SET_DATA', data)
+      } catch (e) {
+        commit('SET_ERROR', e)
+      }
+    },
+
+    async loadNewData ({ commit, getters }) {
+      try {
+        const { data } = await axios.get('/v1/statistics/mostWinsWithCats')
+        commit('SET_NEW_DATA', data)
+      } catch (e) {
+        commit('SET_ERROR', e)
+      }
+    }
+  }
+}
