@@ -1,10 +1,11 @@
 {
-    "/js/admin/rankings-manager.js": "/js/admin/rankings-manager.js?id=b76221d6d6ff599d99c5",
+    "/js/admin/rankings-manager.js": "/js/admin/rankings-manager.js?id=8a7ba5524048f5d6d850",
     "/js/app.js": "/js/app.js?id=72226edc76f12995c649",
     "/css/main.css": "/css/main.css?id=6f19ae46349722e010ca",
-    "/js/athlete.js": "/js/athlete.js?id=6ca5c13bfeeae1b73be9",
+    "/js/athlete.js": "/js/athlete.js?id=1ecec21460de3358bacb",
     "/js/landing.js": "/js/landing.js?id=c817001eb4947f3ab460",
-    "/js/main.js": "/js/main.js?id=7f840db1f433e615400e",
+    "/js/main.js": "/js/main.js?id=a7cdd81d6beb7d9addd7",
     "/js/race-event.js": "/js/race-event.js?id=77db0979461b62c0cf08",
-    "/js/races.js": "/js/races.js?id=6fc36db3b3c1fd595b72"
+    "/js/races.js": "/js/races.js?id=6fc36db3b3c1fd595b72",
+    "/js/statistics.js": "/js/statistics.js?id=6a1753476ca2bf4583d0"
 }

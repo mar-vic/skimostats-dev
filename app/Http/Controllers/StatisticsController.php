@@ -8,36 +8,39 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
+use App\Ranking;
+
 class StatisticsController extends Controller
 {
-    public function mostWins(Request $request) {
-        $queryBuilder = DB::table('athletes')
-                ->selectRaw('athletes.firstName, athletes.lastName, count(rankings.id) as numberOfWins')
-                ->join('rankings', 'rankings.athleteId', 'athletes.id')
-                ->where('rankings.rank', 1)
-                ->groupBy('athletes.id')
-                ->orderBy('numberOfWins', 'desc');
-
-        return $queryBuilder->get();
+    public function years(Request $request) {
+        $queryBuilder = DB::table('race_events')
+                      ->select('race_events.year')
+                      ->groupBy('race_events.year')
+                      ->orderBy('race_events.year', 'desc');
+        return $queryBuilder->get()->map(function ($item) { return $item->year; });
     }
 
-    public function mostWinsWithCategories(Request $request) {
+    public function mostWins(Request $request, $year = null) {
+
         $queryBuilder = DB::table('athletes')
-            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, categories.name as catName')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, categories.name as catName, race_events.startDate')
             ->join('rankings', 'rankings.athleteId', 'athletes.id')
             ->join('categories', 'categories.id', 'rankings.categoryId')
+            ->join('race_events', 'race_events.id', 'rankings.raceEventId')
             ->where('rankings.rank', 1);
+
+        if ($year) {
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('race_events.startDate', $timespan);
+        }
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 
         $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
-            // dd($item);
             return $item->groupBy('athleteId')->map(function ($item, $key) {
-                // dd($item->count());
-                // dd($item[0]->firstName);
                 return collect([
                     'athleteId' => $key,
-                    'firsName' => $item[0]->firstName,
+                    'firstName' => $item[0]->firstName,
                     'lastName' => $item[0]->lastName,
                     'winsCount' => $item->count()
                 ]);

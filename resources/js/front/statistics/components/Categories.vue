@@ -7,7 +7,7 @@
       <div class="col mt-2 mb-2">
         <ul class="navbar-nav">
           <li class="nav-item" :class="{ selected: category.isSelected }" v-for="category in statsCategories.slice(0, 5)" :key="category.id">
-            <a @click="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
+            <a @click.prevent="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
           </li>
         </ul>
       </div>
@@ -16,7 +16,7 @@
       <div class="col mt-2 mb-2">
         <ul class="navbar-nav">
           <li class="nav-item" :class="{ selected: category.isSelected }" v-for="category in statsCategories.slice(5, 10)" :key="category.id">
-            <a  @click="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
+            <a  @click.prevent="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
           </li>
         </ul>
       </div>
@@ -25,7 +25,7 @@
       <div class="col mt-2 mb-2">
         <ul class="navbar-nav">
           <li class="nav-item"  :class="{ selected: category.isSelected }" v-for="category in statsCategories.slice(10, 15)" :key="category.id">
-            <a @click="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
+            <a @click.prevent="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
           </li>
         </ul>
       </div>
@@ -59,7 +59,7 @@ export default {
 
   methods: {
     changeStatsCategory (event, categoryId) {
-      this.$store.dispatch('selectCategory', categoryId)
+      this.$store.dispatch('selectStatsCategory', categoryId)
     }
   }
 }

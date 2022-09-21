@@ -10,10 +10,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(datum, index) in data">
+          <tr v-for="(datum, index) in filteredData" :key="datum.athleteId">
             <td>{{index + 1}}.</td>
             <td>{{datum.firstName}} {{datum.lastName}}</td>
-            <td style="text-align:right">{{datum.numberOfWins}}</td>
+            <td style="text-align:right">{{datum.winsCount}}</td>
           </tr>
         </tbody>
       </table>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   // components: {
   //   AthleteRaces,
@@ -30,7 +30,8 @@ export default {
   //   RankingStrip
   // }
   computed: {
-    ...mapState(['data', 'error', 'loading'])
+    ...mapState(['data', 'error', 'loading']),
+    ...mapGetters(['filteredData'])
   }
 }
 </script>

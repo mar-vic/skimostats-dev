@@ -4,9 +4,12 @@ export default {
   state () {
     return {
       error: '',
+      loading: true,
       data: null,
-      loading: false,
-      newData: null,
+      raceCategory: null,
+      seasons: null,
+      selectedSeason: 0,
+      resultsPerPage: 25,
       statsCategories: [
         { id: 'cat1', isSelected: true, shortName: 'victories', longName: 'Victories', dataSource: '/v1/statistics/mostWins', path: '/victories' },
         { id: 'cat2', isSelected: false, shortName: 'race days', longName: 'Most race days', dataSource: '/racedays', path: '/victories' },
@@ -38,7 +41,7 @@ export default {
       state.loading = loading
     },
 
-    SET_CATEGORY (state, categoryId) {
+    SET_STATS_CATEGORY (state, categoryId) {
       state.statsCategories = state.statsCategories.map(category => {
         if (category.id === categoryId) {
           category.isSelected = true
@@ -49,33 +52,60 @@ export default {
       })
     },
 
-    SET_NEW_DATA (state, data) {
-      state.newData = data
+    SET_RACE_CATEGORY (state, raceCategory) {
+      state.raceCategory = raceCategory
     },
 
     SET_DATA (state, data) {
       state.data = data
+    },
+
+    SET_SEASONS (state, seasons) {
+      state.seasons = seasons
+    },
+
+    SET_SELECTED_SEASON (state, season) {
+      state.selectedSeason = season
+    },
+
+    SET_RESULTS_PER_PAGE (state, count) {
+      state.resultsPerPage = count
     }
   },
 
   getters: {
-    selectedCategory (state) {
+    selectedStatsCategory (state) {
       return state.statsCategories.find(category => category.isSelected)
     },
 
     raceCategories (state) {
-      console.log(`In raceCategories getter. newData is: ${state.newData}`)
-      return Object.keys(state.newData)
+      return Object.keys(state.data)
+    },
+
+    filteredData (state) {
+      return state.data[state.raceCategory]
     }
   },
 
   actions: {
     async initStatistics ({ dispatch, commit, getters }) {
-      commit('SET_LOADING', true)
+      this.state.selectedSeason = new Date().getFullYear()
       try {
         await Promise.all([
-          dispatch('selectCategory', 'cat1'),
-          dispatch('loadNewData')
+          dispatch('loadSeasons'),
+          dispatch('selectStatsCategory', 'cat1')
+        ])
+      } catch (e) {
+        commit('SET_ERROR', e)
+      }
+    },
+
+    async selectStatsCategory ({ dispatch, commit, getters }, categoryId) {
+      commit('SET_LOADING', true)
+      commit('SET_STATS_CATEGORY', categoryId)
+      try {
+        await Promise.all([
+          dispatch('loadData')
         ])
       } catch (e) {
         commit('SET_ERROR', e)
@@ -83,21 +113,23 @@ export default {
       commit('SET_LOADING', false)
     },
 
-    async selectCategory ({ commit, getters }, categoryId) {
-      commit('SET_CATEGORY', categoryId)
+    async loadData ({ commit, getters }) {
       try {
-        const { data } = await axios.get(getters.selectedCategory.dataSource)
-        commit('SET_ERROR', '')
+        const endPoint = getters.selectedStatsCategory.dataSource + (this.state.selectedSeason === 0 ? '' : '/' + this.state.selectedSeason)
+        const { data } = await axios.get(endPoint)
         commit('SET_DATA', data)
+        commit('SET_RACE_CATEGORY', getters.raceCategories[0])
+        commit('SET_ERROR', '')
       } catch (e) {
         commit('SET_ERROR', e)
       }
     },
 
-    async loadNewData ({ commit, getters }) {
+    async loadSeasons ({ commit }) {
       try {
-        const { data } = await axios.get('/v1/statistics/mostWinsWithCats')
-        commit('SET_NEW_DATA', data)
+        const { data } = await axios.get("/v1/statistics/years")
+        commit('SET_SEASONS', data)
+        commit('SET_ERROR', '')
       } catch (e) {
         commit('SET_ERROR', e)
       }
