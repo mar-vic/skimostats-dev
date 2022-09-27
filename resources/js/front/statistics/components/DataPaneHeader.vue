@@ -4,6 +4,7 @@
     <div class="row mb-4 justify-content-between">
       <div class="col-3">
         <div class="row">
+          <div class="font-weight-bold text-uppercase text-blue">Select season:</div>
           <div class="col col-auto pl-1 pr-1">
             <button class="badge my-1 badge--custom" @click="openSeasonsDropdown = !openSeasonsDropdown">
               {{selectedSeason != 0 ? selectedSeason : "All time"}}
@@ -32,44 +33,6 @@
               >
                 {{season}}
               </a>
-            </div>
-
-          </div>
-          <div class="col col-auto pl-1 pr-1">
-            <button class="badge my-1 badge--custom" @click="openPagiDropdown = !openPagiDropdown">
-              {{resultsPerPage}} results / page
-              <i class="fas fa-caret-down" aria-hidden="true"></i>
-            </button>
-
-            <div class="dropdown__menu" :class="{opened:openPagiDropdown}">
-
-              <a
-                href="#"
-                class="pr-4"
-                :class="{'font-weight-bold': resultsPerPage === 25}"
-                @click.prevent="changePagination(25)"
-              >
-                25 results / page
-              </a>
-
-              <a
-                href="#"
-                class="pr-4"
-                :class="{'font-weight-bold': resultsPerPage === 50}"
-                @click.prevent="changePagination(50)"
-                >
-                50 results / page
-              </a>
-
-              <a
-                href="#"
-                class="pr-4"
-                :class="{'font-weight-bold': resultsPerPage === 100}"
-                @click.prevent="changePagination(100)"
-                >
-                100 results / page
-              </a>
-
             </div>
           </div>
         </div>

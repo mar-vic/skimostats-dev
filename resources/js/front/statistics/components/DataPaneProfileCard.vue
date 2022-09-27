@@ -1,21 +1,27 @@
 <template>
   <div class="card" style="">
-    <img class="card-img-top" src="#" alt="Card image cap">
+    <img class="card-img-top" :src="'/images/athletes/' + highlightedAthlete.profilePic" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <h5 class="card-title">
+        {{highlightedAthlete.firstName}} {{highlightedAthlete.lastName}}
+      </h5>
+      <p class="card-text">{{highlightedAthlete.winsCount}} victories</p>
+      <a :href="'/athlete/' + highlightedAthlete.slug" class="btn btn-primary">View profile</a>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 export default {
   // components: {
   //   AthleteRaces,
   //   CareerWins,
   //   RankingStrip
   // }
+  computed: {
+    ...mapGetters(['highlightedAthlete'])
+  }
 }
 </script>
 

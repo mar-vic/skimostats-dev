@@ -9,6 +9,8 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
 use App\Ranking;
+use App\Helpers;
+use App\Helpers\CollectionHelper;
 
 class StatisticsController extends Controller
 {
@@ -23,7 +25,7 @@ class StatisticsController extends Controller
     public function mostWins(Request $request, $year = null) {
 
         $queryBuilder = DB::table('athletes')
-            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, categories.name as catName, race_events.startDate')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, categories.name as catName, race_events.startDate')
             ->join('rankings', 'rankings.athleteId', 'athletes.id')
             ->join('categories', 'categories.id', 'rankings.categoryId')
             ->join('race_events', 'race_events.id', 'rankings.raceEventId')
@@ -42,10 +44,53 @@ class StatisticsController extends Controller
                     'athleteId' => $key,
                     'firstName' => $item[0]->firstName,
                     'lastName' => $item[0]->lastName,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
                     'winsCount' => $item->count()
                 ]);
             })->sortBy([['winsCount', 'desc']]);
         });
+
+        return $groupedByAthletes;
+    }
+
+    public function mostWinsWithPagi(Request $request, $year = null)
+    {
+
+        $queryBuilder = DB::table('athletes')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, categories.name as catName, race_events.startDate')
+            ->join('rankings', 'rankings.athleteId', 'athletes.id')
+            ->join('categories', 'categories.id', 'rankings.categoryId')
+            ->join('race_events', 'race_events.id', 'rankings.raceEventId')
+            ->where('rankings.rank', 1);
+
+        if ($year) {
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('race_events.startDate', $timespan);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            $col =  $item->groupBy('athleteId')->map(function ($item, $key) {
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'winsCount' => $item->count()
+                ]);
+            })->sortBy([['winsCount', 'desc']]);
+
+            // dd($col);
+
+            $paginated = CollectionHelper::paginate($col, 50);
+
+            // dd($paginated);
+
+            return $paginated;
+        });
+
+        // dd($groupedByAthletes);
 
         return $groupedByAthletes;
     }

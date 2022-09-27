@@ -10,6 +10,7 @@ export default {
       seasons: null,
       selectedSeason: 0,
       resultsPerPage: 25,
+      highlightedPosition: 0,
       statsCategories: [
         { id: 'cat1', isSelected: true, shortName: 'victories', longName: 'Victories', dataSource: '/v1/statistics/mostWins', path: '/victories' },
         { id: 'cat2', isSelected: false, shortName: 'race days', longName: 'Most race days', dataSource: '/racedays', path: '/victories' },
@@ -70,6 +71,14 @@ export default {
 
     SET_RESULTS_PER_PAGE (state, count) {
       state.resultsPerPage = count
+    },
+
+    SET_HIGHLIGHTED_POSITION (state, position) {
+      state.highlightedPosition = position
+    },
+
+    SET_HIGHLIGHTED_ATHLETE (state, athlete) {
+      state.highlightedAthlete = athlete
     }
   },
 
@@ -84,12 +93,16 @@ export default {
 
     filteredData (state) {
       return state.data[state.raceCategory]
+    },
+
+    highlightedAthlete (state) {
+      return state.data[state.raceCategory][state.highlightedPosition]
     }
   },
 
   actions: {
     async initStatistics ({ dispatch, commit, getters }) {
-      this.state.selectedSeason = new Date().getFullYear()
+      commit('SET_SELECTED_SEASON', new Date().getFullYear())
       try {
         await Promise.all([
           dispatch('loadSeasons'),

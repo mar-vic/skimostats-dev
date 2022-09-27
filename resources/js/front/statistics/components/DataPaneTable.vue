@@ -10,7 +10,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(datum, index) in filteredData" :key="datum.athleteId">
+          <tr v-for="(datum, index) in filteredData"
+              :key="datum.athleteId"
+              :class="{'highlighted-row': index === highlightedPosition}"
+              @click.prevent="highlight($event, index)"
+          >
             <td>{{index + 1}}.</td>
             <td>{{datum.firstName}} {{datum.lastName}}</td>
             <td style="text-align:right">{{datum.winsCount}}</td>
@@ -30,12 +34,26 @@ export default {
   //   RankingStrip
   // }
   computed: {
-    ...mapState(['data', 'error', 'loading']),
-    ...mapGetters(['filteredData'])
+    ...mapState(['highlightedPosition']),
+    ...mapGetters(['filteredData', 'highlightedAthlete'])
+  },
+
+  methods: {
+    highlight (event, position) {
+      this.$store.commit("SET_HIGHLIGHTED_POSITION", position)
+    }
   }
+
 }
 </script>
 
 <style scoped>
+tr:hover {
+  cursor: pointer;
+}
 
+.highlighted-row {
+  background-color: #fce000 !important;
+  font-weight: bold;
+}
 </style>
