@@ -40,7 +40,7 @@
       <div class="col-9">
         <div class="row justify-content-right">
           <div class="col col-auto ml-1 mr-1 pl-0 pr-0" v-for="rcCat in raceCategories" :key="rcCat">
-            <a v-if="rcCat === raceCategory"  @click="changeRaceCategory($event, rcCat)" class="badge badge-active my-1 badge--custom" href="#">{{rcCat}}</a>
+            <a v-if="rcCat === raceCategory"  @click.prevent="changeRaceCategory($event, rcCat)" class="badge badge-active my-1 badge--custom" href="#">{{rcCat}}</a>
             <a v-else @click.prevent="changeRaceCategory($event, rcCat)" class="badge my-1 badge--custom" href="#">{{rcCat}}</a>
           </div>
         </div>
@@ -73,6 +73,7 @@ export default {
   methods: {
     changeRaceCategory (event, cat) {
       this.$store.commit('SET_RACE_CATEGORY', cat)
+      this.$store.commit('SET_HIGHLIGHTED_POSITION', 0)
     },
 
     loadData (season) {

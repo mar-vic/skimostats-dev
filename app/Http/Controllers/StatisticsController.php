@@ -17,6 +17,7 @@ class StatisticsController extends Controller
     public function years(Request $request) {
         $queryBuilder = DB::table('race_events')
                       ->select('race_events.year')
+                      ->whereRaw('race_events.startDate < CURRENT_DATE')
                       ->groupBy('race_events.year')
                       ->orderBy('race_events.year', 'desc');
         return $queryBuilder->get()->map(function ($item) { return $item->year; });
@@ -25,10 +26,11 @@ class StatisticsController extends Controller
     public function mostWins(Request $request, $year = null) {
 
         $queryBuilder = DB::table('athletes')
-            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, categories.name as catName, race_events.startDate')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, countries.code as countryCode, categories.name as catName, race_events.startDate')
             ->join('rankings', 'rankings.athleteId', 'athletes.id')
             ->join('categories', 'categories.id', 'rankings.categoryId')
             ->join('race_events', 'race_events.id', 'rankings.raceEventId')
+            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
             ->where('rankings.rank', 1);
 
         if ($year) {
@@ -46,6 +48,7 @@ class StatisticsController extends Controller
                     'lastName' => $item[0]->lastName,
                     'profilePic' => $item[0]->image,
                     'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
                     'winsCount' => $item->count()
                 ]);
             })->sortBy([['winsCount', 'desc']]);

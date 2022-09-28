@@ -2411,6 +2411,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     changeRaceCategory: function changeRaceCategory(event, cat) {
       this.$store.commit('SET_RACE_CATEGORY', cat);
+      this.$store.commit('SET_HIGHLIGHTED_POSITION', 0);
     },
     loadData: function loadData(season) {
       console.log(season);
@@ -2456,6 +2457,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   // components: {
@@ -2463,7 +2473,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   //   CareerWins,
   //   RankingStrip
   // }
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['highlightedAthlete']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['highlightedAthlete']))
 });
 
 /***/ }),
@@ -4822,6 +4832,7 @@ var render = function() {
                         attrs: { href: "#" },
                         on: {
                           click: function($event) {
+                            $event.preventDefault()
                             return _vm.changeRaceCategory($event, rcCat)
                           }
                         }
@@ -4873,40 +4884,74 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _c("img", {
-      staticClass: "card-img-top",
-      attrs: {
-        src: "/images/athletes/" + _vm.highlightedAthlete.profilePic,
-        alt: "Card image cap"
-      }
-    }),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _c("h5", { staticClass: "card-title" }, [
-        _vm._v(
-          "\n      " +
-            _vm._s(_vm.highlightedAthlete.firstName) +
-            " " +
-            _vm._s(_vm.highlightedAthlete.lastName) +
-            "\n    "
-        )
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "card-text" }, [
-        _vm._v(_vm._s(_vm.highlightedAthlete.winsCount) + " victories")
-      ]),
-      _vm._v(" "),
+  return _c(
+    "a",
+    {
+      staticClass: "latest-results__first mb-3",
+      attrs: { href: "/athlete/" + _vm.highlightedAthlete.slug }
+    },
+    [
       _c(
-        "a",
+        "div",
         {
-          staticClass: "btn btn-primary",
-          attrs: { href: "/athlete/" + _vm.highlightedAthlete.slug }
+          staticClass: "latest-results__photo position-relative",
+          style:
+            "background-image:url(" +
+            (_vm.highlightedAthlete.profilePic
+              ? "/images/athletes/" + _vm.highlightedAthlete.profilePic
+              : "/images/sample-photo.jpg") +
+            ");"
         },
-        [_vm._v("View profile")]
-      )
-    ])
-  ])
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "latest-results__number latest-results__number--first"
+            },
+            [_vm._v(_vm._s(_vm.highlightedPosition + 1))]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "latest-results__info" }, [
+        _c("div", { staticClass: "font-weight-bold" }, [
+          _vm._v(
+            _vm._s(_vm.highlightedAthlete.firstName) +
+              " " +
+              _vm._s(_vm.highlightedAthlete.lastName)
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "small mb-2" }, [
+          _vm._v(_vm._s(_vm.highlightedAthlete.winsCount) + " victories")
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "d-flex justify-content-between align-items-center" },
+          [
+            _vm.highlightedAthlete.country
+              ? _c("img", {
+                  staticClass: "latest-results__mini-flag",
+                  attrs: {
+                    src:
+                      "/images/flags/flags-mini/" +
+                      _vm.highlightedAthlete.country.toLowerCase() +
+                      ".png",
+                    alt: _vm.highlightedAthlete.country
+                  }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", { staticClass: "latest-results__view-profile" }, [
+              _vm._v("View profile")
+            ])
+          ]
+        )
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
