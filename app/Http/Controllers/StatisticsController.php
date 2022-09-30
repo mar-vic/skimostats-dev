@@ -26,7 +26,7 @@ class StatisticsController extends Controller
     public function mostWins(Request $request, $year = null) {
 
         $queryBuilder = DB::table('athletes')
-            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, countries.code as countryCode, categories.name as catName, race_events.startDate')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, race_events.startDate')
             ->join('rankings', 'rankings.athleteId', 'athletes.id')
             ->join('categories', 'categories.id', 'rankings.categoryId')
             ->join('race_events', 'race_events.id', 'rankings.raceEventId')
@@ -46,10 +46,11 @@ class StatisticsController extends Controller
                     'athleteId' => $key,
                     'firstName' => $item[0]->firstName,
                     'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
                     'profilePic' => $item[0]->image,
                     'slug' => $item[0]->slug,
                     'country' => $item[0]->countryCode,
-                    'winsCount' => $item->count()
+                    'winsCount' => $item->count(),
                 ]);
             })->sortBy([['winsCount', 'desc']]);
         });

@@ -5,11 +5,7 @@
       <img src="/images/loading.svg" alt="Loading...">
     </div>
     <div v-else>
-      <div class="row">
-        <div class="col">
-          <data-pane-header></data-pane-header>
-        </div>
-      </div>
+      <data-pane-header></data-pane-header>
       <div class="row">
         <div class="col-3">
           <data-pane-profile-card></data-pane-profile-card>

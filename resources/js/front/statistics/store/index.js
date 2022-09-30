@@ -127,6 +127,7 @@ export default {
     },
 
     async loadData ({ commit, getters }) {
+      commit('SET_HIGHLIGHTED_POSITION', 0)
       try {
         const endPoint = getters.selectedStatsCategory.dataSource + (this.state.selectedSeason === 0 ? '' : '/' + this.state.selectedSeason)
         const { data } = await axios.get(endPoint)

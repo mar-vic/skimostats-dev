@@ -1,48 +1,46 @@
 <template>
-  <div>
-    <h2 class="font-weight-bold text-uppercase text-blue">{{ selectedStatsCategory.shortName }}</h2>
-    <div class="row mb-4 justify-content-between">
-      <div class="col-3">
-        <div class="row">
-          <div class="font-weight-bold text-uppercase text-blue">Select season:</div>
-          <div class="col col-auto pl-1 pr-1">
-            <button class="badge my-1 badge--custom" @click="openSeasonsDropdown = !openSeasonsDropdown">
-              {{selectedSeason != 0 ? selectedSeason : "All time"}}
-              <i class="fas fa-caret-down" aria-hidden="true"></i>
-            </button>
+  <div class="row mb-4">
+    <div class="col-3">
+      <div class="row">
+        <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">Select season:</div>
+        <div class="col col-auto pl-1 pr-1">
+          <button class="badge my-1 badge--custom" @click="openSeasonsDropdown = !openSeasonsDropdown">
+            {{selectedSeason != 0 ? selectedSeason : "All time"}}
+            <i class="fas fa-caret-down" aria-hidden="true"></i>
+          </button>
 
-            <div class="dropdown__menu" :class="{opened:openSeasonsDropdown}">
+          <div class="dropdown__menu" :class="{opened:openSeasonsDropdown}">
 
-              <a
-                href="#"
-                :key="`s-all`"
-                class="pr-4"
-                :class="{'font-weight-bold': selectedSeason === 0}"
-                @click.prevent="loadData(0)"
-              >
-                All time
-              </a>
+            <a
+              href="#"
+              :key="`s-all`"
+              class="pr-4"
+              :class="{'font-weight-bold': selectedSeason === 0}"
+              @click.prevent="loadData(0)"
+            >
+              All time
+            </a>
 
-              <a
-                href="#"
-                v-for="season in seasons"
-                :key="`s-${season}`"
-                class="pr-4"
-                :class="{'font-weight-bold': season === selectedSeason}"
-                @click.prevent="loadData(season);"
-              >
-                {{season}}
-              </a>
-            </div>
+            <a
+              href="#"
+              v-for="season in seasons"
+              :key="`s-${season}`"
+              class="pr-4"
+              :class="{'font-weight-bold': season === selectedSeason}"
+              @click.prevent="loadData(season);"
+            >
+              {{season}}
+            </a>
           </div>
         </div>
       </div>
-      <div class="col-9">
-        <div class="row justify-content-right">
-          <div class="col col-auto ml-1 mr-1 pl-0 pr-0" v-for="rcCat in raceCategories" :key="rcCat">
-            <a v-if="rcCat === raceCategory"  @click.prevent="changeRaceCategory($event, rcCat)" class="badge badge-active my-1 badge--custom" href="#">{{rcCat}}</a>
-            <a v-else @click.prevent="changeRaceCategory($event, rcCat)" class="badge my-1 badge--custom" href="#">{{rcCat}}</a>
-          </div>
+    </div>
+
+    <div class="col-9 justify-content-right">
+      <div class="row justify-content-right">
+        <div class="col col-auto ml-1 mr-1 pl-0 pr-0" v-for="rcCat in raceCategories" :key="rcCat">
+          <a v-if="rcCat === raceCategory"  @click.prevent="changeRaceCategory($event, rcCat)" class="badge badge-active my-1 badge--custom" href="#">{{rcCat}}</a>
+          <a v-else @click.prevent="changeRaceCategory($event, rcCat)" class="badge my-1 badge--custom" href="#">{{rcCat}}</a>
         </div>
       </div>
     </div>
@@ -66,7 +64,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['error', 'loading', 'raceCategory', 'seasons', 'selectedSeason', 'resultsPerPage']),
+    ...mapState(['error', 'loading', 'raceCategory', 'seasons', 'selectedSeason', 'resultsPerPage', 'highlightedPosition']),
     ...mapGetters(['selectedStatsCategory', 'raceCategories']),
   },
 

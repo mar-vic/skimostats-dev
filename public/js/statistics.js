@@ -2308,10 +2308,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -2392,8 +2388,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   // components: {
@@ -2407,7 +2401,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       openPagiDropdown: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['error', 'loading', 'raceCategory', 'seasons', 'selectedSeason', 'resultsPerPage']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory', 'raceCategories'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['error', 'loading', 'raceCategory', 'seasons', 'selectedSeason', 'resultsPerPage', 'highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory', 'raceCategories'])),
   methods: {
     changeRaceCategory: function changeRaceCategory(event, cat) {
       this.$store.commit('SET_RACE_CATEGORY', cat);
@@ -2444,6 +2438,10 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
 //
 //
 //
@@ -2593,6 +2591,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 // module
 exports.push([module.i, "\n.nav-item[data-v-5b8cfae6]:hover:not(.selected) {\n  border-bottom: 2px solid #fce000;\n}\n.nav-item.selected[data-v-5b8cfae6] {\n  background-color: #fce000;\n  border-bottom-right-radius: 25px;\n  font-weight: bold;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css&":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.profile-pic[data-v-27201226] {\n  position: sticky;\n  top: 10px;\n}\n\n", ""]);
 
 // exports
 
@@ -3865,6 +3882,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/DataPaneTable.vue?vue&type=style&index=0&id=63d73adb&scoped=true&lang=css&":
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/statistics/components/DataPaneTable.vue?vue&type=style&index=0&id=63d73adb&scoped=true&lang=css& ***!
@@ -4680,22 +4727,24 @@ var render = function() {
             attrs: { src: "/images/loading.svg", alt: "Loading..." }
           })
         ])
-      : _c("div", [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col" }, [_c("data-pane-header")], 1)
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "row" }, [
-            _c(
-              "div",
-              { staticClass: "col-3" },
-              [_c("data-pane-profile-card")],
-              1
-            ),
+      : _c(
+          "div",
+          [
+            _c("data-pane-header"),
             _vm._v(" "),
-            _c("div", { staticClass: "col-9" }, [_c("data-pane-table")], 1)
-          ])
-        ])
+            _c("div", { staticClass: "row" }, [
+              _c(
+                "div",
+                { staticClass: "col-3" },
+                [_c("data-pane-profile-card")],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-9" }, [_c("data-pane-table")], 1)
+            ])
+          ],
+          1
+        )
   ])
 }
 var staticRenderFns = []
@@ -4720,145 +4769,138 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h2", { staticClass: "font-weight-bold text-uppercase text-blue" }, [
-      _vm._v(_vm._s(_vm.selectedStatsCategory.shortName))
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row mb-4 justify-content-between" }, [
-      _c("div", { staticClass: "col-3" }, [
-        _c("div", { staticClass: "row" }, [
+  return _c("div", { staticClass: "row mb-4" }, [
+    _c("div", { staticClass: "col-3" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "my-auto col col-auto font-weight-bold text-uppercase text-blue"
+          },
+          [_vm._v("Select season:")]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "col col-auto pl-1 pr-1" }, [
           _c(
-            "div",
-            { staticClass: "font-weight-bold text-uppercase text-blue" },
-            [_vm._v("Select season:")]
+            "button",
+            {
+              staticClass: "badge my-1 badge--custom",
+              on: {
+                click: function($event) {
+                  _vm.openSeasonsDropdown = !_vm.openSeasonsDropdown
+                }
+              }
+            },
+            [
+              _vm._v(
+                "\n          " +
+                  _vm._s(
+                    _vm.selectedSeason != 0 ? _vm.selectedSeason : "All time"
+                  ) +
+                  "\n          "
+              ),
+              _c("i", {
+                staticClass: "fas fa-caret-down",
+                attrs: { "aria-hidden": "true" }
+              })
+            ]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "col col-auto pl-1 pr-1" }, [
-            _c(
-              "button",
-              {
-                staticClass: "badge my-1 badge--custom",
-                on: {
-                  click: function($event) {
-                    _vm.openSeasonsDropdown = !_vm.openSeasonsDropdown
+          _c(
+            "div",
+            {
+              staticClass: "dropdown__menu",
+              class: { opened: _vm.openSeasonsDropdown }
+            },
+            [
+              _c(
+                "a",
+                {
+                  key: "s-all",
+                  staticClass: "pr-4",
+                  class: { "font-weight-bold": _vm.selectedSeason === 0 },
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.loadData(0)
+                    }
                   }
-                }
-              },
-              [
-                _vm._v(
-                  "\n            " +
-                    _vm._s(
-                      _vm.selectedSeason != 0 ? _vm.selectedSeason : "All time"
-                    ) +
-                    "\n            "
-                ),
-                _c("i", {
-                  staticClass: "fas fa-caret-down",
-                  attrs: { "aria-hidden": "true" }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass: "dropdown__menu",
-                class: { opened: _vm.openSeasonsDropdown }
-              },
-              [
-                _c(
+                },
+                [_vm._v("\n            All time\n          ")]
+              ),
+              _vm._v(" "),
+              _vm._l(_vm.seasons, function(season) {
+                return _c(
                   "a",
                   {
-                    key: "s-all",
+                    key: "s-" + season,
                     staticClass: "pr-4",
-                    class: { "font-weight-bold": _vm.selectedSeason === 0 },
+                    class: {
+                      "font-weight-bold": season === _vm.selectedSeason
+                    },
                     attrs: { href: "#" },
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.loadData(0)
+                        return _vm.loadData(season)
                       }
                     }
                   },
-                  [_vm._v("\n              All time\n            ")]
-                ),
-                _vm._v(" "),
-                _vm._l(_vm.seasons, function(season) {
-                  return _c(
+                  [_vm._v("\n            " + _vm._s(season) + "\n          ")]
+                )
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-9 justify-content-right" }, [
+      _c(
+        "div",
+        { staticClass: "row justify-content-right" },
+        _vm._l(_vm.raceCategories, function(rcCat) {
+          return _c(
+            "div",
+            { key: rcCat, staticClass: "col col-auto ml-1 mr-1 pl-0 pr-0" },
+            [
+              rcCat === _vm.raceCategory
+                ? _c(
                     "a",
                     {
-                      key: "s-" + season,
-                      staticClass: "pr-4",
-                      class: {
-                        "font-weight-bold": season === _vm.selectedSeason
-                      },
+                      staticClass: "badge badge-active my-1 badge--custom",
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
                           $event.preventDefault()
-                          return _vm.loadData(season)
+                          return _vm.changeRaceCategory($event, rcCat)
                         }
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n              " + _vm._s(season) + "\n            "
-                      )
-                    ]
+                    [_vm._v(_vm._s(rcCat))]
                   )
-                })
-              ],
-              2
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-9" }, [
-        _c(
-          "div",
-          { staticClass: "row justify-content-right" },
-          _vm._l(_vm.raceCategories, function(rcCat) {
-            return _c(
-              "div",
-              { key: rcCat, staticClass: "col col-auto ml-1 mr-1 pl-0 pr-0" },
-              [
-                rcCat === _vm.raceCategory
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "badge badge-active my-1 badge--custom",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.changeRaceCategory($event, rcCat)
-                          }
+                : _c(
+                    "a",
+                    {
+                      staticClass: "badge my-1 badge--custom",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.changeRaceCategory($event, rcCat)
                         }
-                      },
-                      [_vm._v(_vm._s(rcCat))]
-                    )
-                  : _c(
-                      "a",
-                      {
-                        staticClass: "badge my-1 badge--custom",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.changeRaceCategory($event, rcCat)
-                          }
-                        }
-                      },
-                      [_vm._v(_vm._s(rcCat))]
-                    )
-              ]
-            )
-          }),
-          0
-        )
-      ])
+                      }
+                    },
+                    [_vm._v(_vm._s(rcCat))]
+                  )
+            ]
+          )
+        }),
+        0
+      )
     ])
   ])
 }
@@ -4887,7 +4929,7 @@ var render = function() {
   return _c(
     "a",
     {
-      staticClass: "latest-results__first mb-3",
+      staticClass: "latest-results__first mb-3 profile-pic",
       attrs: { href: "/athlete/" + _vm.highlightedAthlete.slug }
     },
     [
@@ -4899,7 +4941,9 @@ var render = function() {
             "background-image:url(" +
             (_vm.highlightedAthlete.profilePic
               ? "/images/athletes/" + _vm.highlightedAthlete.profilePic
-              : "/images/sample-photo.jpg") +
+              : _vm.highlightedAthlete.gender === "female"
+              ? "/images/woman_silhouette.jpg"
+              : "/images/man_silhouette.jpg") +
             ");"
         },
         [
@@ -18554,7 +18598,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DataPaneProfileCard_vue_vue_type_template_id_27201226_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataPaneProfileCard.vue?vue&type=template&id=27201226&scoped=true& */ "./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=template&id=27201226&scoped=true&");
 /* harmony import */ var _DataPaneProfileCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DataPaneProfileCard.vue?vue&type=script&lang=js& */ "./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _DataPaneProfileCard_vue_vue_type_style_index_0_id_27201226_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css& */ "./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -18562,7 +18608,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _DataPaneProfileCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _DataPaneProfileCard_vue_vue_type_template_id_27201226_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _DataPaneProfileCard_vue_vue_type_template_id_27201226_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -18591,6 +18637,22 @@ component.options.__file = "resources/js/front/statistics/components/DataPanePro
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DataPaneProfileCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DataPaneProfileCard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DataPaneProfileCard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************!*\
+  !*** ./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DataPaneProfileCard_vue_vue_type_style_index_0_id_27201226_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/DataPaneProfileCard.vue?vue&type=style&index=0&id=27201226&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DataPaneProfileCard_vue_vue_type_style_index_0_id_27201226_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DataPaneProfileCard_vue_vue_type_style_index_0_id_27201226_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DataPaneProfileCard_vue_vue_type_style_index_0_id_27201226_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_DataPaneProfileCard_vue_vue_type_style_index_0_id_27201226_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 
@@ -19106,31 +19168,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 commit = _ref3.commit, getters = _ref3.getters;
-                _context3.prev = 1;
+                commit('SET_HIGHLIGHTED_POSITION', 0);
+                _context3.prev = 2;
                 endPoint = getters.selectedStatsCategory.dataSource + (this.state.selectedSeason === 0 ? '' : '/' + this.state.selectedSeason);
-                _context3.next = 5;
+                _context3.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endPoint);
 
-              case 5:
+              case 6:
                 _ref4 = _context3.sent;
                 data = _ref4.data;
                 commit('SET_DATA', data);
                 commit('SET_RACE_CATEGORY', getters.raceCategories[0]);
                 commit('SET_ERROR', '');
-                _context3.next = 15;
+                _context3.next = 16;
                 break;
 
-              case 12:
-                _context3.prev = 12;
-                _context3.t0 = _context3["catch"](1);
+              case 13:
+                _context3.prev = 13;
+                _context3.t0 = _context3["catch"](2);
                 commit('SET_ERROR', _context3.t0);
 
-              case 15:
+              case 16:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[1, 12]]);
+        }, _callee3, this, [[2, 13]]);
       }));
 
       function loadData(_x4) {
