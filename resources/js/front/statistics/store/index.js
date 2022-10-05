@@ -12,13 +12,13 @@ export default {
       resultsPerPage: 25,
       highlightedPosition: 0,
       statsCategories: [
-        { id: 'cat1', isSelected: true, shortName: 'victories', longName: 'Victories', dataSource: '/v1/statistics/mostWins', path: '/victories' },
-        { id: 'cat2', isSelected: false, shortName: 'race days', longName: 'Most race days', dataSource: '/racedays', path: '/victories' },
+        { id: 'cat1', isSelected: true, shortName: 'victories', longName: 'Victories', metric: 'No. of wins', dataSource: '/v1/statistics/mostWins', path: '/victories' },
+        { id: 'cat2', isSelected: false, shortName: 'race days', longName: 'Most race days', metric: 'No. of race days', dataSource: '/v1/statistics/mostRaceDays', path: '/race-days' },
         { id: 'cat3', isSelected: false, shortName: 'points per month', longName: 'Points per month', dataSource: '/ppm', path: '/victories' },
         { id: 'cat4', isSelected: false, shortName: 'points per age', longName: 'Points per age', dataSource: '/ppa', path: '/victories' },
-        { id: 'cat5', isSelected: false, shortName: 'vertical meters', longName: 'Most vertical meters', dataSource: '/vermeters', path: '/victories' },
-        { id: 'cat6', isSelected: false, shortName: 'grand course victories', longName: 'Grand Course Victories', dataSource: '/gcvics', path: '/victories' },
-        { id: 'cat7', isSelected: false, shortName: 'world cup victories', longName: 'World Cup Victories', dataSource: '/wcvic', path: '/victories' },
+        { id: 'cat5', isSelected: false, shortName: 'vertical meters', longName: 'Vertical meters', metric: 'Total elevation', dataSource: '/v1/statistics/mostVerticalMeters', path: '/victories' },
+        { id: 'cat6', isSelected: false, shortName: 'grand course victories', longName: 'Grand Course Victories', metric: 'No. of GC wins', dataSource: '/v1/statistics/mostGrandeCourseWins', path: '/victories' },
+        { id: 'cat7', isSelected: false, shortName: 'world cup victories', longName: 'World Cup Victories', metric: 'No. of WC wins', dataSource: '/v1/statistics/mostWorldCupWins', path: '/victories' },
         { id: 'cat8', isSelected: false, shortName: 'wins by countries', longName: 'Most wins by countries', dataSource: '/mwc', path: '/victories' },
         { id: 'cat9', isSelected: false, shortName: 'chocolates', longName: 'Most chocolates', dataSource: '/mchocs', path: '/victories' },
         { id: 'cat10', isSelected: false, shortName: 'Top 10 finishes', longName: 'Most Top 10 finishes', dataSource: '/toptens', path: '/victories' },
@@ -102,7 +102,7 @@ export default {
 
   actions: {
     async initStatistics ({ dispatch, commit, getters }) {
-      commit('SET_SELECTED_SEASON', new Date().getFullYear())
+      // commit('SET_SELECTED_SEASON', new Date().getFullYear())
       try {
         await Promise.all([
           dispatch('loadSeasons'),
@@ -115,6 +115,7 @@ export default {
 
     async selectStatsCategory ({ dispatch, commit, getters }, categoryId) {
       commit('SET_LOADING', true)
+      commit('SET_SELECTED_SEASON', new Date().getFullYear())
       commit('SET_STATS_CATEGORY', categoryId)
       try {
         await Promise.all([

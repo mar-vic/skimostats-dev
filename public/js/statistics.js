@@ -2526,7 +2526,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   //   CareerWins,
   //   RankingStrip
   // }
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['filteredData', 'highlightedAthlete'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['filteredData', 'highlightedAthlete', 'selectedStatsCategory'])),
   methods: {
     highlight: function highlight(event, position) {
       this.$store.commit("SET_HIGHLIGHTED_POSITION", position);
@@ -5022,7 +5022,17 @@ var render = function() {
   return _c("div", [
     _c("div", [
       _c("table", { staticClass: "table table--races table--races-striped" }, [
-        _vm._m(0),
+        _c("thead", [
+          _c("tr", [
+            _c("th", { staticStyle: { width: "10%" } }, [_vm._v("#")]),
+            _vm._v(" "),
+            _c("th", { staticStyle: { width: "70%" } }, [_vm._v("Name")]),
+            _vm._v(" "),
+            _c("th", { staticStyle: { width: "20%", "text-align": "right" } }, [
+              _vm._v(_vm._s(_vm.selectedStatsCategory.metric))
+            ])
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "tbody",
@@ -5047,7 +5057,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("td", { staticStyle: { "text-align": "right" } }, [
-                  _vm._v(_vm._s(datum.winsCount))
+                  _vm._v(_vm._s(datum.qty))
                 ])
               ]
             )
@@ -5058,24 +5068,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", { staticStyle: { width: "10%" } }, [_vm._v("#")]),
-        _vm._v(" "),
-        _c("th", { staticStyle: { width: "70%" } }, [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", { staticStyle: { width: "20%", "text-align": "right" } }, [
-          _vm._v("No. of wins")
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -18903,6 +18896,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         isSelected: true,
         shortName: 'victories',
         longName: 'Victories',
+        metric: 'No. of wins',
         dataSource: '/v1/statistics/mostWins',
         path: '/victories'
       }, {
@@ -18910,8 +18904,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         isSelected: false,
         shortName: 'race days',
         longName: 'Most race days',
-        dataSource: '/racedays',
-        path: '/victories'
+        metric: 'No. of race days',
+        dataSource: '/v1/statistics/mostRaceDays',
+        path: '/race-days'
       }, {
         id: 'cat3',
         isSelected: false,
@@ -18930,22 +18925,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         id: 'cat5',
         isSelected: false,
         shortName: 'vertical meters',
-        longName: 'Most vertical meters',
-        dataSource: '/vermeters',
+        longName: 'Vertical meters',
+        metric: 'Total elevation',
+        dataSource: '/v1/statistics/mostVerticalMeters',
         path: '/victories'
       }, {
         id: 'cat6',
         isSelected: false,
         shortName: 'grand course victories',
         longName: 'Grand Course Victories',
-        dataSource: '/gcvics',
+        metric: 'No. of GC wins',
+        dataSource: '/v1/statistics/mostGrandeCourseWins',
         path: '/victories'
       }, {
         id: 'cat7',
         isSelected: false,
         shortName: 'world cup victories',
         longName: 'World Cup Victories',
-        dataSource: '/wcvic',
+        metric: 'No. of WC wins',
+        dataSource: '/v1/statistics/mostWorldCupWins',
         path: '/victories'
       }, {
         id: 'cat8',
@@ -19087,26 +19085,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 dispatch = _ref.dispatch, commit = _ref.commit, getters = _ref.getters;
-                commit('SET_SELECTED_SEASON', new Date().getFullYear());
-                _context.prev = 2;
-                _context.next = 5;
+                _context.prev = 1;
+                _context.next = 4;
                 return Promise.all([dispatch('loadSeasons'), dispatch('selectStatsCategory', 'cat1')]);
 
-              case 5:
-                _context.next = 10;
+              case 4:
+                _context.next = 9;
                 break;
 
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](2);
+              case 6:
+                _context.prev = 6;
+                _context.t0 = _context["catch"](1);
                 commit('SET_ERROR', _context.t0);
 
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[2, 7]]);
+        }, _callee, null, [[1, 6]]);
       }));
 
       function initStatistics(_x) {
@@ -19126,29 +19123,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 dispatch = _ref2.dispatch, commit = _ref2.commit, getters = _ref2.getters;
                 commit('SET_LOADING', true);
+                commit('SET_SELECTED_SEASON', new Date().getFullYear());
                 commit('SET_STATS_CATEGORY', categoryId);
-                _context2.prev = 3;
-                _context2.next = 6;
+                _context2.prev = 4;
+                _context2.next = 7;
                 return Promise.all([dispatch('loadData')]);
 
-              case 6:
-                _context2.next = 11;
+              case 7:
+                _context2.next = 12;
                 break;
 
-              case 8:
-                _context2.prev = 8;
-                _context2.t0 = _context2["catch"](3);
+              case 9:
+                _context2.prev = 9;
+                _context2.t0 = _context2["catch"](4);
                 commit('SET_ERROR', _context2.t0);
 
-              case 11:
+              case 12:
                 commit('SET_LOADING', false);
 
-              case 12:
+              case 13:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[3, 8]]);
+        }, _callee2, null, [[4, 9]]);
       }));
 
       function selectStatsCategory(_x2, _x3) {

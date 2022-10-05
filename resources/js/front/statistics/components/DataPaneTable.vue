@@ -6,7 +6,7 @@
           <tr>
             <th style="width:10%">#</th>
             <th style="width:70%">Name</th>
-            <th style="width:20%;text-align:right">No. of wins</th>
+            <th style="width:20%;text-align:right">{{selectedStatsCategory.metric}}</th>
           </tr>
         </thead>
         <tbody>
@@ -17,7 +17,7 @@
           >
             <td>{{index + 1}}.</td>
             <td>{{datum.firstName}} {{datum.lastName}}</td>
-            <td style="text-align:right">{{datum.winsCount}}</td>
+            <td style="text-align:right">{{datum.qty}}</td>
           </tr>
         </tbody>
       </table>
@@ -35,7 +35,7 @@ export default {
   // }
   computed: {
     ...mapState(['highlightedPosition']),
-    ...mapGetters(['filteredData', 'highlightedAthlete'])
+    ...mapGetters(['filteredData', 'highlightedAthlete', 'selectedStatsCategory'])
   },
 
   methods: {

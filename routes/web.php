@@ -49,7 +49,10 @@ Auth::routes(['register' => false]);
     // Statistics
     Route::get('/v1/statistics/years', 'StatisticsController@years');
     Route::get('/v1/statistics/mostWins/{year?}', 'StatisticsController@mostWins');
-    // Route::get('/v1/statistics/mostWinsWithPagi/{year?}', 'StatisticsController@mostWinsWithPagi');
+    Route::get('/v1/statistics/mostRaceDays/{year?}', 'StatisticsController@mostRaceDays');
+    Route::get('/v1/statistics/mostVerticalMeters/{year?}', 'StatisticsController@mostVerticalMeters');
+    Route::get('/v1/statistics/mostGrandeCourseWins/{year?}', 'StatisticsController@mostGrandeCourseWins');
+    Route::get('/v1/statistics/mostWorldCupWins/{year?}', 'StatisticsController@mostWorldCupWins');
 
     // Rankings
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');
