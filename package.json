@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "moment": "^2.24.0",
+    "plotly": "^1.0.6",
     "vue-click-outside": "^1.1.0",
     "vue-owl-carousel": "^2.0.3",
     "vue-router": "^3.1.3",

@@ -10,7 +10,7 @@
     </div>
     <div class="latest-results__info">
       <div class="font-weight-bold">{{highlightedAthlete.firstName}} {{highlightedAthlete.lastName}}</div>
-      <div class="small mb-2">{{highlightedAthlete.winsCount}} victories</div>
+      <div class="small mb-2">{{activeMetric}}: {{highlightedAthlete.qty}}</div>
       <div class="d-flex justify-content-between align-items-center">
         <img
           v-if="highlightedAthlete.country"
@@ -27,14 +27,10 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 export default {
-  // components: {
-  //   AthleteRaces,
-  //   CareerWins,
-  //   RankingStrip
-  // }
   computed: {
-    ...mapState(['highlightedPosition']),
-    ...mapGetters(['highlightedAthlete'])
+    ...mapState('dataPaneStore', ['highlightedPosition']),
+    ...mapGetters(['activeMetric']),
+    ...mapGetters('dataPaneStore', ['highlightedAthlete'])
   }
 }
 </script>

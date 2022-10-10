@@ -6,7 +6,7 @@
     </div>
     <div v-else>
       <data-pane-header></data-pane-header>
-      <div class="row">
+      <div v-if="!noDataForSeason" class="row">
         <div class="col-3">
           <data-pane-profile-card></data-pane-profile-card>
         </div>
@@ -33,7 +33,8 @@ export default {
   },
 
   computed: {
-    ...mapState(['error', 'loading'])
+    ...mapState(['error', 'loading']),
+    ...mapState('dataPaneStore', ['noDataForSeason'])
   }
 }
 </script>

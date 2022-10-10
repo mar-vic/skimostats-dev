@@ -4,7 +4,7 @@
       <div class="bg-text">Statistics</div>
       <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-5 text-blue mb-4">{{ selectedStatsCategory.shortName }}</h1>
       <categories></categories>
-      <data-pane></data-pane>
+      <component :is="activeComponent" />
     </div>
   </div>
 </template>
@@ -13,16 +13,14 @@
 import { mapGetters } from 'vuex'
 
 import Categories from './Categories.vue'
-import DataPane from './DataPane.vue'
 
 export default {
   components: {
-    Categories,
-    DataPane
+    Categories
   },
 
   computed: {
-    ...mapGetters(['selectedStatsCategory']) // mapping the selectedCategory getter from the store
+    ...mapGetters(['selectedStatsCategory', 'activeComponent']) // mapping the selectedCategory getter from the store
   }
 
 }

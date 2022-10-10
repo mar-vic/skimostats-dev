@@ -1,6 +1,25 @@
 import axios from 'axios'
 
+import dataPaneStore from './modules/dataPaneStore'
+import dummyStore from './modules/dummyStore'
+
+import DataPane from '../components/DataPane.vue'
+import PlaceHolder from '../components/PlaceHolder.vue'
+
 export default {
+
+  // STORE MODULES
+  modules: {
+    dataPaneStore,
+    dummyStore
+  },
+
+  // VUE COMPONENTS FOR DYNAMIC LOADING
+  components: {
+    DataPane,
+    PlaceHolder
+  },
+
   state () {
     return {
       error: '',
@@ -9,26 +28,200 @@ export default {
       raceCategory: null,
       seasons: null,
       selectedSeason: 0,
-      resultsPerPage: 25,
       highlightedPosition: 0,
       statsCategories: [
-        { id: 'cat1', isSelected: true, shortName: 'victories', longName: 'Victories', metric: 'No. of wins', dataSource: '/v1/statistics/mostWins', path: '/victories' },
-        { id: 'cat2', isSelected: false, shortName: 'race days', longName: 'Most race days', metric: 'No. of race days', dataSource: '/v1/statistics/mostRaceDays', path: '/race-days' },
-        { id: 'cat3', isSelected: false, shortName: 'points per month', longName: 'Points per month', dataSource: '/ppm', path: '/victories' },
-        { id: 'cat4', isSelected: false, shortName: 'points per age', longName: 'Points per age', dataSource: '/ppa', path: '/victories' },
-        { id: 'cat5', isSelected: false, shortName: 'vertical meters', longName: 'Vertical meters', metric: 'Total elevation', dataSource: '/v1/statistics/mostVerticalMeters', path: '/victories' },
-        { id: 'cat6', isSelected: false, shortName: 'grand course victories', longName: 'Grand Course Victories', metric: 'No. of GC wins', dataSource: '/v1/statistics/mostGrandeCourseWins', path: '/victories' },
-        { id: 'cat7', isSelected: false, shortName: 'world cup victories', longName: 'World Cup Victories', metric: 'No. of WC wins', dataSource: '/v1/statistics/mostWorldCupWins', path: '/victories' },
-        { id: 'cat8', isSelected: false, shortName: 'wins by countries', longName: 'Most wins by countries', dataSource: '/mwc', path: '/victories' },
-        { id: 'cat9', isSelected: false, shortName: 'chocolates', longName: 'Most chocolates', dataSource: '/mchocs', path: '/victories' },
-        { id: 'cat10', isSelected: false, shortName: 'Top 10 finishes', longName: 'Most Top 10 finishes', dataSource: '/toptens', path: '/victories' },
-        { id: 'cat11', isSelected: false, shortName: 'number of nations', longName: 'The number of nations...', dataSource: '/nations', path: '/victories' },
-        { id: 'cat12', isSelected: false, shortName: 'active athletes', longName: 'Active athletes', dataSource: '/active_athletes', path: '/victories' },
-        { id: 'cat13', isSelected: false, shortName: 'different', longName: 'Number of different', dataSource: '/diffs', path: '/victories' },
-        { id: 'cat14', isSelected: false, shortName: 'nations raced in', longName: 'Most nations raced in', dataSource: '/nations', path: '/victories' },
-        { id: 'cat15', isSelected: false, shortName: 'youngest athletes', longName: 'Youngest athletes', dataSource: '/youngest', path: '/victories' },
-        { id: 'cat16', isSelected: false, shortName: 'oldest athletes', longName: 'Oldest athletes', dataSource: '/oldest', path: '/victories' },
-        { id: 'cat17', isSelected: false, shortName: 'Points per raceday', longName: 'Most points per raceday', dataSource: '/ppr', path: '/victories' }
+
+        {
+          id: 'cat1',
+          isSelected: true,
+          shortName: 'victories',
+          longName: 'Victories',
+          metric: 'wins',
+          dataSource: '/v1/statistics/mostWins',
+          path: '/victories',
+          component: DataPane,
+          dataStore: 'dataPaneStore'
+        },
+
+        {
+          id: 'cat2',
+          isSelected: false,
+          shortName: 'race days',
+          longName: 'Most race days',
+          metric: 'race days',
+          dataSource: '/v1/statistics/mostRaceDays',
+          path: '/race-days',
+          component: DataPane,
+          dataStore: 'dataPaneStore'
+        },
+
+        {
+          id: 'cat3',
+          isSelected: false,
+          shortName: 'points per month',
+          longName: 'Points per month',
+          dataSource: '/ppm',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat4',
+          isSelected: false,
+          shortName: 'points per age',
+          longName: 'Points per age',
+          dataSource: '/ppa',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat5',
+          isSelected: false,
+          shortName: 'vertical meters',
+          longName: 'Vertical meters',
+          metric: 'total elevation',
+          dataSource: '/v1/statistics/mostVerticalMeters',
+          path: '/victories',
+          component: DataPane,
+          dataStore: 'dataPaneStore'
+        },
+
+        {
+          id: 'cat6',
+          isSelected: false,
+          shortName: 'grand course victories',
+          longName: 'Grand Course Victories',
+          metric: 'GC wins',
+          dataSource: '/v1/statistics/mostGrandeCourseWins',
+          path: '/victories',
+          component: DataPane,
+          dataStore: 'dataPaneStore'
+        },
+
+        {
+          id: 'cat7',
+          isSelected: false,
+          shortName: 'world cup victories',
+          longName: 'World Cup Victories',
+          metric: 'WC wins',
+          dataSource: '/v1/statistics/mostWorldCupWins',
+          path: '/victories',
+          component: DataPane,
+          dataStore: 'dataPaneStore'
+        },
+
+        {
+          id: 'cat8',
+          isSelected: false,
+          shortName: 'wins by countries',
+          longName: 'Most wins by countries',
+          dataSource: '/mwc',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat9',
+          isSelected: false,
+          shortName: 'chocolates',
+          longName: 'Most chocolates',
+          dataSource: '/mchocs',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat10',
+          isSelected: false,
+          shortName: 'Top 10 finishes',
+          longName: 'Most Top 10 finishes',
+          dataSource: '/toptens',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat11',
+          isSelected: false,
+          shortName: 'number of nations',
+          longName: 'The number of nations...',
+          dataSource: '/nations',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat12',
+          isSelected: false,
+          shortName: 'active athletes',
+          longName: 'Active athletes',
+          dataSource: '/active_athletes',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat13',
+          isSelected: false,
+          shortName: 'different',
+          longName: 'Number of different',
+          dataSource: '/diffs',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat14',
+          isSelected: false,
+          shortName: 'nations raced in',
+          longName: 'Most nations raced in',
+          dataSource: '/nations',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat15',
+          isSelected: false,
+          shortName: 'youngest athletes',
+          longName: 'Youngest athletes',
+          dataSource: '/youngest',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat16',
+          isSelected: false,
+          shortName: 'oldest athletes',
+          longName: 'Oldest athletes',
+          dataSource: '/oldest',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        },
+
+        {
+          id: 'cat17',
+          isSelected: false,
+          shortName: 'Points per raceday',
+          longName: 'Most points per raceday',
+          dataSource: '/ppr',
+          path: '/victories',
+          component: PlaceHolder,
+          dataStore: 'dummyStore'
+        }
       ]
     }
   },
@@ -87,39 +280,29 @@ export default {
       return state.statsCategories.find(category => category.isSelected)
     },
 
-    raceCategories (state) {
-      return Object.keys(state.data)
+    activeComponent (state) {
+      return state.statsCategories.find(category => category.isSelected).component
     },
 
-    filteredData (state) {
-      return state.data[state.raceCategory]
+    activeStoreModule(state) {
+      return state.statsCategories.find(category => category.isSelected).dataStore
     },
 
-    highlightedAthlete (state) {
-      return state.data[state.raceCategory][state.highlightedPosition]
+    activeEndPoint(state) {
+      return state.statsCategories.find(category => category.isSelected).dataSource
+    },
+
+    activeMetric(state) {
+      return state.statsCategories.find(category => category.isSelected).metric
     }
   },
 
   actions: {
     async initStatistics ({ dispatch, commit, getters }) {
-      // commit('SET_SELECTED_SEASON', new Date().getFullYear())
-      try {
-        await Promise.all([
-          dispatch('loadSeasons'),
-          dispatch('selectStatsCategory', 'cat1')
-        ])
-      } catch (e) {
-        commit('SET_ERROR', e)
-      }
-    },
-
-    async selectStatsCategory ({ dispatch, commit, getters }, categoryId) {
       commit('SET_LOADING', true)
-      commit('SET_SELECTED_SEASON', new Date().getFullYear())
-      commit('SET_STATS_CATEGORY', categoryId)
       try {
         await Promise.all([
-          dispatch('loadData')
+          dispatch('selectStatsCategory', 'cat1')
         ])
       } catch (e) {
         commit('SET_ERROR', e)
@@ -127,27 +310,17 @@ export default {
       commit('SET_LOADING', false)
     },
 
-    async loadData ({ commit, getters }) {
-      commit('SET_HIGHLIGHTED_POSITION', 0)
+    async selectStatsCategory ({ dispatch, commit, getters }, categoryId) {
+      commit('SET_LOADING', true)
+      commit('SET_STATS_CATEGORY', categoryId)
       try {
-        const endPoint = getters.selectedStatsCategory.dataSource + (this.state.selectedSeason === 0 ? '' : '/' + this.state.selectedSeason)
-        const { data } = await axios.get(endPoint)
-        commit('SET_DATA', data)
-        commit('SET_RACE_CATEGORY', getters.raceCategories[0])
-        commit('SET_ERROR', '')
+        await Promise.all([
+          dispatch(getters.activeStoreModule + '/init')
+        ])
       } catch (e) {
         commit('SET_ERROR', e)
       }
-    },
-
-    async loadSeasons ({ commit }) {
-      try {
-        const { data } = await axios.get("/v1/statistics/years")
-        commit('SET_SEASONS', data)
-        commit('SET_ERROR', '')
-      } catch (e) {
-        commit('SET_ERROR', e)
-      }
+      commit('SET_LOADING', false)
     }
   }
 }

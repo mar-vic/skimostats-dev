@@ -37,7 +37,8 @@
     </div>
 
     <div class="col-9 justify-content-right">
-      <div class="row justify-content-right">
+      <div v-if="noDataForSeason" class="row alert alert-danger mb-0">Sorry, but we have no data for selected season.</div>
+      <div v-else class="row justify-content-right">
         <div class="col col-auto ml-1 mr-1 pl-0 pr-0" v-for="rcCat in raceCategories" :key="rcCat">
           <a v-if="rcCat === raceCategory"  @click.prevent="changeRaceCategory($event, rcCat)" class="badge badge-active my-1 badge--custom" href="#">{{rcCat}}</a>
           <a v-else @click.prevent="changeRaceCategory($event, rcCat)" class="badge my-1 badge--custom" href="#">{{rcCat}}</a>
@@ -51,40 +52,29 @@
 import { mapGetters, mapState } from 'vuex'
 
 export default {
-  // components: {
-  //   AthleteRaces,
-  //   CareerWins,
-  //   RankingStrip
-  // }
   data () {
     return {
       openSeasonsDropdown: false,
-      openPagiDropdown: false
     }
   },
 
   computed: {
-    ...mapState(['error', 'loading', 'raceCategory', 'seasons', 'selectedSeason', 'resultsPerPage', 'highlightedPosition']),
-    ...mapGetters(['selectedStatsCategory', 'raceCategories']),
+    ...mapState(['error', 'loading']),
+    ...mapState('dataPaneStore', ['raceCategory', 'seasons', 'selectedSeason', 'highlightedPosition', 'noDataForSeason']),
+    ...mapGetters('dataPaneStore', ['selectedStatsCategory', 'raceCategories'])
   },
 
   methods: {
     changeRaceCategory (event, cat) {
-      this.$store.commit('SET_RACE_CATEGORY', cat)
-      this.$store.commit('SET_HIGHLIGHTED_POSITION', 0)
+      this.$store.commit('dataPaneStore/SET_RACE_CATEGORY', cat)
+      this.$store.commit('dataPaneStore/SET_HIGHLIGHTED_POSITION', 0)
     },
 
     loadData (season) {
-      console.log(season)
-      this.$store.commit('SET_SELECTED_SEASON', season)
-      this.$store.dispatch('loadData')
+      this.$store.commit('dataPaneStore/SET_SELECTED_SEASON', season)
+      this.$store.dispatch('dataPaneStore/loadData')
       this.openSeasonsDropdown = false
     },
-
-    changePagination (count) {
-      this.$store.commit('SET_RESULTS_PER_PAGE', count)
-      this.openPagiDropdown = false
-    }
   }
 }
 </script>

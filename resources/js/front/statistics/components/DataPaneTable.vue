@@ -28,19 +28,15 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 export default {
-  // components: {
-  //   AthleteRaces,
-  //   CareerWins,
-  //   RankingStrip
-  // }
   computed: {
-    ...mapState(['highlightedPosition']),
-    ...mapGetters(['filteredData', 'highlightedAthlete', 'selectedStatsCategory'])
+    ...mapState('dataPaneStore', ['highlightedPosition']),
+    ...mapGetters(['selectedStatsCategory']), // map a getter from store root
+    ...mapGetters('dataPaneStore', ['filteredData', 'highlightedAthlete']) // map getters from the 'dataPaneStore' module
   },
 
   methods: {
     highlight (event, position) {
-      this.$store.commit("SET_HIGHLIGHTED_POSITION", position)
+      this.$store.commit("dataPaneStore/SET_HIGHLIGHTED_POSITION", position)
     }
   }
 

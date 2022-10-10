@@ -2318,7 +2318,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     DataPaneTable: _DataPaneTable_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     DataPaneProfileCard: _DataPaneProfileCard_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['error', 'loading']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])(['error', 'loading']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapState"])('dataPaneStore', ['noDataForSeason']))
 });
 
 /***/ }),
@@ -2388,34 +2388,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // components: {
-  //   AthleteRaces,
-  //   CareerWins,
-  //   RankingStrip
-  // }
   data: function data() {
     return {
-      openSeasonsDropdown: false,
-      openPagiDropdown: false
+      openSeasonsDropdown: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['error', 'loading', 'raceCategory', 'seasons', 'selectedSeason', 'resultsPerPage', 'highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory', 'raceCategories'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['error', 'loading']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['raceCategory', 'seasons', 'selectedSeason', 'highlightedPosition', 'noDataForSeason']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['selectedStatsCategory', 'raceCategories'])),
   methods: {
     changeRaceCategory: function changeRaceCategory(event, cat) {
-      this.$store.commit('SET_RACE_CATEGORY', cat);
-      this.$store.commit('SET_HIGHLIGHTED_POSITION', 0);
+      this.$store.commit('dataPaneStore/SET_RACE_CATEGORY', cat);
+      this.$store.commit('dataPaneStore/SET_HIGHLIGHTED_POSITION', 0);
     },
     loadData: function loadData(season) {
-      console.log(season);
-      this.$store.commit('SET_SELECTED_SEASON', season);
-      this.$store.dispatch('loadData');
+      this.$store.commit('dataPaneStore/SET_SELECTED_SEASON', season);
+      this.$store.dispatch('dataPaneStore/loadData');
       this.openSeasonsDropdown = false;
-    },
-    changePagination: function changePagination(count) {
-      this.$store.commit('SET_RESULTS_PER_PAGE', count);
-      this.openPagiDropdown = false;
     }
   }
 });
@@ -2466,12 +2456,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // components: {
-  //   AthleteRaces,
-  //   CareerWins,
-  //   RankingStrip
-  // }
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['highlightedAthlete']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['activeMetric']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['highlightedAthlete']))
 });
 
 /***/ }),
@@ -2521,17 +2506,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // components: {
-  //   AthleteRaces,
-  //   CareerWins,
-  //   RankingStrip
-  // }
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['filteredData', 'highlightedAthlete', 'selectedStatsCategory'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['filteredData', 'highlightedAthlete'])),
   methods: {
     highlight: function highlight(event, position) {
-      this.$store.commit("SET_HIGHLIGHTED_POSITION", position);
+      this.$store.commit("dataPaneStore/SET_HIGHLIGHTED_POSITION", position);
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['loading']))
 });
 
 /***/ }),
@@ -2547,7 +2556,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _Categories_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Categories.vue */ "./resources/js/front/statistics/components/Categories.vue");
-/* harmony import */ var _DataPane_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DataPane.vue */ "./resources/js/front/statistics/components/DataPane.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2567,13 +2575,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Categories: _Categories_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    DataPane: _DataPane_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    Categories: _Categories_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory', 'activeComponent']))
 });
 
 /***/ }),
@@ -4732,16 +4738,23 @@ var render = function() {
           [
             _c("data-pane-header"),
             _vm._v(" "),
-            _c("div", { staticClass: "row" }, [
-              _c(
-                "div",
-                { staticClass: "col-3" },
-                [_c("data-pane-profile-card")],
-                1
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-9" }, [_c("data-pane-table")], 1)
-            ])
+            !_vm.noDataForSeason
+              ? _c("div", { staticClass: "row" }, [
+                  _c(
+                    "div",
+                    { staticClass: "col-3" },
+                    [_c("data-pane-profile-card")],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "col-9" },
+                    [_c("data-pane-table")],
+                    1
+                  )
+                ])
+              : _vm._e()
           ],
           1
         )
@@ -4859,48 +4872,52 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-9 justify-content-right" }, [
-      _c(
-        "div",
-        { staticClass: "row justify-content-right" },
-        _vm._l(_vm.raceCategories, function(rcCat) {
-          return _c(
+      _vm.noDataForSeason
+        ? _c("div", { staticClass: "row alert alert-danger mb-0" }, [
+            _vm._v("Sorry, but we have no data for selected season.")
+          ])
+        : _c(
             "div",
-            { key: rcCat, staticClass: "col col-auto ml-1 mr-1 pl-0 pr-0" },
-            [
-              rcCat === _vm.raceCategory
-                ? _c(
-                    "a",
-                    {
-                      staticClass: "badge badge-active my-1 badge--custom",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.changeRaceCategory($event, rcCat)
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(rcCat))]
-                  )
-                : _c(
-                    "a",
-                    {
-                      staticClass: "badge my-1 badge--custom",
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.changeRaceCategory($event, rcCat)
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(rcCat))]
-                  )
-            ]
+            { staticClass: "row justify-content-right" },
+            _vm._l(_vm.raceCategories, function(rcCat) {
+              return _c(
+                "div",
+                { key: rcCat, staticClass: "col col-auto ml-1 mr-1 pl-0 pr-0" },
+                [
+                  rcCat === _vm.raceCategory
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "badge badge-active my-1 badge--custom",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.changeRaceCategory($event, rcCat)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(rcCat))]
+                      )
+                    : _c(
+                        "a",
+                        {
+                          staticClass: "badge my-1 badge--custom",
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.changeRaceCategory($event, rcCat)
+                            }
+                          }
+                        },
+                        [_vm._v(_vm._s(rcCat))]
+                      )
+                ]
+              )
+            }),
+            0
           )
-        }),
-        0
-      )
     ])
   ])
 }
@@ -4968,7 +4985,9 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "small mb-2" }, [
-          _vm._v(_vm._s(_vm.highlightedAthlete.winsCount) + " victories")
+          _vm._v(
+            _vm._s(_vm.activeMetric) + ": " + _vm._s(_vm.highlightedAthlete.qty)
+          )
         ]),
         _vm._v(" "),
         _c(
@@ -5075,6 +5094,42 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true&":
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("img", {
+        staticStyle: { margin: "auto" },
+        attrs: { src: "/images/loading.svg", alt: "Loading..." }
+      })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/StatisticsContainer.vue?vue&type=template&id=230b527d&":
 /*!***************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/statistics/components/StatisticsContainer.vue?vue&type=template&id=230b527d& ***!
@@ -5108,7 +5163,7 @@ var render = function() {
         _vm._v(" "),
         _c("categories"),
         _vm._v(" "),
-        _c("data-pane")
+        _c(_vm.activeComponent, { tag: "component" })
       ],
       1
     )
@@ -18754,6 +18809,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/front/statistics/components/PlaceHolder.vue":
+/*!******************************************************************!*\
+  !*** ./resources/js/front/statistics/components/PlaceHolder.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _PlaceHolder_vue_vue_type_template_id_7193b41c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true& */ "./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true&");
+/* harmony import */ var _PlaceHolder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PlaceHolder.vue?vue&type=script&lang=js& */ "./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _PlaceHolder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _PlaceHolder_vue_vue_type_template_id_7193b41c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _PlaceHolder_vue_vue_type_template_id_7193b41c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "7193b41c",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/front/statistics/components/PlaceHolder.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceHolder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./PlaceHolder.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceHolder_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true& ***!
+  \*************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceHolder_vue_vue_type_template_id_7193b41c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/statistics/components/PlaceHolder.vue?vue&type=template&id=7193b41c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceHolder_vue_vue_type_template_id_7193b41c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PlaceHolder_vue_vue_type_template_id_7193b41c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/front/statistics/components/StatisticsContainer.vue":
 /*!**************************************************************************!*\
   !*** ./resources/js/front/statistics/components/StatisticsContainer.vue ***!
@@ -18873,6 +18997,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _modules_dataPaneStore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/dataPaneStore */ "./resources/js/front/statistics/store/modules/dataPaneStore.js");
+/* harmony import */ var _modules_dummyStore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/dummyStore */ "./resources/js/front/statistics/store/modules/dummyStore.js");
+/* harmony import */ var _components_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/DataPane.vue */ "./resources/js/front/statistics/components/DataPane.vue");
+/* harmony import */ var _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/PlaceHolder.vue */ "./resources/js/front/statistics/components/PlaceHolder.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -18880,7 +19008,21 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // STORE MODULES
+  modules: {
+    dataPaneStore: _modules_dataPaneStore__WEBPACK_IMPORTED_MODULE_2__["default"],
+    dummyStore: _modules_dummyStore__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  // VUE COMPONENTS FOR DYNAMIC LOADING
+  components: {
+    DataPane: _components_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    PlaceHolder: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
   state: function state() {
     return {
       error: '',
@@ -18889,38 +19031,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       raceCategory: null,
       seasons: null,
       selectedSeason: 0,
-      resultsPerPage: 25,
       highlightedPosition: 0,
       statsCategories: [{
         id: 'cat1',
         isSelected: true,
         shortName: 'victories',
         longName: 'Victories',
-        metric: 'No. of wins',
+        metric: 'wins',
         dataSource: '/v1/statistics/mostWins',
-        path: '/victories'
+        path: '/victories',
+        component: _components_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        dataStore: 'dataPaneStore'
       }, {
         id: 'cat2',
         isSelected: false,
         shortName: 'race days',
         longName: 'Most race days',
-        metric: 'No. of race days',
+        metric: 'Race days',
         dataSource: '/v1/statistics/mostRaceDays',
-        path: '/race-days'
+        path: '/race-days',
+        component: _components_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        dataStore: 'dataPaneStore'
       }, {
         id: 'cat3',
         isSelected: false,
         shortName: 'points per month',
         longName: 'Points per month',
         dataSource: '/ppm',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat4',
         isSelected: false,
         shortName: 'points per age',
         longName: 'Points per age',
         dataSource: '/ppa',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat5',
         isSelected: false,
@@ -18928,93 +19077,119 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         longName: 'Vertical meters',
         metric: 'Total elevation',
         dataSource: '/v1/statistics/mostVerticalMeters',
-        path: '/victories'
+        path: '/victories',
+        component: _components_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        dataStore: 'dataPaneStore'
       }, {
         id: 'cat6',
         isSelected: false,
         shortName: 'grand course victories',
         longName: 'Grand Course Victories',
-        metric: 'No. of GC wins',
+        metric: 'GC wins',
         dataSource: '/v1/statistics/mostGrandeCourseWins',
-        path: '/victories'
+        path: '/victories',
+        component: _components_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        dataStore: 'dataPaneStore'
       }, {
         id: 'cat7',
         isSelected: false,
         shortName: 'world cup victories',
         longName: 'World Cup Victories',
-        metric: 'No. of WC wins',
+        metric: 'WC wins',
         dataSource: '/v1/statistics/mostWorldCupWins',
-        path: '/victories'
+        path: '/victories',
+        component: _components_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        dataStore: 'dataPaneStore'
       }, {
         id: 'cat8',
         isSelected: false,
         shortName: 'wins by countries',
         longName: 'Most wins by countries',
         dataSource: '/mwc',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat9',
         isSelected: false,
         shortName: 'chocolates',
         longName: 'Most chocolates',
         dataSource: '/mchocs',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat10',
         isSelected: false,
         shortName: 'Top 10 finishes',
         longName: 'Most Top 10 finishes',
         dataSource: '/toptens',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat11',
         isSelected: false,
         shortName: 'number of nations',
         longName: 'The number of nations...',
         dataSource: '/nations',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat12',
         isSelected: false,
         shortName: 'active athletes',
         longName: 'Active athletes',
         dataSource: '/active_athletes',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat13',
         isSelected: false,
         shortName: 'different',
         longName: 'Number of different',
         dataSource: '/diffs',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat14',
         isSelected: false,
         shortName: 'nations raced in',
         longName: 'Most nations raced in',
         dataSource: '/nations',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat15',
         isSelected: false,
         shortName: 'youngest athletes',
         longName: 'Youngest athletes',
         dataSource: '/youngest',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat16',
         isSelected: false,
         shortName: 'oldest athletes',
         longName: 'Oldest athletes',
         dataSource: '/oldest',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }, {
         id: 'cat17',
         isSelected: false,
         shortName: 'Points per raceday',
         longName: 'Most points per raceday',
         dataSource: '/ppr',
-        path: '/victories'
+        path: '/victories',
+        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+        dataStore: 'dummyStore'
       }]
     };
   },
@@ -19064,14 +19239,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return category.isSelected;
       });
     },
-    raceCategories: function raceCategories(state) {
-      return Object.keys(state.data);
+    activeComponent: function activeComponent(state) {
+      return state.statsCategories.find(function (category) {
+        return category.isSelected;
+      }).component;
     },
-    filteredData: function filteredData(state) {
-      return state.data[state.raceCategory];
+    activeStoreModule: function activeStoreModule(state) {
+      return state.statsCategories.find(function (category) {
+        return category.isSelected;
+      }).dataStore;
     },
-    highlightedAthlete: function highlightedAthlete(state) {
-      return state.data[state.raceCategory][state.highlightedPosition];
+    activeEndPoint: function activeEndPoint(state) {
+      return state.statsCategories.find(function (category) {
+        return category.isSelected;
+      }).dataSource;
+    },
+    activeMetric: function activeMetric(state) {
+      return state.statsCategories.find(function (category) {
+        return category.isSelected;
+      }).metric;
     }
   },
   actions: {
@@ -19085,25 +19271,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 dispatch = _ref.dispatch, commit = _ref.commit, getters = _ref.getters;
-                _context.prev = 1;
-                _context.next = 4;
-                return Promise.all([dispatch('loadSeasons'), dispatch('selectStatsCategory', 'cat1')]);
+                commit('SET_LOADING', true);
+                _context.prev = 2;
+                _context.next = 5;
+                return Promise.all([dispatch('selectStatsCategory', 'cat1')]);
 
-              case 4:
-                _context.next = 9;
+              case 5:
+                _context.next = 10;
                 break;
 
-              case 6:
-                _context.prev = 6;
-                _context.t0 = _context["catch"](1);
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](2);
                 commit('SET_ERROR', _context.t0);
 
-              case 9:
+              case 10:
+                commit('SET_LOADING', false);
+
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 6]]);
+        }, _callee, null, [[2, 7]]);
       }));
 
       function initStatistics(_x) {
@@ -19123,30 +19313,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 dispatch = _ref2.dispatch, commit = _ref2.commit, getters = _ref2.getters;
                 commit('SET_LOADING', true);
-                commit('SET_SELECTED_SEASON', new Date().getFullYear());
                 commit('SET_STATS_CATEGORY', categoryId);
-                _context2.prev = 4;
-                _context2.next = 7;
-                return Promise.all([dispatch('loadData')]);
+                _context2.prev = 3;
+                _context2.next = 6;
+                return Promise.all([dispatch(getters.activeStoreModule + '/init')]);
 
-              case 7:
-                _context2.next = 12;
+              case 6:
+                _context2.next = 11;
                 break;
 
-              case 9:
-                _context2.prev = 9;
-                _context2.t0 = _context2["catch"](4);
+              case 8:
+                _context2.prev = 8;
+                _context2.t0 = _context2["catch"](3);
                 commit('SET_ERROR', _context2.t0);
 
-              case 12:
+              case 11:
                 commit('SET_LOADING', false);
 
-              case 13:
+              case 12:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[4, 9]]);
+        }, _callee2, null, [[3, 8]]);
       }));
 
       function selectStatsCategory(_x2, _x3) {
@@ -19154,93 +19343,289 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return selectStatsCategory;
+    }()
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/front/statistics/store/modules/dataPaneStore.js":
+/*!**********************************************************************!*\
+  !*** ./resources/js/front/statistics/store/modules/dataPaneStore.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: function state() {
+    return {
+      endPoint: null,
+      noDataForSeason: false,
+      data: null,
+      raceCategory: null,
+      seasons: null,
+      selectedSeason: 0,
+      highlightedPosition: 0
+    };
+  },
+  mutations: {
+    SET_ENDPOINT: function SET_ENDPOINT(state, endpoint) {
+      state.endPoint = endpoint;
+    },
+    SET_DATA: function SET_DATA(state, data) {
+      state.data = data;
+    },
+    SET_NO_DATA_FOR_SEASON: function SET_NO_DATA_FOR_SEASON(state, flag) {
+      state.noDataForSeason = flag;
+    },
+    SET_RACE_CATEGORY: function SET_RACE_CATEGORY(state, raceCategory) {
+      state.raceCategory = raceCategory;
+    },
+    SET_SEASONS: function SET_SEASONS(state, seasons) {
+      state.seasons = seasons;
+    },
+    SET_SELECTED_SEASON: function SET_SELECTED_SEASON(state, season) {
+      state.selectedSeason = season;
+    },
+    SET_HIGHLIGHTED_POSITION: function SET_HIGHLIGHTED_POSITION(state, position) {
+      state.highlightedPosition = position;
+    },
+    SET_HIGHLIGHTED_ATHLETE: function SET_HIGHLIGHTED_ATHLETE(state, athlete) {
+      state.highlightedAthlete = athlete;
+    }
+  },
+  getters: {
+    raceCategories: function raceCategories(state) {
+      return Object.keys(state.data);
+    },
+    filteredData: function filteredData(state) {
+      return state.data[state.raceCategory];
+    },
+    highlightedAthlete: function highlightedAthlete(state) {
+      return state.data[state.raceCategory][state.highlightedPosition];
+    }
+  },
+  actions: {
+    init: function () {
+      var _init = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref) {
+        var dispatch, commit, rootGetters;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                dispatch = _ref.dispatch, commit = _ref.commit, rootGetters = _ref.rootGetters;
+                commit('SET_SELECTED_SEASON', new Date().getFullYear());
+                _context.prev = 2;
+                _context.next = 5;
+                return Promise.all([dispatch('loadSeasons'), dispatch('loadData')]);
+
+              case 5:
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](2);
+                commit('SET_ERROR', _context.t0, {
+                  root: true
+                });
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[2, 7]]);
+      }));
+
+      function init(_x) {
+        return _init.apply(this, arguments);
+      }
+
+      return init;
+    }(),
+    loadSeasons: function () {
+      var _loadSeasons = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref2) {
+        var commit, _ref3, data;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit;
+                _context2.prev = 1;
+                _context2.next = 4;
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/v1/statistics/years");
+
+              case 4:
+                _ref3 = _context2.sent;
+                data = _ref3.data;
+                commit('SET_SEASONS', data);
+                commit('SET_ERROR', '', {
+                  root: true
+                });
+                _context2.next = 13;
+                break;
+
+              case 10:
+                _context2.prev = 10;
+                _context2.t0 = _context2["catch"](1);
+                commit('SET_ERROR', _context2.t0, {
+                  root: true
+                });
+
+              case 13:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[1, 10]]);
+      }));
+
+      function loadSeasons(_x2) {
+        return _loadSeasons.apply(this, arguments);
+      }
+
+      return loadSeasons;
     }(),
     loadData: function () {
       var _loadData = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref3) {
-        var commit, getters, endPoint, _ref4, data;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref4) {
+        var commit, getters, state, rootGetters, fullEndPoint, _ref5, data;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                commit = _ref3.commit, getters = _ref3.getters;
+                commit = _ref4.commit, getters = _ref4.getters, state = _ref4.state, rootGetters = _ref4.rootGetters;
                 commit('SET_HIGHLIGHTED_POSITION', 0);
                 _context3.prev = 2;
-                endPoint = getters.selectedStatsCategory.dataSource + (this.state.selectedSeason === 0 ? '' : '/' + this.state.selectedSeason);
+                fullEndPoint = rootGetters.activeEndPoint + (state.selectedSeason === 0 ? '' : '/' + state.selectedSeason);
                 _context3.next = 6;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(endPoint);
+                return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(fullEndPoint);
 
               case 6:
-                _ref4 = _context3.sent;
-                data = _ref4.data;
-                commit('SET_DATA', data);
-                commit('SET_RACE_CATEGORY', getters.raceCategories[0]);
-                commit('SET_ERROR', '');
-                _context3.next = 16;
+                _ref5 = _context3.sent;
+                data = _ref5.data;
+
+                if (Array.isArray(data) && data.length === 0) {
+                  state.noDataForSeason = true;
+                } else {
+                  state.noDataForSeason = false;
+                  commit('SET_DATA', data);
+                  commit('SET_RACE_CATEGORY', getters.raceCategories[0]);
+                }
+
+                commit('SET_ERROR', '', {
+                  root: true
+                });
+                _context3.next = 15;
                 break;
 
-              case 13:
-                _context3.prev = 13;
+              case 12:
+                _context3.prev = 12;
                 _context3.t0 = _context3["catch"](2);
-                commit('SET_ERROR', _context3.t0);
+                commit('SET_ERROR', {
+                  root: true
+                });
 
-              case 16:
+              case 15:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[2, 13]]);
+        }, _callee3, null, [[2, 12]]);
       }));
 
-      function loadData(_x4) {
+      function loadData(_x3) {
         return _loadData.apply(this, arguments);
       }
 
       return loadData;
-    }(),
-    loadSeasons: function () {
-      var _loadSeasons = _asyncToGenerator(
+    }()
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/front/statistics/store/modules/dummyStore.js":
+/*!*******************************************************************!*\
+  !*** ./resources/js/front/statistics/store/modules/dummyStore.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: function state() {
+    return {};
+  },
+  mutations: {},
+  getters: {},
+  actions: {
+    init: function () {
+      var _init = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref5) {
-        var commit, _ref6, data;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref) {
+        var dispatch, commit;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref5.commit;
-                _context4.prev = 1;
-                _context4.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/v1/statistics/years");
+                dispatch = _ref.dispatch, commit = _ref.commit;
+                console.log('At dummy store');
 
-              case 4:
-                _ref6 = _context4.sent;
-                data = _ref6.data;
-                commit('SET_SEASONS', data);
-                commit('SET_ERROR', '');
-                _context4.next = 13;
-                break;
-
-              case 10:
-                _context4.prev = 10;
-                _context4.t0 = _context4["catch"](1);
-                commit('SET_ERROR', _context4.t0);
-
-              case 13:
+              case 2:
               case "end":
-                return _context4.stop();
+                return _context.stop();
             }
           }
-        }, _callee4, null, [[1, 10]]);
+        }, _callee);
       }));
 
-      function loadSeasons(_x5) {
-        return _loadSeasons.apply(this, arguments);
+      function init(_x) {
+        return _init.apply(this, arguments);
       }
 
-      return loadSeasons;
+      return init;
     }()
   }
 });
