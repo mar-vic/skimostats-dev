@@ -3,7 +3,8 @@ import axios from 'axios'
 import dataPaneStore from './modules/dataPaneStore'
 import dummyStore from './modules/dummyStore'
 
-import DataPane from '../components/DataPane.vue'
+// import DataPaneRaceCats from '../components/data_pane/racecat/DataPaneRaceCats.vue'
+import DataPane from '../components/data_pane/DataPane.vue'
 import PlaceHolder from '../components/PlaceHolder.vue'
 
 export default {
@@ -40,7 +41,8 @@ export default {
           dataSource: '/v1/statistics/mostWins',
           path: '/victories',
           component: DataPane,
-          dataStore: 'dataPaneStore'
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {
@@ -52,7 +54,8 @@ export default {
           dataSource: '/v1/statistics/mostRaceDays',
           path: '/race-days',
           component: DataPane,
-          dataStore: 'dataPaneStore'
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {
@@ -86,7 +89,8 @@ export default {
           dataSource: '/v1/statistics/mostVerticalMeters',
           path: '/victories',
           component: DataPane,
-          dataStore: 'dataPaneStore'
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {
@@ -98,7 +102,9 @@ export default {
           dataSource: '/v1/statistics/mostGrandeCourseWins',
           path: '/victories',
           component: DataPane,
-          dataStore: 'dataPaneStore'
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
+
         },
 
         {
@@ -110,7 +116,8 @@ export default {
           dataSource: '/v1/statistics/mostWorldCupWins',
           path: '/victories',
           component: DataPane,
-          dataStore: 'dataPaneStore'
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {
@@ -129,10 +136,12 @@ export default {
           isSelected: false,
           shortName: 'chocolates',
           longName: 'Most chocolates',
-          dataSource: '/mchocs',
-          path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          metric: 'chocolates',
+          dataSource: '/v1/statistics/mostChocolates',
+          path: '/v1/statistics/mostChocolates',
+          component: DataPane,
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {
@@ -140,10 +149,12 @@ export default {
           isSelected: false,
           shortName: 'Top 10 finishes',
           longName: 'Most Top 10 finishes',
-          dataSource: '/toptens',
+          metric: 'toptens',
+          dataSource: '/v1/statistics/mostTopTens',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          component: DataPane,
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {
@@ -154,7 +165,7 @@ export default {
           dataSource: '/nations',
           path: '/victories',
           component: PlaceHolder,
-          dataStore: 'dummyStore'
+          dataStore: 'dummyStore',
         },
 
         {
@@ -164,8 +175,8 @@ export default {
           longName: 'Active athletes',
           dataSource: '/active_athletes',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          dataStore: 'dataPaneStore',
+          filters: 'racecats'
         },
 
         {
@@ -294,6 +305,10 @@ export default {
 
     activeMetric(state) {
       return state.statsCategories.find(category => category.isSelected).metric
+    },
+
+    activeFilters(state) {
+      return state.statsCategories.find(category => category.isSelected).filters
     }
   },
 

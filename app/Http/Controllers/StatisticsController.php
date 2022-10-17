@@ -251,4 +251,116 @@ class StatisticsController extends Controller
 
         return $groupedByAthletes;
     }
+
+    public function mostChocolates(Request $request, $year = null) {
+
+        $queryBuilder = DB::table('athletes')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, race_events.startDate')
+            ->join('rankings', 'rankings.athleteId', 'athletes.id')
+            ->join('categories', 'categories.id', 'rankings.categoryId')
+            ->join('race_events', 'race_events.id', 'rankings.raceEventId')
+            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+            ->where('rankings.rank', 4);
+
+        if ($year) {
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('race_events.startDate', $timespan);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $item->count(),
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        return $groupedByAthletes;
+    }
+
+    public function mostTopTens(Request $request, $year = null) {
+
+        $queryBuilder = DB::table('athletes')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, race_events.startDate')
+            ->join('rankings', 'rankings.athleteId', 'athletes.id')
+            ->join('categories', 'categories.id', 'rankings.categoryId')
+            ->join('race_events', 'race_events.id', 'rankings.raceEventId')
+            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+            ->whereRaw('rankings.rank in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)');
+
+        if ($year) {
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('race_events.startDate', $timespan);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $item->count(),
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        return $groupedByAthletes;
+    }
+
+    public function activeAthletes(Request $request) {
+
+        $queryBuilder = DB::table('athletes')
+            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, race_events.startDate, race_events.endDate, DATEDIFF(race_events.endDate, race_events.startDate) + 1 as eventDuration')
+            ->join('race_event_participants', 'athletes.id', 'race_event_participants.athleteId')
+            ->join('race_events', 'race_events.id', 'race_event_participants.raceEventId')
+            ->join('race_event_entries', 'race_event_entries.raceEventParticipantId', 'race_event_participants.id' )
+            ->join('categories', 'categories.id', 'race_event_entries.categoryId')
+            ->join('countries', 'countries.id', 'athletes.countryId')
+            ->whereRaw('categories.id in (select distinct rankings.categoryId from rankings inner join categories on categories.id = rankings.categoryId)')
+            ->whereRaw('DATEDIFF(race_events.endDate, race_events.startDate) + 1 > 0')
+            ->whereRaw('DATEDIFF(CURRENT_DATE(), race_events.startDate) < 420');
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+
+                $raceDays = $item->reduce(function ($carry, $item) {
+                    return $carry + $item->eventDuration;
+                }, 0);
+
+                // dd($raceDays);
+
+                // if ($raceDays >= 0) {
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $raceDays,
+                ]);
+                // }
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        return $groupedByAthletes;
+    }
 }
