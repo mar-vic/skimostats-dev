@@ -25,11 +25,6 @@ export default {
     return {
       error: '',
       loading: true,
-      data: null,
-      raceCategory: null,
-      seasons: null,
-      selectedSeason: 0,
-      highlightedPosition: 0,
       statsCategories: [
 
         {
@@ -173,8 +168,9 @@ export default {
           isSelected: false,
           shortName: 'active athletes',
           longName: 'Active athletes',
-          dataSource: '/active_athletes',
+          dataSource: '/v1/statistics/activeAthletes',
           path: '/victories',
+          component: DataPane,
           dataStore: 'dataPaneStore',
           filters: 'racecats'
         },
@@ -255,34 +251,6 @@ export default {
         }
         return category
       })
-    },
-
-    SET_RACE_CATEGORY (state, raceCategory) {
-      state.raceCategory = raceCategory
-    },
-
-    SET_DATA (state, data) {
-      state.data = data
-    },
-
-    SET_SEASONS (state, seasons) {
-      state.seasons = seasons
-    },
-
-    SET_SELECTED_SEASON (state, season) {
-      state.selectedSeason = season
-    },
-
-    SET_RESULTS_PER_PAGE (state, count) {
-      state.resultsPerPage = count
-    },
-
-    SET_HIGHLIGHTED_POSITION (state, position) {
-      state.highlightedPosition = position
-    },
-
-    SET_HIGHLIGHTED_ATHLETE (state, athlete) {
-      state.highlightedAthlete = athlete
     }
   },
 

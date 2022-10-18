@@ -19078,11 +19078,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       error: '',
       loading: true,
-      data: null,
-      raceCategory: null,
-      seasons: null,
-      selectedSeason: 0,
-      highlightedPosition: 0,
       statsCategories: [{
         id: 'cat1',
         isSelected: true,
@@ -19201,8 +19196,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         isSelected: false,
         shortName: 'active athletes',
         longName: 'Active athletes',
-        dataSource: '/active_athletes',
+        dataSource: '/v1/statistics/activeAthletes',
         path: '/victories',
+        component: _components_data_pane_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
         dataStore: 'dataPaneStore',
         filters: 'racecats'
       }, {
@@ -19270,27 +19266,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         return category;
       });
-    },
-    SET_RACE_CATEGORY: function SET_RACE_CATEGORY(state, raceCategory) {
-      state.raceCategory = raceCategory;
-    },
-    SET_DATA: function SET_DATA(state, data) {
-      state.data = data;
-    },
-    SET_SEASONS: function SET_SEASONS(state, seasons) {
-      state.seasons = seasons;
-    },
-    SET_SELECTED_SEASON: function SET_SELECTED_SEASON(state, season) {
-      state.selectedSeason = season;
-    },
-    SET_RESULTS_PER_PAGE: function SET_RESULTS_PER_PAGE(state, count) {
-      state.resultsPerPage = count;
-    },
-    SET_HIGHLIGHTED_POSITION: function SET_HIGHLIGHTED_POSITION(state, position) {
-      state.highlightedPosition = position;
-    },
-    SET_HIGHLIGHTED_ATHLETE: function SET_HIGHLIGHTED_ATHLETE(state, athlete) {
-      state.highlightedAthlete = athlete;
     }
   },
   getters: {
@@ -19483,6 +19458,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     highlightedAthlete: function highlightedAthlete(state) {
       return state.data[state.athleteCategory][state.highlightedPosition];
+    },
+    selectedFilterSlug: function selectedFilterSlug(state) {
+      return state.selectedFilter.toString().split(" ").join("-").toLowerCase();
     }
   },
   actions: {
@@ -19570,8 +19548,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 18:
-                if (filter === 'racecats') {
-                  commit('SET_FILTERS', ['race category', ['All', 'World cup', 'National cup']]);
+                if (filters === 'racecats') {
+                  commit('SET_SELECTED_FILTER', 0);
+                  commit('SET_FILTERS', ['race category', ['World Cup', 'Grand Course']]);
                 }
 
               case 19:
@@ -19599,16 +19578,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context3.prev = _context3.next) {
               case 0:
                 commit = _ref4.commit, getters = _ref4.getters, state = _ref4.state, rootGetters = _ref4.rootGetters;
+                console.log("Loading data");
                 commit('SET_HIGHLIGHTED_POSITION', 0);
                 commit('SET_LOADING', true);
-                _context3.prev = 3;
-                fullEndPoint = rootGetters.activeEndPoint + (state.selectedFilter === 0 ? '' : '/' + state.selectedFilter);
-                _context3.next = 7;
+                _context3.prev = 4;
+                fullEndPoint = rootGetters.activeEndPoint + (getters.selectedFilterSlug === '0' ? '' : '/' + getters.selectedFilterSlug);
+                _context3.next = 8;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(fullEndPoint);
 
-              case 7:
+              case 8:
                 _ref5 = _context3.sent;
                 data = _ref5.data;
+                console.log("Loaded data: ", data);
 
                 if (Array.isArray(data) && data.length === 0) {
                   state.noDataForFilter = true;
@@ -19621,25 +19602,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 commit('SET_ERROR', '', {
                   root: true
                 });
-                _context3.next = 16;
+                _context3.next = 18;
                 break;
 
-              case 13:
-                _context3.prev = 13;
-                _context3.t0 = _context3["catch"](3);
-                commit('SET_ERROR', {
+              case 15:
+                _context3.prev = 15;
+                _context3.t0 = _context3["catch"](4);
+                commit('SET_ERROR', _context3.t0, {
                   root: true
                 });
 
-              case 16:
+              case 18:
                 commit('SET_LOADING', false);
 
-              case 17:
+              case 19:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[3, 13]]);
+        }, _callee3, null, [[4, 15]]);
       }));
 
       function loadData(_x3) {

@@ -322,7 +322,7 @@ class StatisticsController extends Controller
         return $groupedByAthletes;
     }
 
-    public function activeAthletes(Request $request) {
+    public function activeAthletes(Request $request, $raceCat = null) {
 
         $queryBuilder = DB::table('athletes')
             ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, race_events.startDate, race_events.endDate, DATEDIFF(race_events.endDate, race_events.startDate) + 1 as eventDuration')
@@ -331,9 +331,18 @@ class StatisticsController extends Controller
             ->join('race_event_entries', 'race_event_entries.raceEventParticipantId', 'race_event_participants.id' )
             ->join('categories', 'categories.id', 'race_event_entries.categoryId')
             ->join('countries', 'countries.id', 'athletes.countryId')
+            ->join('races', 'races.id', 'race_events.raceId')
             ->whereRaw('categories.id in (select distinct rankings.categoryId from rankings inner join categories on categories.id = rankings.categoryId)')
             ->whereRaw('DATEDIFF(race_events.endDate, race_events.startDate) + 1 > 0')
             ->whereRaw('DATEDIFF(CURRENT_DATE(), race_events.startDate) < 420');
+
+        if ($raceCat) {
+            if ($raceCat == 'world-cup') {
+                $queryBuilder = $queryBuilder->whereRaw('races.rankingCategoryId = 1');
+            } else {
+                $queryBuilder = $queryBuilder->whereRaw('races.rankingCategoryId in (6, 7)');
+            }
+        }
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 

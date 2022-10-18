@@ -59,6 +59,10 @@ export default {
 
     highlightedAthlete (state) {
       return state.data[state.athleteCategory][state.highlightedPosition]
+    },
+
+    selectedFilterSlug (state) {
+      return state.selectedFilter.toString().split(" ").join("-").toLowerCase()
     }
   },
 
@@ -86,18 +90,25 @@ export default {
         } catch (e) {
           commit('SET_ERROR', e, { root: true })
         }
-      } else if (filter === 'racecats') {
-        commit('SET_FILTERS', ['race category', ['All', 'World cup', 'National cup']])
+      } else if (filters === 'racecats') {
+        commit('SET_SELECTED_FILTER', 0)
+        commit('SET_FILTERS', ['race category', ['World Cup', 'Grand Course']])
       }
     },
 
     async loadData ({ commit, getters, state, rootGetters }) {
+
+      console.log("Loading data")
+
       commit('SET_HIGHLIGHTED_POSITION', 0)
       commit('SET_LOADING', true)
 
       try {
-        const fullEndPoint = rootGetters.activeEndPoint + (state.selectedFilter === 0 ? '' : '/' + state.selectedFilter)
+        const fullEndPoint = rootGetters.activeEndPoint + (getters.selectedFilterSlug === '0' ? '' : '/' + getters.selectedFilterSlug)
         const { data } = await axios.get(fullEndPoint)
+
+        console.log("Loaded data: ", data)
+
         if (Array.isArray(data) && data.length === 0) {
           state.noDataForFilter = true
         } else {
@@ -107,7 +118,7 @@ export default {
         }
         commit('SET_ERROR', '', { root: true })
       } catch (e) {
-        commit('SET_ERROR', { root: true  })
+        commit('SET_ERROR', e, { root: true  })
       }
 
       commit('SET_LOADING', false)
