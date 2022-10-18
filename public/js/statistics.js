@@ -2459,6 +2459,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2466,7 +2471,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       openFilterDropdown: false
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['error', 'loading']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['athleteCategory', 'highlightedPosition', 'filters', 'selectedFilter', 'noDataForFilter']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['selectedStatsCategory', 'athleteCategories'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['athleteCategory', 'highlightedPosition', 'filters', 'selectedFilter', 'noDataForFilter', 'loading']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['selectedStatsCategory', 'athleteCategories'])),
   methods: {
     changeAthleteCategory: function changeAthleteCategory(event, cat) {
       this.$store.commit('dataPaneStore/SET_ATHLETE_CATEGORY', cat);
@@ -2524,9 +2529,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['activeMetric']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['highlightedAthlete']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['highlightedPosition', 'loading']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['activeMetric']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['highlightedAthlete']))
 });
 
 /***/ }),
@@ -2574,9 +2585,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['highlightedPosition']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['filteredData', 'highlightedAthlete'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])('dataPaneStore', ['highlightedPosition', 'loading']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['selectedStatsCategory']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('dataPaneStore', ['filteredData', 'highlightedAthlete'])),
   methods: {
     highlight: function highlight(event, position) {
       this.$store.commit("dataPaneStore/SET_HIGHLIGHTED_POSITION", position);
@@ -4953,9 +4966,17 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "col-9 justify-content-right" }, [
-      _vm.noDataForFilter
+      _vm.loading
+        ? _c("div", { staticClass: "p-1 text-center" }, [
+            _c("img", {
+              attrs: { src: "/images/loading.svg", alt: "Loading..." }
+            })
+          ])
+        : _vm.noDataForFilter
         ? _c("div", { staticClass: "row alert alert-danger mb-0" }, [
-            _vm._v("Sorry, but we have no data for selected filter.")
+            _vm._v(
+              "\n      Sorry, but we have no data for selected filter.\n    "
+            )
           ])
         : _c(
             "div",
@@ -5027,78 +5048,91 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "a",
-    {
-      staticClass: "latest-results__first mb-3 profile-pic",
-      attrs: { href: "/athlete/" + _vm.highlightedAthlete.slug }
-    },
-    [
-      _c(
-        "div",
-        {
-          staticClass: "latest-results__photo position-relative",
-          style:
-            "background-image:url(" +
-            (_vm.highlightedAthlete.profilePic
-              ? "/images/athletes/" + _vm.highlightedAthlete.profilePic
-              : _vm.highlightedAthlete.gender === "female"
-              ? "/images/woman_silhouette.jpg"
-              : "/images/man_silhouette.jpg") +
-            ");"
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass:
-                "latest-results__number latest-results__number--first"
-            },
-            [_vm._v(_vm._s(_vm.highlightedPosition + 1))]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "latest-results__info" }, [
-        _c("div", { staticClass: "font-weight-bold" }, [
-          _vm._v(
-            _vm._s(_vm.highlightedAthlete.firstName) +
-              " " +
-              _vm._s(_vm.highlightedAthlete.lastName)
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "small mb-2" }, [
-          _vm._v(
-            _vm._s(_vm.activeMetric) + ": " + _vm._s(_vm.highlightedAthlete.qty)
-          )
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "d-flex justify-content-between align-items-center" },
+  return _c("div", [
+    _vm.loading
+      ? _c("div", { staticClass: "p-1 text-center" }, [
+          _c("img", {
+            attrs: { src: "/images/loading.svg", alt: "Loading..." }
+          })
+        ])
+      : _c(
+          "a",
+          {
+            staticClass: "latest-results__first mb-3 profile-pic",
+            attrs: { href: "/athlete/" + _vm.highlightedAthlete.slug }
+          },
           [
-            _vm.highlightedAthlete.country
-              ? _c("img", {
-                  staticClass: "latest-results__mini-flag",
-                  attrs: {
-                    src:
-                      "/images/flags/flags-mini/" +
-                      _vm.highlightedAthlete.country.toLowerCase() +
-                      ".png",
-                    alt: _vm.highlightedAthlete.country
-                  }
-                })
-              : _vm._e(),
+            _c(
+              "div",
+              {
+                staticClass: "latest-results__photo position-relative",
+                style:
+                  "background-image:url(" +
+                  (_vm.highlightedAthlete.profilePic
+                    ? "/images/athletes/" + _vm.highlightedAthlete.profilePic
+                    : _vm.highlightedAthlete.gender === "female"
+                    ? "/images/woman_silhouette.jpg"
+                    : "/images/man_silhouette.jpg") +
+                  ");"
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "latest-results__number latest-results__number--first"
+                  },
+                  [_vm._v(_vm._s(_vm.highlightedPosition + 1))]
+                )
+              ]
+            ),
             _vm._v(" "),
-            _c("div", { staticClass: "latest-results__view-profile" }, [
-              _vm._v("View profile")
+            _c("div", { staticClass: "latest-results__info" }, [
+              _c("div", { staticClass: "font-weight-bold" }, [
+                _vm._v(
+                  _vm._s(_vm.highlightedAthlete.firstName) +
+                    " " +
+                    _vm._s(_vm.highlightedAthlete.lastName)
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "small mb-2" }, [
+                _vm._v(
+                  _vm._s(_vm.activeMetric) +
+                    ": " +
+                    _vm._s(_vm.highlightedAthlete.qty)
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "d-flex justify-content-between align-items-center"
+                },
+                [
+                  _vm.highlightedAthlete.country
+                    ? _c("img", {
+                        staticClass: "latest-results__mini-flag",
+                        attrs: {
+                          src:
+                            "/images/flags/flags-mini/" +
+                            _vm.highlightedAthlete.country.toLowerCase() +
+                            ".png",
+                          alt: _vm.highlightedAthlete.country
+                        }
+                      })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "latest-results__view-profile" }, [
+                    _vm._v("View profile")
+                  ])
+                ]
+              )
             ])
           ]
         )
-      ])
-    ]
-  )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -5123,52 +5157,66 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", [
-      _c("table", { staticClass: "table table--races table--races-striped" }, [
-        _c("thead", [
-          _c("tr", [
-            _c("th", { staticStyle: { width: "10%" } }, [_vm._v("#")]),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "70%" } }, [_vm._v("Name")]),
-            _vm._v(" "),
-            _c("th", { staticStyle: { width: "20%", "text-align": "right" } }, [
-              _vm._v(_vm._s(_vm.selectedStatsCategory.metric))
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.filteredData, function(datum, index) {
-            return _c(
-              "tr",
-              {
-                key: datum.athleteId,
-                class: { "highlighted-row": index === _vm.highlightedPosition },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.highlight($event, index)
-                  }
-                }
-              },
-              [
-                _c("td", [_vm._v(_vm._s(index + 1) + ".")]),
+    _vm.loading
+      ? _c("div", { staticClass: "p-1 text-center" }, [
+          _c("img", {
+            attrs: { src: "/images/loading.svg", alt: "Loading..." }
+          })
+        ])
+      : _c(
+          "table",
+          { staticClass: "table table--races table--races-striped" },
+          [
+            _c("thead", [
+              _c("tr", [
+                _c("th", { staticStyle: { width: "10%" } }, [_vm._v("#")]),
                 _vm._v(" "),
-                _c("td", [
-                  _vm._v(_vm._s(datum.firstName) + " " + _vm._s(datum.lastName))
-                ]),
+                _c("th", { staticStyle: { width: "70%" } }, [_vm._v("Name")]),
                 _vm._v(" "),
-                _c("td", { staticStyle: { "text-align": "right" } }, [
-                  _vm._v(_vm._s(datum.qty))
-                ])
-              ]
+                _c(
+                  "th",
+                  { staticStyle: { width: "20%", "text-align": "right" } },
+                  [_vm._v(_vm._s(_vm.selectedStatsCategory.metric))]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.filteredData, function(datum, index) {
+                return _c(
+                  "tr",
+                  {
+                    key: datum.athleteId,
+                    class: {
+                      "highlighted-row": index === _vm.highlightedPosition
+                    },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.highlight($event, index)
+                      }
+                    }
+                  },
+                  [
+                    _c("td", [_vm._v(_vm._s(index + 1) + ".")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(datum.firstName) + " " + _vm._s(datum.lastName)
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticStyle: { "text-align": "right" } }, [
+                      _vm._v(_vm._s(datum.qty))
+                    ])
+                  ]
+                )
+              }),
+              0
             )
-          }),
-          0
+          ]
         )
-      ])
-    ])
   ])
 }
 var staticRenderFns = []
@@ -19399,10 +19447,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       highlightedPosition: 0,
       filters: null,
       selectedFilter: 0,
-      noDataForFilter: false
+      noDataForFilter: false,
+      loading: false
     };
   },
   mutations: {
+    SET_LOADING: function SET_LOADING(state, flag) {
+      state.loading = flag;
+    },
     SET_DATA: function SET_DATA(state, data) {
       state.data = data;
     },
@@ -19548,12 +19600,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 commit = _ref4.commit, getters = _ref4.getters, state = _ref4.state, rootGetters = _ref4.rootGetters;
                 commit('SET_HIGHLIGHTED_POSITION', 0);
-                _context3.prev = 2;
+                commit('SET_LOADING', true);
+                _context3.prev = 3;
                 fullEndPoint = rootGetters.activeEndPoint + (state.selectedFilter === 0 ? '' : '/' + state.selectedFilter);
-                _context3.next = 6;
+                _context3.next = 7;
                 return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(fullEndPoint);
 
-              case 6:
+              case 7:
                 _ref5 = _context3.sent;
                 data = _ref5.data;
 
@@ -19568,22 +19621,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 commit('SET_ERROR', '', {
                   root: true
                 });
-                _context3.next = 15;
+                _context3.next = 16;
                 break;
 
-              case 12:
-                _context3.prev = 12;
-                _context3.t0 = _context3["catch"](2);
+              case 13:
+                _context3.prev = 13;
+                _context3.t0 = _context3["catch"](3);
                 commit('SET_ERROR', {
                   root: true
                 });
 
-              case 15:
+              case 16:
+                commit('SET_LOADING', false);
+
+              case 17:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3, null, [[2, 12]]);
+        }, _callee3, null, [[3, 13]]);
       }));
 
       function loadData(_x3) {

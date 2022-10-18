@@ -37,7 +37,12 @@
     </div>
 
     <div class="col-9 justify-content-right">
-      <div v-if="noDataForFilter" class="row alert alert-danger mb-0">Sorry, but we have no data for selected filter.</div>
+      <div v-if="loading" class="p-1 text-center">
+        <img src="/images/loading.svg" alt="Loading...">
+      </div>
+      <div v-else-if="noDataForFilter" class="row alert alert-danger mb-0">
+        Sorry, but we have no data for selected filter.
+      </div>
       <div v-else class="row justify-content-right">
         <div class="col col-auto ml-1 mr-1 pl-0 pr-0" v-for="athCat in athleteCategories" :key="athCat">
           <a v-if="athCat === athleteCategory"  @click.prevent="changeAthleteCategory($event, athCat)" class="badge badge-active my-1 badge--custom" href="#">{{athCat}}</a>
@@ -59,8 +64,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['error', 'loading']),
-    ...mapState('dataPaneStore', ['athleteCategory', 'highlightedPosition', 'filters', 'selectedFilter', 'noDataForFilter']),
+    ...mapState('dataPaneStore', ['athleteCategory', 'highlightedPosition', 'filters', 'selectedFilter', 'noDataForFilter', 'loading']),
     ...mapGetters('dataPaneStore', ['selectedStatsCategory', 'athleteCategories'])
   },
 

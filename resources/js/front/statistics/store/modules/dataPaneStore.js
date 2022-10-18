@@ -13,10 +13,15 @@ export default {
       filters: null,
       selectedFilter: 0,
       noDataForFilter: false,
+      loading: false
     };
   },
 
   mutations: {
+
+    SET_LOADING (state, flag) {
+      state.loading = flag
+    },
 
     SET_DATA (state, data) {
       state.data = data
@@ -88,6 +93,7 @@ export default {
 
     async loadData ({ commit, getters, state, rootGetters }) {
       commit('SET_HIGHLIGHTED_POSITION', 0)
+      commit('SET_LOADING', true)
 
       try {
         const fullEndPoint = rootGetters.activeEndPoint + (state.selectedFilter === 0 ? '' : '/' + state.selectedFilter)
@@ -103,6 +109,8 @@ export default {
       } catch (e) {
         commit('SET_ERROR', { root: true  })
       }
+
+      commit('SET_LOADING', false)
     }
   }
 }
