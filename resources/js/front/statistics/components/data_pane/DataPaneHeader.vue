@@ -2,7 +2,7 @@
   <div class="row mb-4">
     <div class="col-3">
       <div class="row">
-        <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">Select {{filters[0]}}:</div>
+        <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">{{filters[0]}}:</div>
         <div class="col col-auto pl-1 pr-1">
           <button class="badge my-1 badge--custom" @click="openFilterDropdown = !openFilterDropdown">
             {{selectedFilter != 0 ? selectedFilter : "All"}}

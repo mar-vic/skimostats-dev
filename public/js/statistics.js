@@ -4887,7 +4887,7 @@ var render = function() {
             staticClass:
               "my-auto col col-auto font-weight-bold text-uppercase text-blue"
           },
-          [_vm._v("Select " + _vm._s(_vm.filters[0]) + ":")]
+          [_vm._v(_vm._s(_vm.filters[0]) + ":")]
         ),
         _vm._v(" "),
         _c("div", { staticClass: "col col-auto pl-1 pr-1" }, [
