@@ -372,4 +372,56 @@ class StatisticsController extends Controller
 
         return $groupedByAthletes;
     }
+
+    public function pointsPerMonth(Request $request, $year = null, $month = null) {
+
+      if (!$year) {
+        $year = date('Y');
+      }
+
+      if (!$month) {
+        $month = date('m');
+      }
+
+    $queryBuilder = DB::table('athletes')
+      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, rankings.points')
+      ->join('rankings', 'rankings.athleteId', 'athletes.id')
+      ->join('race_events', 'race_events.id', 'rankings.raceEventId')
+      ->join('categories', 'categories.id', 'rankings.categoryId')
+      ->join('countries', 'countries.id', 'athletes.countryId')
+      ->whereRaw('rankings.type = 1')
+      ->whereRaw("EXTRACT(MONTH FROM race_events.startDate) = $month and EXTRACT(YEAR FROM race_events.startDate) = $year");
+
+    // dd($queryBuilder->get());
+
+    $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+    // dd($groupedByCategories);
+
+    $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+      return $item->groupBy('athleteId')->map(function ($item, $key) {
+
+        $points = $item->reduce(function ($carry, $item) {
+          return $carry + $item->points;
+        }, 0);
+
+        // dd($points);
+
+        // if ($raceDays >= 0) {
+        return collect([
+          'athleteId' => $key,
+          'firstName' => $item[0]->firstName,
+          'lastName' => $item[0]->lastName,
+          'gender' => $item[0]->gender,
+          'profilePic' => $item[0]->image,
+          'slug' => $item[0]->slug,
+          'country' => $item[0]->countryCode,
+          'qty' => $points,
+        ]);
+        // }
+      })->sortBy([['qty', 'desc']]);
+    });
+
+    return $groupedByAthletes;
+  }
 }

@@ -3,7 +3,16 @@
     <div class="col-3">
       <div class="row">
         <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">{{filters[0]}}:</div>
-        <div class="col col-auto pl-1 pr-1">
+
+        <div v-if="activeFilters === 'months'" class="col col-auto pl-1 pr-1 mnt-picker">
+          <month-picker-input
+            :default-year="selectedFilter[0]"
+            :default-month="selectedFilter[1]"
+            @input="monthPickerLoadData">
+          </month-picker-input>
+        </div>
+
+        <div v-else class="col col-auto pl-1 pr-1">
           <button class="badge my-1 badge--custom" @click="openFilterDropdown = !openFilterDropdown">
             {{selectedFilter != 0 ? selectedFilter : "All"}}
             <i class="fas fa-caret-down" aria-hidden="true"></i>
@@ -55,6 +64,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex'
+import { MonthPickerInput } from 'vue-month-picker'
 
 export default {
   data () {
@@ -63,7 +73,12 @@ export default {
     }
   },
 
+  components: {
+    MonthPickerInput
+  },
+
   computed: {
+    ...mapGetters(['activeFilters']),
     ...mapState('dataPaneStore', ['athleteCategory', 'highlightedPosition', 'filters', 'selectedFilter', 'noDataForFilter', 'loading']),
     ...mapGetters('dataPaneStore', ['selectedStatsCategory', 'athleteCategories'])
   },
@@ -79,10 +94,38 @@ export default {
       this.$store.dispatch('dataPaneStore/loadData')
       this.openFilterDropdown = false
     },
+
+    monthPickerLoadData (date) {
+      this.$store.commit('dataPaneStore/SET_SELECTED_FILTER', [date.year, date.monthIndex])
+      this.$store.dispatch('dataPaneStore/loadData')
+    }
   }
 }
 </script>
 
-<style scoped>
+<style>
+
+.mnt-picker {
+  z-index: 100;
+}
+
+/* .month-picker-input {
+   padding: 0.4 1em !important;
+   } */
+
+.mnt-picker input {
+  padding: 0.4rem 0.6rem !important;
+}
+
+/* .month-picker-input {
+   }
+
+   .month-picker-container input {
+   padding: 0.4em 1em !important;
+   }
+
+   input {
+   padding: 0.4em 1em !important;
+   } */
 
 </style>

@@ -58,10 +58,12 @@ export default {
           isSelected: false,
           shortName: 'points per month',
           longName: 'Points per month',
-          dataSource: '/ppm',
+          dataSource: '/v1/statistics/pointsPerMonth',
+          metric: 'points',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          component: DataPane,
+          dataStore: 'dataPaneStore',
+          filters: 'months'
         },
 
         {

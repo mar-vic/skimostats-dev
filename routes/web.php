@@ -56,6 +56,7 @@ Auth::routes(['register' => false]);
     Route::get('/v1/statistics/mostChocolates/{year?}', 'StatisticsController@mostChocolates');
     Route::get('/v1/statistics/mostTopTens/{year?}', 'StatisticsController@mostTopTens');
     Route::get('/v1/statistics/activeAthletes/{raceCat?}', 'StatisticsController@activeAthletes');
+    Route::get('/v1/statistics/pointsPerMonth/{year?}/{month?}', 'StatisticsController@pointsPerMonth');
 
     // Rankings
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');
