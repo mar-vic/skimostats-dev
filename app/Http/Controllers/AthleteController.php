@@ -280,33 +280,39 @@ class AthleteController extends Controller
 
     // NEW STUFF by MV
     public function careerWins(Request $request, Athlete $athlete) {
-        $queryBuilder = DB::table('race_events as events')
-                      ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
-                      ->join('race_event_entries as entries', function ($qb) {
-                          $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
-                             ->orOn('entries.raceEventTeamId', '=', 'participants.raceEventTeamId');
-                      })
-                      ->join('race_types', 'race_types.id', 'events.type')
-                      ->leftJoin('rankings', 'participants.id', 'rankings.participantId')
-                      ->join('categories', 'rankings.categoryId', 'categories.id')
-                      ->leftJoin('countries', 'events.countryId', 'countries.id')
-                      ->where('participants.athleteId', $athlete->id)
-                      ->where('rankings.rank', 1)
-                      ->whereRaw('rankings.rankingCategoryId in (1, 2, 4, 5, 6, 7, 8, 9, 10, 13)')
-                      ->select(
-                          'events.id',
-                          'events.startDate as eventStartDate',
-                          'events.name as eventName',
-                          'events.slug as eventSlug',
-                          'race_types.name as raceType',
-                          'rankings.rank',
-                          'rankings.points',
-                          'categories.slug as categorySlug',
-                          'countries.name as countryName',
-                          'countries.code as countryCode'
-                      );
 
-        return $queryBuilder->get();
+        $builder = DB::table('race_events as re')
+            ->select(
+                're.startDate as eventStartDate',
+                're.name as eventName',
+                're.slug as eventSlug',
+                'rt.name as raceType',
+                'rnk.rank',
+                'rnk.points',
+                'cat.slug as categorySlug',
+                'c.name as countryName',
+                'c.code as countryCode'
+            )
+            ->join('race_event_participants as rep', 'rep.raceEventId', 're.id')
+            ->join('categories as cat', 'cat.id', 'rep.categoryId')
+            ->leftJoin('countries as c', 'c.id', 're.countryId')
+            ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
+            ->join('race_event_entries as ree', function($qb) {
+                $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
+                    ->orOn('ree.raceEventTeamId', '=', 'ret.id');
+            })
+            ->leftJoin('rankings as rnk', function($qb) {
+                $qb->on('rnk.participantId', '=', 'rep.id')
+                    ->where('rnk.type', 1)
+                    ->whereIn('rnk.categoryId', [1, 2]);
+            })
+            ->leftJoin('race_types as rt', 'rt.id', 're.type')
+            ->where('rep.athleteId', $athlete->id)
+            ->where('ree.rank', 1)
+            ->whereRaw('rnk.rankingCategoryId in (1, 2, 4, 5, 6, 7, 8, 9, 10, 13)')
+            ->groupBy('re.id');
+
+        return $builder->get();
     }
 
     public function topResults(Request $request, Athlete $athlete) {
@@ -387,18 +393,41 @@ class AthleteController extends Controller
 
     public function raceDays(Request $request, Athlete $athlete, $year)
     {
-        // return the number of race days of an athelte in given year
-        $queryBuilder = DB::table('race_event_entries as entries')
-                      ->join('race_event_participants as participants', 'participants.id', 'entries.raceEventParticipantId')
-                      ->join('race_events as events', 'events.id', 'entries.raceEventId')
-                      ->where('participants.athleteId', '=', $athlete->id)
-                      ->where('events.year', '=', $year)
-                      ->whereRaw("events.name not like '%general classification%'")
-                      ->groupBy('participants.athleteId')
-                      ->selectRaw('count(entries.id) as raceDays');
+        $timespan = Ranking::getRankingYearTimespan($year);
 
-        // return $queryBuilder->get()[0]->raceDays;
-        return $queryBuilder->get()->first();
+        $builder = DB::table('race_events as re')
+            ->select(
+                're.id',
+                're.name',
+                're.slug',
+                'c.code as countryCode',
+                'c.name as countryName',
+                'ree.rank',
+                'rnk.points',
+                'rt.name as raceTypeName',
+                'cat.slug as categorySlug',
+                're.startDate',
+                'ree.status'
+            )
+            ->join('race_event_participants as rep', 'rep.raceEventId', 're.id')
+            ->join('categories as cat', 'cat.id', 'rep.categoryId')
+            ->leftJoin('countries as c', 'c.id', 're.countryId')
+            ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
+            ->join('race_event_entries as ree', function($qb) {
+                $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
+                    ->orOn('ree.raceEventTeamId', '=', 'ret.id');
+            })
+            ->leftJoin('rankings as rnk', function($qb) {
+                $qb->on('rnk.participantId', '=', 'rep.id')
+                    ->where('rnk.type', 1)
+                    ->whereIn('rnk.categoryId', [1, 2]);
+            })
+            ->leftJoin('race_types as rt', 'rt.id', 're.type')
+            ->where('rep.athleteId', $athlete->id)
+            ->whereBetween('re.startDate', $timespan)
+            ->groupBy('re.id');
+
+        return $builder->get();
     }
 
     public function elevation(Request $request, Athlete $athlete, $year)
@@ -419,23 +448,43 @@ class AthleteController extends Controller
         $timespan = Ranking::getRankingYearTimespan($year);
 
         $builder = DB::table('race_events as re')
-                 ->selectRaw('sum(rnk.points) as Points, sum(DATEDIFF(re.endDate, re.startDate) + 1) as RaceDays, sum(re.elevation) as Elevation')
-                 ->join('race_event_participants as rep', 'rep.raceEventId', 're.id')
-                 ->join('categories as cat', 'cat.id', 'rep.categoryId')
-                 ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
-                 ->join('race_event_entries as ree', function($qb) {
-                     $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
-                        ->orOn('ree.raceEventTeamId', '=', 'ret.id');
-                 })
-                 ->leftJoin('rankings as rnk', function($qb) {
-                     $qb->on('rnk.participantId', '=', 'rep.id')
-                        ->where('rnk.type', 1)
-                        ->whereIn('rnk.categoryId', [1, 2]);
-                 })
-                 // ->leftJoin('race_types as rt', 'rt.id', 're.type')
-                 ->where('rep.athleteId', $athlete->id)
-                 ->whereBetween('re.startDate', $timespan);
+            ->select(
+                're.id',
+                're.name',
+                're.slug',
+                'c.code as countryCode',
+                'c.name as countryName',
+                'ree.rank',
+                'rnk.points',
+                'rt.name as raceTypeName',
+                'cat.slug as categorySlug',
+                're.startDate',
+                'ree.status'
+            )
+            ->join('race_event_participants as rep', 'rep.raceEventId', 're.id')
+            ->join('categories as cat', 'cat.id', 'rep.categoryId')
+            ->leftJoin('countries as c', 'c.id', 're.countryId')
+            ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
+            ->join('race_event_entries as ree', function($qb) {
+                $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
+                    ->orOn('ree.raceEventTeamId', '=', 'ret.id');
+            })
+            ->leftJoin('rankings as rnk', function($qb) {
+                $qb->on('rnk.participantId', '=', 'rep.id')
+                    ->where('rnk.type', 1)
+                    ->whereIn('rnk.categoryId', [1, 2]);
+            })
+            ->leftJoin('race_types as rt', 'rt.id', 're.type')
+            ->where('rep.athleteId', $athlete->id)
+            ->whereBetween('re.startDate', $timespan)
+            ->whereRaw('ree.rank is not null')
+            ->groupBy('re.id');
 
-        return $builder->get()->first();
+        $collection = $builder->get();
+
+        return collect([
+            'raceDays' => $collection->count(),
+            'points' => $collection->sum('points')
+        ]);
     }
 }

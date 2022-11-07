@@ -26623,12 +26623,10 @@ var render = function() {
                   },
                   [
                     _vm._v(
-                      "\n            season summary: " +
-                        _vm._s(_vm.seasonSummary.Elevation) +
-                        " D+ in " +
-                        _vm._s(_vm.seasonSummary.RaceDays) +
-                        " days with " +
-                        _vm._s(_vm.seasonSummary.Points) +
+                      "\n              season summary: " +
+                        _vm._s(_vm.seasonSummary.raceDays) +
+                        " race days with " +
+                        _vm._s(_vm.seasonSummary.points) +
                         " SkiMo Stats Points\n          "
                     )
                   ]
