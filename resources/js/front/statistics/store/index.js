@@ -85,9 +85,9 @@ export default {
           metric: 'total elevation',
           dataSource: '/v1/statistics/mostVerticalMeters',
           path: '/victories',
-          component: DataPane,
-          dataStore: 'dataPaneStore',
-          filters: 'seasons'
+          component: PlaceHolder,
+          dataStore: 'dummStore',
+          // filters: 'seasons'
         },
 
         {
