@@ -86,7 +86,7 @@ export default {
           dataSource: '/v1/statistics/mostVerticalMeters',
           path: '/victories',
           component: PlaceHolder,
-          dataStore: 'dummStore',
+          dataStore: 'dummyStore',
           // filters: 'seasons'
         },
 
@@ -146,7 +146,7 @@ export default {
           isSelected: false,
           shortName: 'Top 10 finishes',
           longName: 'Most Top 10 finishes',
-          metric: 'toptens',
+          metric: 'top tens',
           dataSource: '/v1/statistics/mostTopTens',
           path: '/victories',
           component: DataPane,

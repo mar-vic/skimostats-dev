@@ -318,14 +318,6 @@ class StatisticsController extends Controller
                       ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
                       ->where('entries.rank', 4);
 
-        // $queryBuilder = DB::table('athletes')
-        //     ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, race_events.startDate')
-        //     ->join('rankings', 'rankings.athleteId', 'athletes.id')
-        //     ->join('categories', 'categories.id', 'rankings.categoryId')
-        //     ->join('race_events', 'race_events.id', 'rankings.raceEventId')
-        //     ->leftJoin('countries', 'countries.id', 'athletes.countryId')
-        //     ->where('rankings.rank', 4);
-
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
@@ -355,17 +347,28 @@ class StatisticsController extends Controller
 
     public function mostTopTens(Request $request, $year = null) {
 
-        $queryBuilder = DB::table('athletes')
-            ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, race_events.startDate')
-            ->join('rankings', 'rankings.athleteId', 'athletes.id')
-            ->join('categories', 'categories.id', 'rankings.categoryId')
-            ->join('race_events', 'race_events.id', 'rankings.raceEventId')
-            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
-            ->whereRaw('rankings.rank in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)');
+        $queryBuilder = DB::table('race_events as events')
+                      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
+                      ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+                      ->join('athletes', 'participants.athleteId', 'athletes.id')
+                      ->join('categories', 'categories.id', 'participants.categoryId')
+                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+                      ->join('race_event_entries as entries', function($qb) {
+                          $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                             ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+                      })
+                      ->leftJoin('rankings', function($qb) {
+                          $qb->on('rankings.participantId', '=', 'participants.id')
+                             ->where('rankings.type', 1)
+                             ->whereIn('rankings.categoryId', [1, 2]);
+                      })
+                      ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+                      ->whereIn('entries.rank', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
-            $queryBuilder = $queryBuilder->whereBetween('race_events.startDate', $timespan);
+            $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
         }
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
@@ -385,7 +388,9 @@ class StatisticsController extends Controller
             })->sortBy([['qty', 'desc']]);
         });
 
-        return $groupedByAthletes;
+        return $groupedByAthletes->map(function ($item) {
+            return $item->slice(0, 30);
+        });
     }
 
     public function activeAthletes(Request $request, $raceCat = null) {

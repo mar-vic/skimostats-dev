@@ -20237,7 +20237,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         dataSource: '/v1/statistics/mostVerticalMeters',
         path: '/victories',
         component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-        dataStore: 'dummStore' // filters: 'seasons'
+        dataStore: 'dummyStore' // filters: 'seasons'
 
       }, {
         id: 'cat6',
@@ -20286,7 +20286,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         isSelected: false,
         shortName: 'Top 10 finishes',
         longName: 'Most Top 10 finishes',
-        metric: 'toptens',
+        metric: 'top tens',
         dataSource: '/v1/statistics/mostTopTens',
         path: '/victories',
         component: _components_data_pane_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
