@@ -268,8 +268,6 @@ class StatisticsController extends Controller
                       ->where('rankings.rankingCategoryId', 1)
                       ->where('entries.rank', 1);
 
-        // dd($queryBuilder->get());
-
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
@@ -277,12 +275,8 @@ class StatisticsController extends Controller
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 
-        // dd($groupedByCategories);
-
         $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
             return $item->groupBy('athleteId')->map(function ($item, $key) {
-
-                // dd($item);
 
                 return collect([
                     'athleteId' => $key,
@@ -297,9 +291,10 @@ class StatisticsController extends Controller
             })->sortBy([['qty', 'desc']]);
         });
 
-        // dd($groupedByAthletes);
+        return $groupedByAthletes->map(function ($item) {
+            return $item->slice(0, 30);
+        });
 
-        return $groupedByAthletes;
     }
 
     public function mostChocolates(Request $request, $year = null) {
