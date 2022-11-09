@@ -61,30 +61,15 @@ class StatisticsController extends Controller
                     ->whereIn('rankings.categoryId', [1, 2]);
             })
             ->leftJoin('race_types as types', 'types.id', 'events.type')
-            // ->where('athletes.id', 308)
             ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
             ->where('entries.rank', 1);
-            // ->groupBy('events.id');
 
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
         }
 
-        // dd($queryBuilder->get());
-
-        // dd($queryBuilder->get()->filter(function ($value, $key) {
-        //     return $value->firstName == 'Rémi' and $value->lastName == "Bonnet";
-        //     // return $value->athleteId == 308;
-        // }));
-
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
-
-        // dd($groupedByCategories);
-
-        // dd($groupedByCategories["Men"]->filter(function ($value, $key) {
-        //     return $value->firstName == 'Jakub';
-        // }));
 
         $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
             return $item->groupBy('athleteId')->map(function ($item, $key) {
@@ -100,8 +85,6 @@ class StatisticsController extends Controller
                 ]);
             })->sortBy([['qty', 'desc']]);
         });
-
-        // dd($groupedByAthletes);
 
         return $groupedByAthletes;
     }
