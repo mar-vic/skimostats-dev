@@ -5,6 +5,7 @@ import dummyStore from './modules/dummyStore'
 
 // import DataPaneRaceCats from '../components/data_pane/racecat/DataPaneRaceCats.vue'
 import DataPane from '../components/data_pane/DataPane.vue'
+import DataPaneCountries from '../components/data_pane/DataPaneCountries.vue'
 import PlaceHolder from '../components/PlaceHolder.vue'
 
 export default {
@@ -18,6 +19,7 @@ export default {
   // VUE COMPONENTS FOR DYNAMIC LOADING
   components: {
     DataPane,
+    DataPaneCountries,
     PlaceHolder
   },
 
@@ -122,10 +124,12 @@ export default {
           isSelected: false,
           shortName: 'wins by countries',
           longName: 'Most wins by countries',
-          dataSource: '/mwc',
+          dataSource: '/v1/statistics/winsByCountries',
+          metric: 'wins',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          component: DataPaneCountries,
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {
