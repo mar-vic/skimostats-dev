@@ -218,10 +218,12 @@ export default {
           isSelected: false,
           shortName: 'oldest athletes',
           longName: 'Oldest athletes',
-          dataSource: '/oldest',
+          dataSource: '/v1/statistics/oldestAthletes',
+          metric: 'age',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          component: DataPane,
+          dataStore: 'dataPaneStore',
+          filters: 'racecats'
         },
 
         {

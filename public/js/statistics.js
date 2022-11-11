@@ -20346,10 +20346,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         isSelected: false,
         shortName: 'oldest athletes',
         longName: 'Oldest athletes',
-        dataSource: '/oldest',
+        dataSource: '/v1/statistics/oldestAthletes',
+        metric: 'age',
         path: '/victories',
-        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-        dataStore: 'dummyStore'
+        component: _components_data_pane_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        dataStore: 'dataPaneStore',
+        filters: 'racecats'
       }, {
         id: 'cat17',
         isSelected: false,
