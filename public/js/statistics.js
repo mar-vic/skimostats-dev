@@ -20308,6 +20308,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         longName: 'Active athletes',
         dataSource: '/v1/statistics/activeAthletes',
         path: '/victories',
+        metric: 'races',
         component: _components_data_pane_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
         dataStore: 'dataPaneStore',
         filters: 'racecats'

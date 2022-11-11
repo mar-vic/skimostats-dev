@@ -172,6 +172,7 @@ export default {
           longName: 'Active athletes',
           dataSource: '/v1/statistics/activeAthletes',
           path: '/victories',
+          metric: 'races',
           component: DataPane,
           dataStore: 'dataPaneStore',
           filters: 'racecats'
