@@ -55,6 +55,7 @@ Auth::routes(['register' => false]);
     Route::get('/v1/statistics/mostWorldCupWins/{year?}', 'StatisticsController@mostWorldCupWins');
     Route::get('/v1/statistics/mostChocolates/{year?}', 'StatisticsController@mostChocolates');
     Route::get('/v1/statistics/mostTopTens/{year?}', 'StatisticsController@mostTopTens');
+    Route::get('/v1/statistics/mostPointsPerRaceDay/{year?}', 'StatisticsController@mostPointsPerRaceDay');
     Route::get('/v1/statistics/activeAthletes/{raceCat?}', 'StatisticsController@activeAthletes');
     Route::get('/v1/statistics/pointsPerMonth/{year?}/{month?}', 'StatisticsController@pointsPerMonth');
 

@@ -110,6 +110,7 @@ class StatisticsController extends Controller
                              ->whereIn('rankings.categoryId', [1, 2]);
                       })
                       ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+                      ->whereRaw('rankings.id != 6')
                       ->whereRaw('DATEDIFF(events.endDate, events.startDate) + 1 > 0');
 
         if ($year) {
@@ -446,14 +447,13 @@ class StatisticsController extends Controller
 
     public function pointsPerMonth(Request $request, $year = null, $month = null) {
 
-      if (!$year) {
-        $year = date('Y');
-      }
+        if (!$year) {
+            $year = date('Y');
+        }
 
-      if (!$month) {
-        $month = date('m');
-      }
-
+        if (!$month) {
+            $month = date('m');
+        }
 
         $queryBuilder = DB::table('race_events as events')
             ->select(
@@ -485,30 +485,108 @@ class StatisticsController extends Controller
             ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
             ->whereRaw("EXTRACT(MONTH FROM events.startDate) = $month and EXTRACT(YEAR FROM events.startDate) = $year");
 
-    $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 
-    $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
-      return $item->groupBy('athleteId')->map(function ($item, $key) {
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
 
-        $points = $item->reduce(function ($carry, $item) {
-          return $carry + $item->points;
-        }, 0);
+                $points = $item->reduce(function ($carry, $item) {
+                    return $carry + $item->points;
+                }, 0);
 
-        return collect([
-          'athleteId' => $key,
-          'firstName' => $item[0]->firstName,
-          'lastName' => $item[0]->lastName,
-          'gender' => $item[0]->gender,
-          'profilePic' => $item[0]->image,
-          'slug' => $item[0]->slug,
-          'country' => $item[0]->countryCode,
-          'qty' => $points,
-        ]);
-      })->sortBy([['qty', 'desc']]);
-    });
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $points,
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
 
-    return $groupedByAthletes->map(function ($item) {
-        return $item->slice(0, 30);
-    });
-  }
+        return $groupedByAthletes->map(function ($item) {
+            return $item->slice(0, 30);
+        });
+    }
+
+    public function mostPointsPerRaceDay(Request $request, $year = null)
+    {
+        $queryBuilder = DB::table('race_events as events')
+                      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, rankings.points, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
+                      ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+                      ->join('athletes', 'participants.athleteId', 'athletes.id')
+                      ->join('categories', 'categories.id', 'participants.categoryId')
+                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+                      ->join('race_event_entries as entries', function ($qb) {
+                          $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                             ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+                      })
+                      ->leftJoin('rankings', function ($qb) {
+                          $qb->on('rankings.participantId', '=', 'participants.id')
+                             ->where('rankings.type', 1)
+                             ->whereIn('rankings.categoryId', [1, 2]);
+                      })
+                      ->leftJoin('race_types as types', 'types.id', 'events.type')
+                      ->whereIn('categories.id', [1, 2, 23, 24, 25, 26]);
+
+        if ($year) {
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
+        }
+
+        // dd($queryBuilder->get()->filter(function ($value, $key) {
+        //     return $value->lastName == 'Verbnjak';
+        // }));
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+
+                $points = $item->reduce(function ($carry, $item) {
+                    return $carry + $item->points;
+                }, 0);
+
+                // $raceDays = $item->reduce(function ($carry, $item) {
+                //     return $carry + $item->eventDuration;
+                // }, 0);
+
+
+                if ($item[0]->lastName == 'Verbnjak') {
+                    // dd([
+                    //     'athlete' => $item[0]->firstName . ' ' . $item[0]->lastName,
+                    //     'racedays' => $raceDays,
+                    //     'points' => $points,
+                    //     'ppr' => $points / $raceDays
+                    // ]);
+                    // dd($raceDays);
+                }
+
+                // $ppr = $raceDays == 0 ? -1 : $points / $raceDays;
+
+                // dd($ppr);
+
+                $raceDays = $item->count();
+
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => round($raceDays == 0 ? -1 : $points / $raceDays)
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        return $groupedByAthletes->map(function ($item) {
+            return $item->slice(0, 30);
+        });
+    }
 }

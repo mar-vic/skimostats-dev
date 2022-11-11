@@ -226,10 +226,12 @@ export default {
           isSelected: false,
           shortName: 'Points per raceday',
           longName: 'Most points per raceday',
-          dataSource: '/ppr',
+          dataSource: '/v1/statistics/mostPointsPerRaceDay',
+          metric: 'points / raceday',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          component: DataPane,
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         }
       ]
     }
