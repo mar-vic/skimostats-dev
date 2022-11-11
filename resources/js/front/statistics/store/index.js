@@ -205,10 +205,12 @@ export default {
           isSelected: false,
           shortName: 'youngest athletes',
           longName: 'Youngest athletes',
-          dataSource: '/youngest',
+          dataSource: '/v1/statistics/youngestAthletes',
+          metric: 'age',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          component: DataPane,
+          dataStore: 'dataPaneStore',
+          filters: 'racecats'
         },
 
         {
