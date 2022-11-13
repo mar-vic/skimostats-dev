@@ -20759,7 +20759,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         longName: 'Active athletes',
         dataSource: '/v1/statistics/activeAthletes',
         path: '/victories',
-        metric: 'races',
+        metric: 'recent races',
         component: _components_data_pane_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
         dataStore: 'dataPaneStore',
         filters: 'racecats'
@@ -20777,10 +20777,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         isSelected: false,
         shortName: 'nations raced in',
         longName: 'Most nations raced in',
-        dataSource: '/nations',
+        dataSource: '/v1/statistics/mostNationsRacedIn',
+        metric: 'nations raced in',
         path: '/victories',
-        component: _components_PlaceHolder_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-        dataStore: 'dummyStore'
+        component: _components_data_pane_DataPane_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        dataStore: 'dataPaneStore',
+        filters: 'seasons'
       }, {
         id: 'cat15',
         isSelected: false,

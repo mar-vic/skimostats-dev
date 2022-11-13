@@ -176,7 +176,7 @@ export default {
           longName: 'Active athletes',
           dataSource: '/v1/statistics/activeAthletes',
           path: '/victories',
-          metric: 'races',
+          metric: 'recent races',
           component: DataPane,
           dataStore: 'dataPaneStore',
           filters: 'racecats'
@@ -198,10 +198,12 @@ export default {
           isSelected: false,
           shortName: 'nations raced in',
           longName: 'Most nations raced in',
-          dataSource: '/nations',
+          dataSource: '/v1/statistics/mostNationsRacedIn',
+          metric: 'nations raced in',
           path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore'
+          component: DataPane,
+          dataStore: 'dataPaneStore',
+          filters: 'seasons'
         },
 
         {

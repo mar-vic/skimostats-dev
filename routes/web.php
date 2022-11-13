@@ -61,6 +61,7 @@ Auth::routes(['register' => false]);
     Route::get('/v1/statistics/youngestAthletes/{raceCat?}', 'StatisticsController@youngestAthletes');
     Route::get('/v1/statistics/oldestAthletes/{raceCat?}', 'StatisticsController@oldestAthletes');
     Route::get('/v1/statistics/winsByCountries/{year?}', 'StatisticsController@mostWinsByCountries');
+    Route::get('/v1/statistics/mostNationsRacedIn/{year?}', 'StatisticsController@mostNationsRacedIn');
 
     // Rankings
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');
