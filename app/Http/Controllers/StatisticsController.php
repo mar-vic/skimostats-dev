@@ -157,7 +157,7 @@ class StatisticsController extends Controller
     public function mostRaceDays(Request $request, $year = null) {
 
         $queryBuilder = DB::table('race_events as events')
-                      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
+                      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, rankings.rank, rankings.rankingCategoryId, rankings.points, events.id as eventId, events.name as eventName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
@@ -173,13 +173,22 @@ class StatisticsController extends Controller
                              ->whereIn('rankings.categoryId', [1, 2]);
                       })
                       ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
-                      ->whereRaw('rankings.id != 6')
+                      ->where(function($query) {
+                          $query->whereIn('rankings.rankingCategoryId', [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13])
+                                ->orWhere('rankings.rankingCategoryId', null);
+                      })
+                      ->where('athletes.id', 126)
                       ->whereRaw('DATEDIFF(events.endDate, events.startDate) + 1 > 0');
 
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
         }
+
+        dd($queryBuilder->get()->map(function ($item, $key)
+        {
+            return $item->eventId . ";" . $item->rank . ";" . $item->eventName . ";" . $item->points . ";";
+        })->values());
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 
