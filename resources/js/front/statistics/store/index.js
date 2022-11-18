@@ -7,6 +7,7 @@ import dummyStore from './modules/dummyStore'
 import DataPane from '../components/data_pane/DataPane.vue'
 import DataPaneCountries from '../components/data_pane/DataPaneCountries.vue'
 import PlaceHolder from '../components/PlaceHolder.vue'
+import Histogram from '../components/Histogram.vue'
 
 export default {
 
@@ -20,7 +21,8 @@ export default {
   components: {
     DataPane,
     DataPaneCountries,
-    PlaceHolder
+    PlaceHolder,
+    Histogram,
   },
 
   state () {
