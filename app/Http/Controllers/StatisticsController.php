@@ -177,7 +177,7 @@ class StatisticsController extends Controller
                           $query->whereIn('rankings.rankingCategoryId', [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13])
                                 ->orWhere('rankings.rankingCategoryId', null);
                       })
-                      ->where('athletes.id', 126)
+                      // ->where('athletes.id', 126)
                       ->whereRaw('DATEDIFF(events.endDate, events.startDate) + 1 > 0');
 
         if ($year) {
@@ -185,10 +185,10 @@ class StatisticsController extends Controller
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
         }
 
-        dd($queryBuilder->get()->map(function ($item, $key)
-        {
-            return $item->eventId . ";" . $item->rank . ";" . $item->eventName . ";" . $item->points . ";";
-        })->values());
+        // dd($queryBuilder->get()->map(function ($item, $key)
+        // {
+        //     return $item->eventId . ";" . $item->rank . ";" . $item->eventName . ";" . $item->points . ";";
+        // })->values());
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 

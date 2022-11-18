@@ -66,8 +66,27 @@ export default {
 </script>
 
 <style scoped>
-.nav-item:hover:not(.selected) {
-  border-bottom: 2px solid #fce000;
+.nav-item:not(.selected) > a::before {
+  content: '';
+  display: block;
+  background: #fce000;
+  width: 0%;
+  height: 5px;
+  position: relative;
+  top: 30px;
+  left: 80px;
+  /* left: 50%; */
+  /* bottom: -100px; */
+  border-top-left-radius:15px;
+  border-top-right-radius:15px;
+  transform: translateX(-50%);
+  transition:.2s all ease;
+}
+
+.nav-item:not(.selected) > a:hover::before  {
+  bottom: 0;
+  width: 80%;
+  border-radius: 0;
 }
 
 .nav-item.selected {

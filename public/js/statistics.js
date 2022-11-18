@@ -2772,7 +2772,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.nav-item[data-v-5b8cfae6]:hover:not(.selected) {\n  border-bottom: 2px solid #fce000;\n}\n.nav-item.selected[data-v-5b8cfae6] {\n  background-color: #fce000;\n  border-bottom-right-radius: 25px;\n  font-weight: bold;\n}\n", ""]);
+exports.push([module.i, "\n.nav-item:not(.selected) > a[data-v-5b8cfae6]::before {\n  content: '';\n  display: block;\n  background: #fce000;\n  width: 0%;\n  height: 5px;\n  position: relative;\n  top: 30px;\n  left: 80px;\n  /* left: 50%; */\n  /* bottom: -100px; */\n  border-top-left-radius:15px;\n  border-top-right-radius:15px;\n  transform: translateX(-50%);\n  transition:.2s all ease;\n}\n.nav-item:not(.selected) > a[data-v-5b8cfae6]:hover::before  {\n  bottom: 0;\n  width: 80%;\n  border-radius: 0;\n}\n.nav-item.selected[data-v-5b8cfae6] {\n  background-color: #fce000;\n  border-bottom-right-radius: 25px;\n  font-weight: bold;\n}\n", ""]);
 
 // exports
 
