@@ -154,6 +154,76 @@ class StatisticsController extends Controller
         return $groupedByCountries;
     }
 
+    public function mostWinnersByCountries(Request $request, $year = null) {
+
+        $queryBuilder = DB::table('race_events as events')
+            ->select(
+                'events.id as eventId',
+                'events.name as eventName',
+                'events.slug as eventSlug',
+                'countries.code as countryCode',
+                'countries.name as countryName',
+                'entries.rank',
+                'rankings.points',
+                'types.name as raceTypeName',
+                'categories.slug as categorySlug',
+                'events.startDate',
+                'entries.status',
+                'athletes.id as athleteId',
+                'athletes.firstName',
+                'athletes.lastName',
+                'athletes.gender',
+                'athletes.image',
+                'athletes.slug',
+                'athletes.countryId as countryId',
+                'categories.name as catName'
+            )
+            ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+            ->join('athletes', 'participants.athleteId', 'athletes.id')
+            ->join('categories', 'categories.id', 'participants.categoryId')
+            ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+            ->join('race_event_entries as entries', function($qb) {
+                $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                    ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+            })
+            ->leftJoin('rankings', function($qb) {
+                $qb->on('rankings.participantId', '=', 'participants.id')
+                    ->where('rankings.type', 1)
+                    ->whereIn('rankings.categoryId', [1, 2]);
+            })
+            ->leftJoin('race_types as types', 'types.id', 'events.type')
+            ->join('countries', 'countries.id', 'athletes.countryId')
+            ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+            ->where('entries.rank', 1);
+
+        if ($year) {
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
+        }
+
+        // dd($queryBuilder->get());
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByCountries = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('countryId')->map(function ($item, $key) {
+
+                $winners = $item->countBy(function ($entry) {
+                    return $entry->athleteId;
+                });
+
+                return collect([
+                    'countryId' => $key,
+                    'countryName' => $item[0]->countryName,
+                    'countryCode' => $item[0]->countryCode,
+                    'qty' => $winners->count(),
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        return $groupedByCountries;
+    }
+
     public function mostRaceDays(Request $request, $year = null) {
 
         $queryBuilder = DB::table('race_events as events')
