@@ -61,7 +61,7 @@ class StatisticsController extends Controller
                     ->whereIn('rankings.categoryId', [1, 2]);
             })
             ->leftJoin('race_types as types', 'types.id', 'events.type')
-            ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+            ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26])
             ->where('entries.rank', 1);
 
         if ($year) {
