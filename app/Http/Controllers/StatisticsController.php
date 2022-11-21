@@ -666,7 +666,7 @@ class StatisticsController extends Controller
                              ->where('rankings.type', 1)
                              ->whereIn('rankings.categoryId', [1, 2]);
                       })
-                      ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+                      // ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
                       ->whereRaw('DATEDIFF(events.endDate, events.startDate) + 1 > 0')
                       ->whereRaw('DATEDIFF(CURRENT_DATE(), events.startDate) < 420')
                       ->whereRaw('athletes.dateOfBirth IS NOT NULL AND DATEDIFF(CURRENT_DATE(), athletes.dateOfBirth) > 0');
@@ -679,7 +679,7 @@ class StatisticsController extends Controller
             }
         }
 
-        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+        $groupedByCategories = $queryBuilder->get()->groupBy('gender');
 
         $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
             return $item->groupBy('athleteId')->map(function ($item, $key) {
@@ -734,7 +734,7 @@ class StatisticsController extends Controller
             }
         }
 
-        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+        $groupedByCategories = $queryBuilder->get()->groupBy('gender');
 
         $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
             return $item->groupBy('athleteId')->map(function ($item, $key) {
