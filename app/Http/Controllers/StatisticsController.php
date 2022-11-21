@@ -845,16 +845,12 @@ class StatisticsController extends Controller
                              ->whereIn('rankings.categoryId', [1, 2]);
                       })
                       ->leftJoin('race_types as types', 'types.id', 'events.type')
-                      ->whereIn('categories.id', [1, 2, 23, 24, 25, 26]);
+                      ->whereIn('categories.id', [1, 2]);
 
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
         }
-
-        // dd($queryBuilder->get()->filter(function ($value, $key) {
-        //     return $value->lastName == 'Verbnjak';
-        // }));
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 
@@ -864,25 +860,6 @@ class StatisticsController extends Controller
                 $points = $item->reduce(function ($carry, $item) {
                     return $carry + $item->points;
                 }, 0);
-
-                // $raceDays = $item->reduce(function ($carry, $item) {
-                //     return $carry + $item->eventDuration;
-                // }, 0);
-
-
-                if ($item[0]->lastName == 'Verbnjak') {
-                    // dd([
-                    //     'athlete' => $item[0]->firstName . ' ' . $item[0]->lastName,
-                    //     'racedays' => $raceDays,
-                    //     'points' => $points,
-                    //     'ppr' => $points / $raceDays
-                    // ]);
-                    // dd($raceDays);
-                }
-
-                // $ppr = $raceDays == 0 ? -1 : $points / $raceDays;
-
-                // dd($ppr);
 
                 $raceDays = $item->count();
 
@@ -894,17 +871,17 @@ class StatisticsController extends Controller
                     'profilePic' => $item[0]->image,
                     'slug' => $item[0]->slug,
                     'country' => $item[0]->countryCode,
+                    'raceDays' => $raceDays,
+                    'points' => $points,
                     'qty' => round($raceDays == 0 ? -1 : $points / $raceDays)
                 ]);
             })->sortBy([['qty', 'desc']]);
         });
 
         return $groupedByAthletes->map(function ($item) {
-            return $item->slice(0, 30);
+            $activeAthletes = $item->filter(function ($athlete) { return $athlete['raceDays'] > 5; })
+                                   ->slice(0, 30);
+            return collect($activeAthletes->values());
         });
     }
-
-
-
-
 }
