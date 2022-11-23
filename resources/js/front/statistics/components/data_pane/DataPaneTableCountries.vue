@@ -9,7 +9,10 @@
         <tr>
           <th style="width:10%">#</th>
           <th style="width:70%">Country</th>
-          <th style="width:20%;text-align:right">{{selectedStatsCategory.metric}}</th>
+          <th style="width:20%;text-align:right">
+            {{selectedStatsCategory.metric}}
+            <span v-if="selectedStatsCategory.tooltip" class="ttip" data-toggle="tooltip" :title="selectedStatsCategory.tooltip">?</span>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -46,12 +49,24 @@ export default {
 </script>
 
 <style scoped>
-tr:hover {
+tbody tr:hover {
   cursor: pointer;
 }
 
 .highlighted-row {
   background-color: #fce000 !important;
+  font-weight: bold;
+}
+
+.ttip {
+  cursor: help;
+  background-color: #15174a;
+  color: white;
+  font-size: 11px;
+  border-radius: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 2px;
   font-weight: bold;
 }
 </style>
