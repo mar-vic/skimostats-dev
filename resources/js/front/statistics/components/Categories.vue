@@ -34,7 +34,7 @@
       <div class="col mt-2 mb-2">
         <ul class="navbar-nav">
           <li class="nav-item" :class="{ selected: category.isSelected }" v-for="category in statsCategories.slice(15, 17)" :key="category.id">
-            <a @click="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
+            <a @click.prevent="changeStatsCategory($event, category.id)" class="nav-link pl-3" href="#">{{category.longName}}</a>
           </li>
         </ul>
       </div>
