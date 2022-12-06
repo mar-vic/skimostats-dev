@@ -62,11 +62,7 @@ export default {
     },
 
     selectedFilterSlug (state) {
-      // if (state.filters[0] === 'month') {
-      //   return state.selectedFilter.toString().replace(',', '/')
-      // } else {
       return state.selectedFilter.toString().split(" ").join("-").toLowerCase().replace(',', '/')
-      // }
     }
   },
 
@@ -99,7 +95,6 @@ export default {
         commit('SET_FILTERS', ['race category', ['World Cup', 'Grand Course']])
       } else if (filters === 'months') {
         const currentDate = new Date()
-        // console.log(currentDate.getMonth(), currentDate.getFullYear())
         commit('SET_SELECTED_FILTER', [currentDate.getFullYear(), currentDate.getMonth() + 1])
         commit('SET_FILTERS', ['month', []])
       }
@@ -107,19 +102,13 @@ export default {
 
     async loadData ({ commit, getters, state, rootGetters }) {
 
-      // console.log("Loading data")
-
       commit('SET_HIGHLIGHTED_POSITION', 0)
       commit('SET_LOADING', true)
 
       try {
         const fullEndPoint = rootGetters.activeEndPoint + (getters.selectedFilterSlug === '0' ? '' : '/' + getters.selectedFilterSlug)
 
-        console.log("Full End Point: ", fullEndPoint)
-
         const { data } = await axios.get(fullEndPoint)
-
-        console.log("Data: ", data)
 
         if (Array.isArray(data) && data.length === 0) {
           state.noDataForFilter = true

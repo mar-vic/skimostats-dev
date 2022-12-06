@@ -17,7 +17,6 @@ export default {
 
   actions: {
     async init({ dispatch, commit }) {
-      console.log('At dummy store')
     }
   }
 }
