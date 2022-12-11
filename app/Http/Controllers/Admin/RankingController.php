@@ -40,9 +40,11 @@ class RankingController extends Controller
         // create new entries
         $ismfRaceIds = Race::getIsmfWorldCupIds();
 
+        // dd($ismfRaceIds);
+
         $entries = DB::table('race_event_participants as p')
             ->select(
-                DB::raw('COALESCE(e.rank, ee.rank) as rank'),
+                DB::raw('COALESCE(e.rank, ee.rank) as rnk'),
                 'p.athleteId',
                 DB::raw('COALESCE(ev.endDate, ev.startDate) as obtainedAt'),
                 'p.id as participantId',
@@ -60,8 +62,8 @@ class RankingController extends Controller
             })
             ->whereNotNull('p.athleteId')
             ->whereIn('ev.raceId', $ismfRaceIds)
-            ->having('rank', '>=', 1)
-            ->having('rank', '<', 51)
+            ->having('rnk', '>=', 1)
+            ->having('rnk', '<', 51)
             // ->limit(10)
             ->get();
 
@@ -72,8 +74,8 @@ class RankingController extends Controller
         foreach ($entries as $entry) {
             $ranking = [
                 'type' => $type,
-                'rank' => $entry->rank,
-                'points' => Ranking::mapIsmfPointsToRank($entry->rank),
+                'rank' => $entry->rnk,
+                'points' => Ranking::mapIsmfPointsToRank($entry->rnk),
                 'athleteId' => $entry->athleteId,
                 'obtainedAt' => $entry->obtainedAt,
                 'participantId' => $entry->participantId,
@@ -123,7 +125,7 @@ class RankingController extends Controller
         // create new entries
         $entries = DB::table('race_event_participants as p')
             ->select(
-                DB::raw('COALESCE(e.rank, ee.rank) as rank'),
+                DB::raw('COALESCE(e.rank, ee.rank) as rnk'),
                 'p.athleteId',
                 DB::raw('COALESCE(ev.endDate, ev.startDate) as obtainedAt'),
                 'p.id as participantId',
@@ -160,6 +162,8 @@ class RankingController extends Controller
             })
             ->get();
 
+        // dd($entries);
+
         $rankings = [];
         $now = Carbon::now();
 
@@ -177,7 +181,7 @@ class RankingController extends Controller
             $event = RaceEvent::where('id', $entry->raceEventId)->first();
             $points = 0;
             if ($event) {
-                $points = $event->getSkimostatsRankingPointsForRank($entry->rank);
+                $points = $event->getSkimostatsRankingPointsForRank($entry->rnk);
             }
 
             if ($points == 0) {
@@ -188,7 +192,7 @@ class RankingController extends Controller
 
             $ranking = [
                 'type' => $type,
-                'rank' => $entry->rank,
+                'rank' => $entry->rnk,
                 'rankingCategoryId' => $rankingCategoryId,
                 'points' => $points,
                 'athleteId' => $entry->athleteId,
