@@ -204,7 +204,7 @@ export default {
           dataSource: '/v1/statistics/winnersByCountries',
           path: '/victories',
           metric: 'winners',
-          tooltip: '',
+          tooltip: 'The number is the amount of winners representing the country.',
           component: DataPaneCountries,
           dataStore: 'dataPaneStore',
           filters: 'seasons'
