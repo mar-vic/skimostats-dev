@@ -85,22 +85,22 @@ export default {
           dataStore: 'dummyStore'
         },
 
-        {
-          id: 'cat5',
-          isSelected: false,
-          shortName: 'vertical meters',
-          longName: 'Vertical meters',
-          metric: 'total elevation',
-          tooltip: '',
-          dataSource: '/v1/statistics/mostVerticalMeters',
-          path: '/victories',
-          component: PlaceHolder,
-          dataStore: 'dummyStore',
-          // filters: 'seasons'
-        },
+        // {
+        //   id: 'cat5',
+        //   isselected: false,
+        //   shortname: 'vertical meters',
+        //   longname: 'vertical meters',
+        //   metric: 'total elevation',
+        //   tooltip: '',
+        //   datasource: '/v1/statistics/mostverticalmeters',
+        //   path: '/victories',
+        //   component: placeholder,
+        //   datastore: 'dummystore',
+        //   // filters: 'seasons'
+        // },
 
         {
-          id: 'cat6',
+          id: 'cat5',
           isSelected: false,
           shortName: 'grand course victories',
           longName: 'Grand Course Victories',
@@ -115,7 +115,7 @@ export default {
         },
 
         {
-          id: 'cat7',
+          id: 'cat6',
           isSelected: false,
           shortName: 'world cup victories',
           longName: 'World Cup Victories',
@@ -129,7 +129,7 @@ export default {
         },
 
         {
-          id: 'cat8',
+          id: 'cat7',
           isSelected: false,
           shortName: 'wins by countries',
           longName: 'Wins by countries',
@@ -143,7 +143,7 @@ export default {
         },
 
         {
-          id: 'cat9',
+          id: 'cat8',
           isSelected: false,
           shortName: 'chocolates',
           longName: 'Chocolates',
@@ -157,7 +157,7 @@ export default {
         },
 
         {
-          id: 'cat10',
+          id: 'cat9',
           isSelected: false,
           shortName: 'Top 10 finishes',
           longName: 'Top 10 finishes',
@@ -171,7 +171,7 @@ export default {
         },
 
         {
-          id: 'cat11',
+          id: 'cat10',
           isSelected: false,
           shortName: 'number of nations',
           longName: 'Nations scoring skimo stats',
@@ -183,7 +183,7 @@ export default {
         },
 
         {
-          id: 'cat12',
+          id: 'cat11',
           isSelected: false,
           shortName: 'active athletes',
           longName: 'Active athletes',
@@ -197,7 +197,7 @@ export default {
         },
 
         {
-          id: 'cat13',
+          id: 'cat12',
           isSelected: false,
           shortName: 'different',
           longName: 'Winners by countries',
@@ -211,7 +211,7 @@ export default {
         },
 
         {
-          id: 'cat14',
+          id: 'cat13',
           isSelected: false,
           shortName: 'nations raced in',
           longName: 'Nations raced in',
@@ -225,7 +225,7 @@ export default {
         },
 
         {
-          id: 'cat15',
+          id: 'cat14',
           isSelected: false,
           shortName: 'youngest athletes',
           longName: 'Youngest athletes',
@@ -239,7 +239,7 @@ export default {
         },
 
         {
-          id: 'cat16',
+          id: 'cat15',
           isSelected: false,
           shortName: 'oldest athletes',
           longName: 'Oldest athletes',
@@ -253,7 +253,7 @@ export default {
         },
 
         {
-          id: 'cat17',
+          id: 'cat16',
           isSelected: false,
           shortName: 'Points per raceday',
           longName: 'Points per raceday',

@@ -63,16 +63,16 @@ npm run dev
     tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
 
 ## Statistics
-    * TODO Vertical meters nezobrazovat vobec v menu
-
-
-    * TODO Dokoncit statistiky z grafmi: Pints per age a Nations scoing skimostats
+    * TODO Dokoncit statistiky: Points per age a Nations scoring skimostats
+      points
 
     * TODO Responsive dizajn pre statistiky (pre zariadenia s mensimi displaymi)
 
     * TODO Router pre 'statistics' podstranku
 
 ## Finished
+    * DONE Vertical meters nezobrazovat vobec v menu
+
     * DONE Niekdy priradi atletovi zlu narodnost / vlajku
 
     * DONE vyhod dropdown jednotlivych rocnkov pretekov (pre pierra menta)
