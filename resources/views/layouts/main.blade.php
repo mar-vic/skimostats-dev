@@ -177,7 +177,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </div>
     <div class="footer__copyright font-family-heading">
-        <span>copyright © {{ date("Y") }} - all right reserved</span>
+        <span>copyright © {{ date("Y") }} - all rights reserved</span>
     </div>
 </footer>
 

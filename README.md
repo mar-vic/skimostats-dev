@@ -55,37 +55,37 @@ npm run dev
   
 # Statistics
 
-* Chocolates: pridaj vysvetlujuce info
+* head to head na uvodnej stranke nezobrazuje vitazstva
 
-* Niekdy priradi atlettovi zlu narodnost / vlajku
+* vyhod dropdown jednotlivych rocnkov pretekov
 
 * Vertical meters nezobrazovat vobec v menu
 
+* Vymen vsetky fotky na homepage
+
+* Niekdy priradi atlettovi zlu narodnost / vlajku
+
 * Dokoncit statistiky z grafmi: Pints per age a Nations scoing skimostats
-
-* Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
-  Specialty', 'Career Wins'
-
+  
 * Pipravit stranku na preklady
   
-* head to head na uvodnej stranke nezobrazuje vitazstva
-  
-* V tabulke vysledkov pretekov prepinac medzi absolutny a relativnym casom
+* V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
   
 * V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
   tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
 
-* vyhod dropdawn jednotlivych rocnkiv pretekov
-
-* Vymen vsetky fotky na homepage
-
 * Mozno updatovania about stranky uzivatelom
-  
-* All Right Reserved -> All Rights reserved
 
-* Dizajn statisk pre mobily
+* Responsive dizajn pre statistiky (pre zariadenia s mensimi displaymi)
 
 * Routing pre statistics
+  
+* DONE Oprav 'All Right Reserved'  na 'All Right*s* reserved'
+
+* DONE Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
+  Specialty', 'Career Wins'
+
+* DONE Chocolates: pridaj vysvetlujuce info
 
 * DONE Winners by countries: pridaj vysvetlujuce info pre metriku
 
