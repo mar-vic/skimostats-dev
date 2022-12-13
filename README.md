@@ -41,6 +41,9 @@ Recompile JavaScript assets:
 npm run dev
 ```
 # TODOs
+* TODO Vymen vsetky fotky na homepage
+
+* TODO head to head na uvodnej stranke nezobrazuje vitazstva
 
 * TODO Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
   len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
@@ -49,36 +52,28 @@ npm run dev
 
 * TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
   pridat dorpdown s typmi pretekov.
-  
-  
+
+* TODO Mozno updatovania about stranky uzivatelom
+
+* TODO Pipravit stranku na preklady
+
+* TODO V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
+
+* TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
+    tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
+
 ## Statistics
-
-
-    * TODO head to head na uvodnej stranke nezobrazuje vitazstva
-
     * TODO Vertical meters nezobrazovat vobec v menu
 
-    * TODO Vymen vsetky fotky na homepage
-
-    * TODO Niekdy priradi atlettovi zlu narodnost / vlajku
 
     * TODO Dokoncit statistiky z grafmi: Pints per age a Nations scoing skimostats
-  
-    * TODO Pipravit stranku na preklady
-  
-    * TODO V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
-  
-    * TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
-        tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
-
-    * TODO Mozno updatovania about stranky uzivatelom
 
     * TODO Responsive dizajn pre statistiky (pre zariadenia s mensimi displaymi)
 
     * TODO Router pre 'statistics' podstranku
 
 ## Finished
-
+    * DONE Niekdy priradi atletovi zlu narodnost / vlajku
 
     * DONE vyhod dropdown jednotlivych rocnkov pretekov (pre pierra menta)
  
