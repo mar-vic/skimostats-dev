@@ -2526,31 +2526,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -25882,67 +25857,6 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "latest-results py-5" }, [
       _c("div", { staticClass: "container" }, [
-        _vm.event.raceId === 13 && _vm.relatedEvents.length
-          ? _c("div", { staticClass: "row justify-content-center" }, [
-              _c("div", { staticClass: "col-md-10 text-right" }, [
-                _c(
-                  "div",
-                  { staticClass: "position-relative d-inline-block mr-3" },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "badge badge--custom",
-                        on: {
-                          click: function($event) {
-                            _vm.openYearDropdown = !_vm.openYearDropdown
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(_vm.year) +
-                            "\n                            "
-                        ),
-                        _c("i", { staticClass: "fas fa-caret-down" })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "dropdown__menu",
-                        class: { opened: _vm.openYearDropdown }
-                      },
-                      _vm._l(_vm.relatedEvents, function(y) {
-                        return _c(
-                          "a",
-                          {
-                            key: "ys-" + y.id,
-                            staticClass: "pr-4",
-                            class: {
-                              "font-weight-bold": y.id === _vm.event.id
-                            },
-                            attrs: { href: "/event/" + y.slug, title: y.name }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                " +
-                                _vm._s(y.year) +
-                                "\n                            "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  ]
-                )
-              ])
-            ])
-          : _vm._e(),
-        _vm._v(" "),
         _c("div", { staticClass: "row justify-content-center" }, [
           _c(
             "div",

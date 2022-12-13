@@ -42,21 +42,19 @@ npm run dev
 ```
 # TODOs
 
-* Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
+* TODO Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
   len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
   
-* Pri hover on nad medaliov pri top results zobraz info o medaile a pripadne aj
-  zoznam pretekov.
+* TODO Pri hover on nad medaliou pri Top results zobraz info o jej type
 
-* Pra ranking tabulke vekove kateogorie v ramci ismf bodovanie do dropdownu a
-  pridat dorpdow s typmi pretekov.
+* TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
+  pridat dorpdown s typmi pretekov.
   
   
 ## Statistics
 
-    * TODO head to head na uvodnej stranke nezobrazuje vitazstva
 
-    * TODO vyhod dropdown jednotlivych rocnkov pretekov
+    * TODO head to head na uvodnej stranke nezobrazuje vitazstva
 
     * TODO Vertical meters nezobrazovat vobec v menu
 
@@ -80,22 +78,22 @@ npm run dev
     * TODO Router pre 'statistics' podstranku
 
 ## Finished
- 
- * DONE Odstran 'TEST' v 'Ranking Per Season' komponente na stranke aleta
-  
- * DONE Oprav 'All Right Reserved'  na 'All Right*s* reserved'
 
- * DONE Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
+
+    * DONE vyhod dropdown jednotlivych rocnkov pretekov (pre pierra menta)
+ 
+    * DONE Odstran 'TEST' v 'Ranking Per Season' komponente na stranke aleta
+  
+    * DONE Oprav 'All Right Reserved'  na 'All Right*s* reserved'
+
+    * DONE Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
           Specialty', 'Career Wins'
 
- * DONE Chocolates: pridaj vysvetlujuce info
+    * DONE Chocolates: pridaj vysvetlujuce info
 
- * DONE Winners by countries: pridaj vysvetlujuce info pre metriku
+    * DONE Winners by countries: pridaj vysvetlujuce info pre metriku
 
- * DONE Adding new athlete fails because of link at:
+    * DONE Adding new athlete fails because of link at
 
-    /home/marcus/Projects/skimostats-dev/resources/views/admin/athletes/edit.blade.php(:20)
+    * DONE Rankings actualisation fails. The reason is the query at
 
- * DONE Rankings actualisation fails. The reason is the query at:
-
-    /home/marcus/Projects/skimostats-dev/app/Http/Controllers/Admin/RankingController.php::refreshAllIsmfRankings(45:70)

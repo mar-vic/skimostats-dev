@@ -1,39 +1,14 @@
 <template>
     <div>
-        <div class="latest-results py-5">
-            <div class="container">
-                <!-- 13 = PIERRA MENTA -->
-                <div v-if="event.raceId === 13 && relatedEvents.length" class="row justify-content-center">
-                    <div class="col-md-10 text-right">
-                        <div class="position-relative d-inline-block mr-3">
-                            <button class="badge badge--custom " @click="openYearDropdown = !openYearDropdown">
-                                {{year}}
-                                <i class="fas fa-caret-down"></i>
-                            </button>
-
-                            <div class="dropdown__menu" :class="{opened:openYearDropdown}">
-                                <a
-                                    v-for="y in relatedEvents"
-                                    :key="`ys-${y.id}`"
-                                    :href="`/event/${y.slug}`"
-                                    class="pr-4"
-                                    :class="{'font-weight-bold': y.id === event.id}"
-                                    :title="y.name"
-                                    >
-                                    {{y.year}}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-md-10">
-                        <event-overview :event="event" :is-detail="true" />
-                    </div>
-                </div>
+      <div class="latest-results py-5">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-md-10">
+              <event-overview :event="event" :is-detail="true" />
             </div>
-
+          </div>
         </div>
+      </div>
 
         <div class="py-5" id="complete-results">
             <div class="container">
