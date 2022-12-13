@@ -45,54 +45,57 @@ npm run dev
 * Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
   len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
   
-* Odstran TEST v Ranking Per Season pre na stranke atleta
-
 * Pri hover on nad medaliov pri top results zobraz info o medaile a pripadne aj
   zoznam pretekov.
-  
+
 * Pra ranking tabulke vekove kateogorie v ramci ismf bodovanie do dropdownu a
   pridat dorpdow s typmi pretekov.
   
-# Statistics
-
-* head to head na uvodnej stranke nezobrazuje vitazstva
-
-* vyhod dropdown jednotlivych rocnkov pretekov
-
-* Vertical meters nezobrazovat vobec v menu
-
-* Vymen vsetky fotky na homepage
-
-* Niekdy priradi atlettovi zlu narodnost / vlajku
-
-* Dokoncit statistiky z grafmi: Pints per age a Nations scoing skimostats
   
-* Pipravit stranku na preklady
+## Statistics
+
+    * TODO head to head na uvodnej stranke nezobrazuje vitazstva
+
+    * TODO vyhod dropdown jednotlivych rocnkov pretekov
+
+    * TODO Vertical meters nezobrazovat vobec v menu
+
+    * TODO Vymen vsetky fotky na homepage
+
+    * TODO Niekdy priradi atlettovi zlu narodnost / vlajku
+
+    * TODO Dokoncit statistiky z grafmi: Pints per age a Nations scoing skimostats
   
-* V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
+    * TODO Pipravit stranku na preklady
   
-* V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
-  tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
-
-* Mozno updatovania about stranky uzivatelom
-
-* Responsive dizajn pre statistiky (pre zariadenia s mensimi displaymi)
-
-* Routing pre statistics
+    * TODO V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
   
-* DONE Oprav 'All Right Reserved'  na 'All Right*s* reserved'
+    * TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
+        tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
 
-* DONE Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
-  Specialty', 'Career Wins'
+    * TODO Mozno updatovania about stranky uzivatelom
 
-* DONE Chocolates: pridaj vysvetlujuce info
+    * TODO Responsive dizajn pre statistiky (pre zariadenia s mensimi displaymi)
 
-* DONE Winners by countries: pridaj vysvetlujuce info pre metriku
+    * TODO Router pre 'statistics' podstranku
 
-* DONE Adding new athlete fails because of link at:
+## Finished
+ 
+ * DONE Odstran 'TEST' v 'Ranking Per Season' komponente na stranke aleta
+  
+ * DONE Oprav 'All Right Reserved'  na 'All Right*s* reserved'
 
-  /home/marcus/Projects/skimostats-dev/resources/views/admin/athletes/edit.blade.php(:20)
+ * DONE Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
+          Specialty', 'Career Wins'
 
-* DONE Rankings actualisation fails. The reason is the query at:
+ * DONE Chocolates: pridaj vysvetlujuce info
 
-  /home/marcus/Projects/skimostats-dev/app/Http/Controllers/Admin/RankingController.php::refreshAllIsmfRankings(45:70)
+ * DONE Winners by countries: pridaj vysvetlujuce info pre metriku
+
+ * DONE Adding new athlete fails because of link at:
+
+    /home/marcus/Projects/skimostats-dev/resources/views/admin/athletes/edit.blade.php(:20)
+
+ * DONE Rankings actualisation fails. The reason is the query at:
+
+    /home/marcus/Projects/skimostats-dev/app/Http/Controllers/Admin/RankingController.php::refreshAllIsmfRankings(45:70)

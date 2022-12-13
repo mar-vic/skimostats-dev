@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Ranking per season TEST</h1>
+        <h1 class="font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Ranking per season</h1>
 
         <table class="table table--races">
             <thead>

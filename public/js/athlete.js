@@ -27245,7 +27245,7 @@ var render = function() {
         staticClass:
           "font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4"
       },
-      [_vm._v("Ranking per season TEST")]
+      [_vm._v("Ranking per season")]
     ),
     _vm._v(" "),
     _c("table", { staticClass: "table table--races" }, [
