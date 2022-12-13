@@ -55,8 +55,6 @@ npm run dev
   
 # Statistics
 
-* Winners by countries: pridaj vysvetlujuce info pre metriku
-
 * Chocolates: pridaj vysvetlujuce info
 
 * Niekdy priradi atlettovi zlu narodnost / vlajku
@@ -65,34 +63,36 @@ npm run dev
 
 * Dokoncit statistiky z grafmi: Pints per age a Nations scoing skimostats
 
-* DONE Rankings actualisation fails. The reason is the query at:
-
-  /home/marcus/Projects/skimostats-dev/app/Http/Controllers/Admin/RankingController.php::refreshAllIsmfRankings(45:70)
-  
-* DONE Adding new athlete fails because of link at:
-
-  /home/marcus/Projects/skimostats-dev/resources/views/admin/athletes/edit.blade.php(:20)
-  
 * Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
   Specialty', 'Career Wins'
-  
+
 * Pipravit stranku na preklady
-
+  
 * head to head na uvodnej stranke nezobrazuje vitazstva
-
+  
 * V tabulke vysledkov pretekov prepinac medzi absolutny a relativnym casom
-
+  
 * V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
   tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
-  
+
 * vyhod dropdawn jednotlivych rocnkiv pretekov
 
 * Vymen vsetky fotky na homepage
 
 * Mozno updatovania about stranky uzivatelom
-
+  
 * All Right Reserved -> All Rights reserved
 
 * Dizajn statisk pre mobily
 
 * Routing pre statistics
+
+* DONE Winners by countries: pridaj vysvetlujuce info pre metriku
+
+* DONE Adding new athlete fails because of link at:
+
+  /home/marcus/Projects/skimostats-dev/resources/views/admin/athletes/edit.blade.php(:20)
+
+* DONE Rankings actualisation fails. The reason is the query at:
+
+  /home/marcus/Projects/skimostats-dev/app/Http/Controllers/Admin/RankingController.php::refreshAllIsmfRankings(45:70)

@@ -148,7 +148,7 @@ export default {
           shortName: 'chocolates',
           longName: 'Chocolates',
           metric: 'chocolates',
-          tooltip: '',
+          tooltip: 'A chocolate is a fourth place.',
           dataSource: '/v1/statistics/mostChocolates',
           path: '/v1/statistics/mostChocolates',
           component: DataPane,
