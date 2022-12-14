@@ -674,7 +674,7 @@ class FrontController extends Controller
              // ->limit(10)
              ->selectRaw('races.id as raceId, '.
                          'races.name as raceName, '.
-                         'races.rankingCategoryId as rankingCategory, '.
+                         'rankings.rankingCategoryId as rankingCategory, '.
                          'events.name as eventName, '.
                          'events.slug as eventSlug, '.
                          'events.startDate as date, '.
@@ -683,6 +683,8 @@ class FrontController extends Controller
 
         // get php collection object from querybuilder
         $collection = $queryBuilder->get();
+
+        // dd($collection);
 
         // group the collection by races
         $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
@@ -697,6 +699,8 @@ class FrontController extends Controller
                     'raceId' => $item->raceId
             ]];
         });
+
+        // dd($grouppedByRace);
 
         // sort the collection by rankingCategoryId
         $sorted = $grouppedByRace->sort(function ($a, $b) {

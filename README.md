@@ -38,22 +38,25 @@ npm install
 
 Recompile JavaScript assets:
 ```
-npm run dev
+npm run dev 
 ```
+
+```npm run production```
+
 # TODOs
-* TODO Vymen vsetky fotky na homepage
+    * TODO head to head na uvodnej stranke nezobrazuje vitazstva
 
-* TODO head to head na uvodnej stranke nezobrazuje vitazstva
+    * TODO Vymen vsetky fotky na homepage
 
-* TODO Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
-  len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
+    * TODO Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
+      len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
   
-* TODO Pri hover on nad medaliou pri Top results zobraz info o jej type
+    * TODO Pri hover on nad medaliou pri Top results zobraz info o jej type
 
-* TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
-  pridat dorpdown s typmi pretekov.
+    * TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
+      pridat dorpdown s typmi pretekov.
 
-* TODO Mozno updatovania about stranky uzivatelom
+    * TODO Moznost updatovania about stranky uzivatelom
 
 * TODO Pipravit stranku na preklady
 
@@ -71,24 +74,30 @@ npm run dev
     * TODO Router pre 'statistics' podstranku
 
 ## Finished
-    * DONE Vertical meters nezobrazovat vobec v menu
 
-    * DONE Niekdy priradi atletovi zlu narodnost / vlajku
+  * DONE Going to https://www.skimostats.com/athlete/cameron-smith results in
+      error
 
-    * DONE vyhod dropdown jednotlivych rocnkov pretekov (pre pierra menta)
+  * DONE Zrus debug logy v produkcii (v .env nastav app_debug=false)  [14.12]
+
+  * DONE Vertical meters nezobrazovat vobec v menu
+
+  * DONE Niekdy priradi atletovi zlu narodnost / vlajku
+
+  * DONE vyhod dropdown jednotlivych rocnkov pretekov (pre pierra menta)
  
-    * DONE Odstran 'TEST' v 'Ranking Per Season' komponente na stranke aleta
+  * DONE Odstran 'TEST' v 'Ranking Per Season' komponente na stranke aleta
   
-    * DONE Oprav 'All Right Reserved'  na 'All Right*s* reserved'
+  * DONE Oprav 'All Right Reserved'  na 'All Right*s* reserved'
 
-    * DONE Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
-          Specialty', 'Career Wins'
+  * DONE Na stranke atleta sa nezobrazuju niektore data: 'Top Results', 'Points per
+        Specialty', 'Career Wins'
 
-    * DONE Chocolates: pridaj vysvetlujuce info
+  * DONE Chocolates: pridaj vysvetlujuce info
 
-    * DONE Winners by countries: pridaj vysvetlujuce info pre metriku
+  * DONE Winners by countries: pridaj vysvetlujuce info pre metriku
 
-    * DONE Adding new athlete fails because of link at
+  * DONE Adding new athlete fails because of link at
 
-    * DONE Rankings actualisation fails. The reason is the query at
+  * DONE Rankings actualisation fails. The reason is the query at
 
