@@ -139,7 +139,7 @@ class AthleteController extends Controller
             'rank' => $athlete->rank,
             'points' => $athlete->getTotalPoints(),
             'gender' => $athlete->gender,
-            'victories' => $athlete->getVictoriesCount(),
+            'victories' => $athlete->getCareerWins()->count(),
             'pointsPerSpecialty' => $athleteService->getPointsPerSpecialty($athlete)
         ];
     }

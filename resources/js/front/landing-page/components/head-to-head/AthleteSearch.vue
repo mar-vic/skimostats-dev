@@ -2,7 +2,6 @@
     <div class="h2h__search position-relative" v-click-outside="closePredictions">
         <i class="fas fa-search icon"></i>
         <input type="text" @click="onTextFieldClick" v-model="search" @keydown="predict" placeholder="search athlete to compare" />
-
         <transition name="show">
             <div class="h2h__search-predictions" v-show="showPredictions && search != ''">
                 <div v-if="predictions.length == 0">
