@@ -197,13 +197,7 @@
                                 @if (isset($rankCounts[3]))
                                 {{ $rankCounts[3] }}<span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><span class="fa fa-medal" style="color:#a57164;padding-right:4px"></span>
                                 @endif
-
-                                <!-- CHOCKOLATE (4th place) -->
-                                @if (isset($rankCounts[4]))
-                                {{ $rankCounts[4] }}<span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><span class="fa fa-medal" style="color:#7b3f00;padding-right:4px"></span>
-                                @endif
                             </div>
-
                         </div>
                         @endforeach
 
