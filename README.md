@@ -74,6 +74,10 @@ npm run dev
 
 ## Finished
 
+* DONE Oprav vypocet 'victories' v head2head
+
+* DONE Odstran stvrte miesta v 'Top Results' atleta
+
 * DONE Going to https://www.skimostats.com/athlete/cameron-smith results in
   error
 
