@@ -45,26 +45,24 @@ npm run dev
 
 # TODOs
 
-* TODO Niektorým atlétom sa zobrazuje nesprávna fotka krajiny povodu
-
-* TODO Vymen vsetky fotky na homepage
-
 * TODO Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
   len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
-  
-* TODO Pri hover on nad medaliou pri Top results zobraz info o jej type
 
+* TODO Pri hover on nad medaliou pri Top results zobraz info o jej type
+  
 * TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
       pridat dorpdown s typmi pretekov.
-
-* TODO Moznost updatovania about stranky uzivatelom
-
-* TODO Pipravit stranku na preklady
 
 * TODO V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
 
 * TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
     tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
+
+* TODO Vymen vsetky fotky na homepage
+
+* TODO Pipravit stranku na preklady
+
+* TODO Moznost updatovania about stranky uzivatelom
 
 ## Statistics
 * TODO Dokoncit statistiky: Points per age a Nations scoring skimostats
@@ -75,6 +73,8 @@ npm run dev
 * TODO Router pre 'statistics' podstranku
 
 ## Finished
+
+* DONE Niektorým atlétom sa zobrazuje nesprávna fotka krajiny povodu
 
 * DONE Oprav vypocet 'victories' v head2head
 
