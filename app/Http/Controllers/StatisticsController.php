@@ -822,9 +822,14 @@ class StatisticsController extends Controller
             })->sortBy([['qty', 'desc']]);
         });
 
-        return $groupedByAthletes->map(function ($item) {
-            return $item->slice(0, 30);
-        });
+        return $groupedByAthletes
+            ->map(function ($item) {
+                return $item->slice(0, 30);
+            })
+            ->filter(function ($item)
+            {
+                return $item->first()['qty'] > 0;
+            });
     }
 
     public function mostPointsPerRaceDay(Request $request, $year = null)
