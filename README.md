@@ -45,6 +45,8 @@ npm run dev
 
 # TODOs
 
+* TODO Niektorým atlétom sa zobrazuje nesprávna fotka krajiny povodu
+
 * TODO Vymen vsetky fotky na homepage
 
 * TODO Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta

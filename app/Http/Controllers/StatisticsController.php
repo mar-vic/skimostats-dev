@@ -290,11 +290,12 @@ class StatisticsController extends Controller
     public function mostNationsRacedIn(Request $request, $year = null) {
 
         $queryBuilder = DB::table('race_events as events')
-                      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
+                      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, athCtr.code as athleteCountryCode, categories.name as catName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
                       ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries as athCtr', 'athCtr.id', 'athletes.countryId'  )
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -327,7 +328,7 @@ class StatisticsController extends Controller
                     'gender' => $item[0]->gender,
                     'profilePic' => $item[0]->image,
                     'slug' => $item[0]->slug,
-                    'country' => $item[0]->countryCode,
+                    'country' => $item[0]->athleteCountryCode,
                     'qty' => $nationsRacedIn,
                 ]);
             })->sortBy([['qty', 'desc']]);
@@ -397,7 +398,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -447,7 +448,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -498,7 +499,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -546,7 +547,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -594,7 +595,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -655,7 +656,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -710,7 +711,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -784,7 +785,7 @@ class StatisticsController extends Controller
             ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
             ->join('athletes', 'participants.athleteId', 'athletes.id')
             ->join('categories', 'categories.id', 'participants.categoryId')
-            ->leftJoin('countries', 'countries.id', 'events.countryId')
+            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
             ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
             ->join('race_event_entries as entries', function($qb) {
                 $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -833,7 +834,7 @@ class StatisticsController extends Controller
                       ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
                       ->join('athletes', 'participants.athleteId', 'athletes.id')
                       ->join('categories', 'categories.id', 'participants.categoryId')
-                      ->leftJoin('countries', 'countries.id', 'events.countryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
                       ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
                       ->join('race_event_entries as entries', function ($qb) {
                           $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
