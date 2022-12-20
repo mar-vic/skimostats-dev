@@ -655,9 +655,10 @@ class FrontController extends Controller
         $queryBuilder = DB::table('rankings')
              ->where('athleteId', '=', $athlete->id)
              ->whereNotNull('rankings.rankingCategoryId')
-             ->whereRaw('rankings.rank in (1, 2, 3, 4)')
+             ->whereRaw('rankings.rank in (1, 2, 3)')
              ->join('race_events as events', 'events.id', 'rankings.raceEventId')
              ->join('races', 'races.id', 'events.raceId')
+             ->whereNotIn('races.rankingCategoryId', [10, 7])
              // ->groupBy('races.id')
              // ->orderByRaw("case races.rankingCategoryId ".
              //              "when 6 then 1 ".

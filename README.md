@@ -44,10 +44,6 @@ npm run dev
 ```npm run production```
 
 # TODOs
-
-
-* TODO Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
-  len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
   
 * TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
       pridat dorpdown s typmi pretekov.
@@ -72,6 +68,9 @@ npm run dev
 * TODO Router pre 'statistics' podstranku
 
 ## Finished
+
+* DONE Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
+  len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
 
 * DONE Pri hover on nad medaliou pri Top results zobraz info o jej type
 
