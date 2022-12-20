@@ -185,17 +185,17 @@
                             <div class="col font-size-xsmall px-1" style="font-size:13px;">
                                 <!-- GOLDEN -->
                                 @if (isset($rankCounts[1]))
-                                {{ $rankCounts[1] }}<span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><i class="fa fa-medal" style="color:#9b870c;padding-right:4px;"></i>
+                                <b>{{ $rankCounts[1] }}</b><span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><i class="fa fa-medal" data-toggle="tooltip" title="Gold medal" style="cursor:help;color:#9b870c!important;padding-right:4px;"></i>
                                 @endif
 
                                 <!-- SILVER -->
                                 @if (isset($rankCounts[2]))
-                                {{ $rankCounts[2] }}<span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><span class="fa fa-medal" style="color:#a9a9a9;padding-right:4px"></span>
+                                <b>{{ $rankCounts[2] }}</b><span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><span class="fa fa-medal" data-toggle="tooltip" title="Silver medal" style="cursor:help;color:#a9a9a9!important;padding-right:4px"></span>
                                 @endif
 
                                 <!-- BRONZE -->
                                 @if (isset($rankCounts[3]))
-                                {{ $rankCounts[3] }}<span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><span class="fa fa-medal" style="color:#a57164;padding-right:4px"></span>
+                                <b>{{ $rankCounts[3] }}</b><span style="padding-left:1px;padding-right:1px;font-size:14px;">×</span><span class="fa fa-medal" data-toggle="tooltip" title="Bronze medal" style="cursor:help;color:#a57164!important;padding-right:4px"></span>
                                 @endif
                             </div>
                         </div>
@@ -249,6 +249,10 @@
 @push('scripts')
 <script src="{{mix('js/athlete.js')}}"></script>
 <script>
-    athleteVM.init({{$athlete->id}})
+    athleteVM.init({
+        {
+            $athlete - > id
+        }
+    })
 </script>
 @endpush
