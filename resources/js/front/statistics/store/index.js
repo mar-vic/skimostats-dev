@@ -213,10 +213,10 @@ export default {
         {
           id: 'cat13',
           isSelected: false,
-          shortName: 'nations raced in',
-          longName: 'Nations raced in',
+          shortName: 'countries raced in',
+          longName: 'Countries raced in',
           dataSource: '/v1/statistics/mostNationsRacedIn',
-          metric: 'nations raced in',
+          metric: 'countries raced in',
           tooltip: '',
           path: '/victories',
           component: DataPane,

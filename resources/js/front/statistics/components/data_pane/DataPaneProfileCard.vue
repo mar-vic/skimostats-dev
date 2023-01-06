@@ -10,7 +10,7 @@
              highlightedAthlete.profilePic ? '/images/athletes/' + highlightedAthlete.profilePic
              : highlightedAthlete.gender === 'female' ? '/images/woman_silhouette.jpg'
              : '/images/man_silhouette.jpg'
-           });`">
+           });background-size:100%;`">
         <div class="latest-results__number latest-results__number--first">{{highlightedPosition + 1}}</div>
       </div>
       <div class="latest-results__info">

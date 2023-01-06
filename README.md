@@ -53,13 +53,12 @@ npm run dev
 * TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
     tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
 
-* TODO Vymen vsetky fotky na homepage
-
 * TODO Pipravit stranku na preklady
 
 * TODO Moznost updatovania about stranky uzivatelom
 
 ## Statistics
+
 * TODO Dokoncit statistiky: Points per age a Nations scoring skimostats
       points
 
@@ -67,7 +66,11 @@ npm run dev
 
 * TODO Router pre 'statistics' podstranku
 
-## Finished
+## DONE
+
+* DONE 'Nations raced in' premenovat na 'Countries raced in'
+
+* DONE Vymen vsetky fotky na homepage
 
 * DONE Pri Pierra Menta, Altitoy-Ternua, Tour du Rutor nech do tých medailí počíta
   len GC. Lebo to ráta dokopy GC + stages. (pozn.: V kontexte TOP RESULTS atleta)
