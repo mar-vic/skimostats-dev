@@ -46,7 +46,7 @@ npm run dev
 # TODOs
   
 * TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
-      pridat dorpdown s typmi pretekov.
+    pridat dropdown s typmi pretekov.
 
 * TODO V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
 

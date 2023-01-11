@@ -87,7 +87,9 @@ class RankingController extends Controller
     }
 
     public function rankingCategory(Request $request, int $rankingType, Category $category, int $year = null, string $filter = null, int $entityId = null) {
-        if (!$year) {
+
+        if ($year == null && $filter != 'all-time') {
+            dd($year.$filter);
             $year = $this->getActualYear();
         }
 
@@ -318,7 +320,7 @@ class RankingController extends Controller
         $ranking = $rankingQB
             ->get();
 
-        
+
         if ($filter == 'all-time' || $year === 'all-time') {
             $i = 0;
             foreach ($ranking as $row) {
