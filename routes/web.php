@@ -67,8 +67,11 @@ Auth::routes(['register' => false]);
     // Rankings
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');
     Route::get('/rankings/skimostats/all-time/{category}', 'RankingController@rankingAllTime')->name('rankings.all-time');
+    Route::get('/rankings/ismf/all-time/{category}', 'RankingController@rankingAllTimeISMF')->name('rankings.all-time-ismf');
     Route::get('/rankings/skimostats/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceType')->name('rankings.type.category');
+    Route::get('/rankings/ismf/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeISMF')->name('rankings.type.category.ismf');
     Route::get('/rankings/skimostats/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYear')->name('rankings.type.year');
+    Route::get('/rankings/ismf/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearISMF')->name('rankings.type.year.ismf');
     Route::get('/rankings/{rankingType}/{category}', 'RankingController@rankingCategorySlug')->name('rankings.category');
     Route::get('/rankings/{rankingType}/{year}/{category}', 'RankingController@rankingYear')->name('rankings.year');
     // End rankings

@@ -67,6 +67,16 @@ class RankingController extends Controller
         return $this->rankingCategory($request, RankingType::SKIMO_STATS, $cat, 0, 'all-time');
     }
 
+    public function rankingAllTimeISMF(Request $request, string $category)
+    {
+        $cat = Category::where('slug', $category)->whereIn('id', [1, 2, 3, 4, 5, 6, 25, 26])->first();
+        if (!$cat) {
+            return abort(404);
+        }
+
+        return $this->rankingCategory($request, RankingType::ISMF, $cat, 0, 'all-time');
+    }
+
     public function rankingRaceType(Request $request, string $raceType, string $category) {
         $type = RaceType::where('slug', $raceType)->first();
         $cat = Category::where('slug', $category)->whereIn('id', [1,2])->first();
@@ -76,6 +86,19 @@ class RankingController extends Controller
 
         return $this->rankingCategory($request, 1, $cat, 0, 'race-type', $type->id);
     }
+
+    public function rankingRaceTypeISMF(Request $request, string $raceType, string $category) {
+        $type = RaceType::where('slug', $raceType)->first();
+        $cat = Category::where('slug', $category)->whereIn('id', [1, 2, 3, 4, 5, 6, 25, 26])->first();
+
+        if (!$type || !$cat) {
+            return abort(404);
+        }
+
+        return $this->rankingCategory($request, RankingType::ISMF, $cat, 0, 'race-type', $type->id);
+    }
+
+
     public function rankingRaceTypeYear(Request $request, int $year, string $raceType, string $category) {
         $type = RaceType::where('slug', $raceType)->first();
         $cat = Category::where('slug', $category)->whereIn('id', [1,2])->first();
@@ -86,12 +109,23 @@ class RankingController extends Controller
         return $this->rankingCategory($request, 1, $cat, $year, 'race-type', $type->id);
     }
 
+    public function rankingRaceTypeYearISMF(Request $request, int $year, string $raceType, string $category)
+    {
+        $type = RaceType::where('slug', $raceType)->first();
+        $cat = Category::where('slug', $category)->whereIn('id', [1, 2, 3, 4, 5, 6, 25, 26])->first();
+        if (!$type || !$cat) {
+            return abort(404);
+        }
+
+        return $this->rankingCategory($request, RankingType::ISMF, $cat, $year, 'race-type', $type->id);
+    }
+
     public function rankingCategory(Request $request, int $rankingType, Category $category, int $year = null, string $filter = null, int $entityId = null) {
 
-        if ($year == null && $filter != 'all-time') {
-            dd($year.$filter);
-            $year = $this->getActualYear();
-        }
+        // if (!$year) {
+        //     dd($year.$filter.$entityId);
+        //     $year = $this->getActualYear();
+        // }
 
         $minYear = $rankingType == RankingType::ISMF ? 2018 : 1900;
 

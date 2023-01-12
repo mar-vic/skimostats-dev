@@ -40,11 +40,15 @@
                                 <a href="{{ $filter == 'race-type'
                                     ? route('rankings.type.category', [$raceType->slug, $category->slug])
                                     : route('rankings.all-time', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">All-time</a>
+                                @else
+                                <a href="{{ $filter == 'race-type'
+                                    ? route('rankings.type.category.ismf', [$raceType->slug, $category->slug])
+                                    : route('rankings.all-time-ismf', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">All-time</a>
                                 @endif
 
                                 @foreach ($years as $yr)
                                 <a href="{{ $filter == 'race-type'
-                                        ? route('rankings.type.year', [$yr, $raceType->slug, $category->slug])
+                                        ? route($rankingType==1 ? 'rankings.type.year' : 'rankings.type.year.ismf', [$yr, $raceType->slug, $category->slug])
                                         : route('rankings.year', [$rankingType == 2 ? 'ismf' : 'skimostats', $yr, $category->slug]) }}" class="pr-4 @if($yr==$year) font-weight-bold @endif">{{$yr-1}}/{{$yr}}</a>
                                 @endforeach
                             </div>
@@ -60,8 +64,8 @@
                     </div>
                     <div class="text-center">
 
-                        <!-- DROPDOWN FOR RACE CATS -->
 
+                        <!-- DROPDOWN FOR RACE CATS -->
                         <div class="position-relative dropdown__container no-vue d-inline-flex">
                             <button class="badge badge--custom dropdown__toggle badge-active">
                                 {{ $category->name }}
@@ -72,11 +76,11 @@
                                 @foreach($categories as $cat)
                                 <a href="{{ $filter=='race-type'
                             ? ( $year==0
-                                ? route('rankings.type.category', [$raceType->slug, $cat->slug])
-                                : route('rankings.type.year', [$year, $raceType->slug, $cat->slug])
+                                ? route($rankingType==1 ? 'rankings.type.category' : 'rankings.type.category.ismf', [$raceType->slug, $cat->slug])
+                                : route($rankingType==1 ? 'rankings.type.year' : 'rankings.type.year.ismf', [$year, $raceType->slug, $cat->slug])
                             )
                             : ( $year==0
-                                ? route('rankings.all-time', [$cat->slug])
+                                ? route($rankingType==1 ? 'rankings.all-time' : 'rankings.all-time-ismf', [$cat->slug])
                                 : route('rankings.year', [$rankingType == 2 ? 'ismf' : 'skimostats', $year, $cat->slug])
                             ) }}" class="@if($cat->id==$category->id) font-weight-bold @endif">{{ $cat->name }}</a>
                                 @endforeach
@@ -99,20 +103,17 @@
                             <div class="dropdown__menu dropdown__menu--right text-nowrap text-left">
                                 @foreach($raceTypes as $type)
                                 <a href="{{ $year == 0
-                                        ? route('rankings.type.category', [$type->slug, $category->slug])
-                                        : route('rankings.type.year', [$year, $type->slug, $category->slug]) }}" class="@if($filter=='race-type' && $entityId==$type->id) font-weight-bold @endif">{{ $type->name }}</a>
+                                        ? route($rankingType==1 ? 'rankings.type.category' : 'rankings.type.category.ismf', [$type->slug, $category->slug])
+                                        : route($rankingType==1 ? 'rankings.type.year' : 'rankings.type.year.ismf', [$year, $type->slug, $category->slug]) }}" class="@if($filter=='race-type' && $entityId==$type->id) font-weight-bold @endif">{{ $type->name }}</a>
                                 @endforeach
 
                                 @if($filter == 'race-type')
                                 <a href="{{ $year==0
-                                        ? route('rankings.all-time', [$category->slug])
-                                        : route('rankings.year', ['skimostats', $year, $category->slug]) }}">&times; Clear filter</a>
+                                        ? route($rankingType==1 ? 'rankings.all-time' : 'rankings.all-time-ismf', [$category->slug])
+                                        : route('rankings.year', [$rankingType == 2 ? 'ismf' : 'skimostats', $year, $category->slug]) }}">&times; Clear filter</a>
                                 @endif
                             </div>
                         </div>
-                        {{-- @foreach($categories as $cat)
-                                <a href="{{ route('rankings.all-time', [$cat->slug]) }}" class="badge my-1 badge--custom @if($filter=='all-time' && $category->id==$cat->id) badge-active @endif">All-time - {{ $cat->name }}</a>
-                        @endforeach --}}
                     </div>
                 </div>
 
