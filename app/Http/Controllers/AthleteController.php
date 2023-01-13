@@ -240,7 +240,7 @@ class AthleteController extends Controller
         return $response;
     }
 
-    public function getApiList(Request $request) {
+    public function getApiListOld(Request $request) {
         $q = $request->get('q');
 
         $res = Athlete::where('show_in_api', true)
@@ -279,6 +279,131 @@ class AthleteController extends Controller
     }
 
     // NEW STUFF by MV
+    private function topResultsForApiList(Athlete $athlete) {
+        // returns top results of an athlete. To be consumed only by API calls.
+        $queryBuilder = DB::table('rankings')
+             ->where('athleteId', '=', $athlete->id)
+             ->whereNotNull('rankings.rankingCategoryId')
+             ->whereRaw('rankings.rank in (1, 2, 3, 4)')
+             ->join('race_events as events', 'events.id', 'rankings.raceEventId')
+             ->join('races', 'races.id', 'events.raceId')
+             ->selectRaw('races.id as raceId, '.
+                         'races.name as raceName, '.
+                         'races.rankingCategoryId as rankingCategory, '.
+                         'events.name as eventName, '.
+                         'events.slug as eventSlug, '.
+                         'events.startDate as date, '.
+                         'rankings.points, '.
+                         'rankings.rank');
+
+        // get php collection object from querybuilder
+        $collection = $queryBuilder->get();
+
+        // group the collection by races
+        $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
+            return [$item->raceId => [
+                    'raceName' => $item->raceName,
+                    'eventName' => $item->eventName,
+                    'eventSlug' => $item->eventSlug,
+                    'eventDate' => $item->date,
+                    'points' => $item->points,
+                    'rank' => $item->rank,
+                    'rankingCategoryId' => $item->rankingCategory,
+                    'raceId' => $item->raceId
+            ]];
+        });
+
+        // sort the collection by rankingCategoryId
+        $sorted = $grouppedByRace->sort(function ($a, $b) {
+            $rnkCatsScores = [
+                6 => 1,
+                5 => 2,
+                1 => 3,
+                7 => 4,
+                8 => 5,
+                2 => 6,
+                4 => 7,
+                11 => 8,
+                3 => 9,
+                10 => 10,
+                9 => 10
+            ];
+
+            $aScore = $rnkCatsScores[$a[0]["rankingCategoryId"]];
+            $bScore = $rnkCatsScores[$b[0]["rankingCategoryId"]];
+
+            return $aScore - $bScore;
+        });
+
+        // TODO: sort race events by their date
+
+        return $sorted->values();
+    }
+
+    private function rankingPerSeasonForApiList(Athlete $athlete)
+    {
+        $qb = DB::table('ranking_tables as rt')
+        ->select(
+            'rt.rank',
+            'rt.points',
+            'rt.year',
+        )
+            ->join('categories as cat', 'cat.id', 'rt.categoryId')
+            ->join('athletes as a', 'a.id', 'rt.athleteId')
+            ->where('rt.type', RankingType::SKIMO_STATS)
+            ->where('rt.athleteId', $athlete->id)
+            ->whereIn('rt.categoryId', [1, 2])
+            ->where('rt.year', '>', 0)
+            ->groupBy('rt.year')
+            ->orderBy('rt.year', 'desc')
+            ->limit(6);
+
+        return $qb->get()->slice(0, 2);
+    }
+
+    public function getApiList(Request $request) {
+        $q = $request->get('q');
+
+        $queryBuilder = Athlete::where('show_in_api', true)
+            ->where(function($qr) use ($q) {
+                $qr->where('firstName', 'LIKE', '%' . $q . '%')
+                    ->orWhere('firstName', 'LIKE', '%' . $q . '%')
+                    ->orWhere(DB::raw("CONCAT(athletes.firstName, ' ', athletes.lastName)"), 'LIKE', '%' . $q . '%')
+                    ->orWhere(DB::raw("CONCAT(athletes.lastName, ' ', athletes.firstName)"), 'LIKE', '%' . $q . '%');
+            });
+
+        $res = $queryBuilder->get();
+
+        $response = [];
+
+
+        /** @var \App\Athlete $athlete */
+        foreach ($res as $athlete) {
+            $row = [
+                'url' => route('athletes.detail.slug', $athlete->slug),
+                'firstName' => $athlete->firstName,
+                'lastName' => $athlete->lastName,
+                'image' => asset('images/athletes/'.$athlete->image),
+                'name' => $athlete->firstName . ' ' . $athlete->lastName,
+                'height' => $athlete->height,
+                'weight' => $athlete->weight,
+                'placeOfBirth' => $athlete->placeOfBirth,
+                'dateOfBirth' => $athlete->dateOfBirth,
+                'country' => $athlete->country ? $athlete->country->name : null,
+                'topResults' => $this->topResultsForApiList($athlete),
+                'ranking' => $this->rankingPerSeasonForApiList($athlete)
+            ];
+
+            foreach (['strava', 'twitter', 'facebook', 'instagram', 'web'] as $social) {
+                $row['social_' . $social] = $athlete->hasSocialLink($social) ? $athlete->getSocialLink($social) : null;
+            }
+
+            $response[] = $row;
+        }
+
+        return $response;
+    }
+
     public function careerWins(Request $request, Athlete $athlete) {
 
         $builder = DB::table('race_events as re')

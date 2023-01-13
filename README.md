@@ -45,9 +45,6 @@ npm run dev
 
 # TODOs
   
-* TODO Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
-    pridat dropdown s typmi pretekov.
-
 * TODO V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
 
 * TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
@@ -67,6 +64,9 @@ npm run dev
 * TODO Router pre 'statistics' podstranku
 
 ## DONE
+
+* DONE Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
+    pridat dropdown s typmi pretekov.
 
 * DONE 'Nations raced in' premenovat na 'Countries raced in'
 
