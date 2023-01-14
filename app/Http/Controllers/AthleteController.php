@@ -291,7 +291,6 @@ class AthleteController extends Controller
                          'races.name as raceName, '.
                          'races.rankingCategoryId as rankingCategory, '.
                          'events.name as eventName, '.
-                         'events.slug as eventSlug, '.
                          'events.startDate as date, '.
                          'rankings.points, '.
                          'rankings.rank');
@@ -304,12 +303,10 @@ class AthleteController extends Controller
             return [$item->raceId => [
                     'raceName' => $item->raceName,
                     'eventName' => $item->eventName,
-                    'eventSlug' => $item->eventSlug,
                     'eventDate' => $item->date,
                     'points' => $item->points,
                     'rank' => $item->rank,
                     'rankingCategoryId' => $item->rankingCategory,
-                    'raceId' => $item->raceId
             ]];
         });
 
