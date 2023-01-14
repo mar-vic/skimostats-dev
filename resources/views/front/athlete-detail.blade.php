@@ -249,10 +249,6 @@
 @push('scripts')
 <script src="{{mix('js/athlete.js')}}"></script>
 <script>
-    athleteVM.init({
-        {
-            $athlete - > id
-        }
-    })
+    athleteVM.init({{ $athlete->id }})
 </script>
 @endpush
