@@ -1,4 +1,5 @@
 <template>
+
     <div>
       <div class="latest-results py-5">
         <div class="container">
@@ -41,7 +42,18 @@
                                     <tr>
                                         <th style="width:70px;0">Rnk</th>
                                         <th>Athlete</th>
-                                        <th style="width: 100px;">Time</th>
+                                        <th style="width: 120px;">
+                                          Time
+                                          <a
+                                            v-if="!isSprintRace"
+                                            class="badge badge--custom ml-2"
+                                            :class="{'badge-active' : showTimeDifference}"
+                                            style="cursor:pointer"
+                                            @click="showTimeDifference = !showTimeDifference"
+                                          >
+                                            diff
+                                          </a>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,11 +78,11 @@
                                             </div>
                                             <div v-else>
                                                 {{ entry.prependTime ? entry.prependTime + ' ' : '' }}
-                                                <span class="font-weight-bold" v-if="entry.id === firstEntry.id">
+                                                <span class="font-weight-bold" v-if="entry.id === firstEntry.id || !showTimeDifference">
                                                     {{ entry.timeFormatted }}
                                                 </span>
                                                 <time-difference
-                                                    v-if="entry.id !== firstEntry.id && entry.time != 0"
+                                                    v-if="entry.id !== firstEntry.id && entry.time != 0 && showTimeDifference"
                                                     :time="entry.time"
                                                     :firstTime="firstEntry.time"
                                                     :title="entry.timeFormatted" />
@@ -94,7 +106,8 @@ import TimeDifference from '../../shared/components/TimeDifference.vue'
 export default {
     data() {
         return {
-            openYearDropdown: false,
+          openYearDropdown: false,
+          showTimeDifference: false,
         }
     },
     components: {
