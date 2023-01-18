@@ -44,7 +44,8 @@ class StatisticsController extends Controller
                 'athletes.gender',
                 'athletes.image',
                 'athletes.slug',
-                'categories.name as catName'
+                'categories.name as catName',
+                'ranking_categories.name'
             )
             ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
             ->join('athletes', 'participants.athleteId', 'athletes.id')
@@ -60,6 +61,8 @@ class StatisticsController extends Controller
                     ->where('rankings.type', 1)
                     ->whereIn('rankings.categoryId', [1, 2]);
             })
+            ->join('ranking_categories', 'ranking_categories.id', 'events.rankingCategoryId')
+            ->whereNotIn('ranking_categories.id', [3, 12])
             ->leftJoin('race_types as types', 'types.id', 'events.type')
             ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26])
             ->where('entries.rank', 1);
@@ -200,8 +203,6 @@ class StatisticsController extends Controller
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
         }
-
-        // dd($queryBuilder->get());
 
         $groupedByCategories = $queryBuilder->get()->groupBy('catName');
 
@@ -510,6 +511,8 @@ class StatisticsController extends Controller
                              ->where('rankings.type', 1)
                              ->whereIn('rankings.categoryId', [1, 2]);
                       })
+                      ->join('ranking_categories', 'ranking_categories.id', 'events.rankingCategoryId')
+                      ->whereNotIn('ranking_categories.id', [3, 12])
                       ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
                       ->where('entries.rank', 4);
 
@@ -558,6 +561,8 @@ class StatisticsController extends Controller
                              ->where('rankings.type', 1)
                              ->whereIn('rankings.categoryId', [1, 2]);
                       })
+                      ->join('ranking_categories', 'ranking_categories.id', 'events.rankingCategoryId')
+                      ->whereNotIn('ranking_categories.id', [3, 12])
                       ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
                       ->whereIn('entries.rank', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 

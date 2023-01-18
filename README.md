@@ -45,7 +45,6 @@ npm run dev
 
 # TODOs
   
-* TODO V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
 
 * TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
     tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
@@ -64,6 +63,9 @@ npm run dev
 * TODO Router pre 'statistics' podstranku
 
 ## DONE
+
+
+* DONE V tabulke vysledkov pretekov prepinac medzi absolutnym a relativnym casom
 
 * DONE Pre ranking tabulke vekove kateogorie v ramci ismf bodovania do dropdownu a
     pridat dropdown s typmi pretekov.
