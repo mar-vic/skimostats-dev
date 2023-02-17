@@ -15,9 +15,64 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
 
 Auth::routes(['register' => false]);
 
+    // Set locale
+    Route::get('language/{locale}', function ($locale) {
+        app()->setLocale($locale);
+        session()->put('locale', $locale);
+
+        return redirect()->back();
+    });
+
+    // Exposing laravel localization assets to JS / Vue
+    Route::get('/js/lang.js', function () {
+      $strings = Cache::rememberForever('lang.js', function () {
+          $lang = config('app.locale');
+
+          $files   = glob(resource_path('lang/' . $lang . '.json'));
+          $strings = [];
+
+          foreach ($files as $file) {
+              $name           = basename($file, '.json');
+              $strings[$name] = json_decode(file_get_contents($file));
+          }
+
+          return $strings;
+      });
+
+      // dd($strings);
+
+      $lang = config('app.locale');
+      // error_log('LANG: ' . $lang);
+
+      $files   = glob(resource_path('lang/' . $lang . '.json'));
+      $strings = json_decode((file_get_contents(($files[0]))));
+
+      // foreach ($files as $file) {
+      //     $name = basename($file, '.json');
+      //     $strings[$name] =  json_decode(file_get_contents($file));
+      // }
+      // dd($strings);
+
+      // $lang = config('app.locale');
+      // error_log(($lang));
+
+      // $files = glob(resource_path('lang/' . $lang . '.json'));
+      // foreach ($files as $file) {
+      //     error_log(basename($file, '.json'));
+      // }
+
+      // foreach ($strings as $string) {
+      //     error_log($string);
+      // }
+
+      header('Content-Type: text/javascript');
+      echo ('window.i18n = ' . json_encode($strings) . ';');
+      exit();
+    })->name('assets.lang');
 
 // Route::middleware('auth')->group(function() {
     Route::get('/', 'FrontController@preview')->name('landing');

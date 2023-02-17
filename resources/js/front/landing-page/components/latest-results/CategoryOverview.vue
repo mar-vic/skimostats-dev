@@ -16,7 +16,7 @@
                         :src="`/images/flags/flags-mini/${firstEntry.participants[0].country.toLowerCase()}.png`"
                         :alt="firstEntry.participants[0].country"
                         />
-                    <div class="latest-results__view-profile">View profile</div>
+                    <div class="latest-results__view-profile">{{__('View profile')}}</div>
                 </div>
             </div>
         </a>
@@ -36,7 +36,7 @@
         </a>
 
         <div class="text-center" v-if="!isDetail">
-            <a :href="`/event/${event.slug}/${category.slug}`">Show all results<img src="/images/arrow-right-black.png" class="ml-2" /></a>
+          <a :href="`/event/${event.slug}/${category.slug}`">{{__('Show all results')}}<img src="/images/arrow-right-black.png" class="ml-2" /></a>
         </div>
     </div>
 </template>

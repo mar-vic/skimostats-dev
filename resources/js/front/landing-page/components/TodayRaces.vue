@@ -2,7 +2,7 @@
     <div class="homepage__info-strip">
         <div class="container">
             <div class="h1 m-0 font-weight-bold text-center text-uppercase">
-                <span class="text-yellow">Today races:</span>
+              <span class="text-yellow">{{__('Today races')}}:</span>
 
                 <div style="display: inline;" v-if="todayRaces.length">
                     <transition name="fade" mode="out-in">
@@ -10,7 +10,7 @@
                     </transition>
                 </div>
                 <span v-else>
-                    No race today
+                  {{__('No race today')}}
                 </span>
                 <!-- Tour of Taihu lake (Stage 2) 11/10/19 -->
             </div>

@@ -2,13 +2,13 @@
 
     <div class="container position-relative py-5">
         <div class="bg-logo-el"></div>
-        <div class="bg-text">Races</div>
+        <div class="bg-text">{{__('Races')}}</div>
         <div class="row justify-content-center">
             <div class="col-md-11 col-lg-10">
-                <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-5 text-blue mb-4">Races per season: {{ year }}</h1>
+              <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-5 text-blue mb-4">{{__('Races per season')}}: {{ year }}</h1>
                 <div class="d-flex mb-2">
                     <div class="d-flex align-items-center">
-                        <div class="font-weight-bold mr-2">Select season:</div>
+                      <div class="font-weight-bold mr-2">{{__('Select season')}}:</div>
                         <div class="position-relative mr-2" v-click-outside="closeYearDropdown">
                             <button class="badge badge--custom " @click="openYearDropdown = !openYearDropdown; openMonthDropdown = false">
                                 {{year}}
@@ -92,10 +92,10 @@
                     <table class="table table--races table--races-striped text-uppercase">
                         <thead>
                             <tr>
-                                <th style="width:70px;0">Date</th>
-                                <th>Race</th>
-                                <th style="width: 100px;">Results</th>
-                                <th style="width: 100px;" class="text-center">Class</th>
+                              <th style="width:70px;0">{{__('Date')}}</th>
+                              <th>{{__('Race')}}</th>
+                              <th style="width: 100px;">{{__('Results')}}</th>
+                              <th style="width: 100px;" class="text-center">{{__('Class')}}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -112,7 +112,7 @@
                                     <span v-if="event.race_type">({{ event.race_type.name }})</span>
                                 </td>
                                 <td>
-                                    <a :href="`/event/${event.slug}`">Results</a>
+                                  <a :href="`/event/${event.slug}`">{{__('Results')}}</a>
                                 </td>
                                 <td class="text-center">-</td>
                             </tr>

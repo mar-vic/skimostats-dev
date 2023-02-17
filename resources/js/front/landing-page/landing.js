@@ -14,6 +14,11 @@ import theStore from './store'
 Vue.use(Vuex)
 const store = new Vuex.Store(theStore)
 
+// Localization
+import _ from 'lodash'
+Vue.prototype.trans = string => _.get(window.i18n, string, string);
+Vue.prototype.__ = string => _.get(window.i18n, string, string);
+
 window.landingPageVM = new Vue({
     components: {
         LandingPage,

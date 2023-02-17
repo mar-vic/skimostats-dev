@@ -30,6 +30,15 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         View::share('footerGrandeCourses', $this->getGrandeCourses());
+
+        // Expose localization vars to all views
+        view()->composer('layouts.partials.language_switcher',
+                         function($view) {
+                             $view->with('current_locale',
+                                         app()->getLocale());
+                             $view->with('available_locales',
+                                         config('app.available_locales'));
+                         });
     }
 
     public function getGrandeCourses() {

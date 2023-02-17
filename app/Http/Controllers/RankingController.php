@@ -59,17 +59,18 @@ class RankingController extends Controller
     }
 
     public function rankingAllTime(Request $request, string $category) {
-        $cat = Category::where('slug', $category)->whereIn('id', [1,2])->first();
+        $cat = Category::where('slug', $category)->whereIn('id', [1,2,38])->first();
         if (!$cat) {
             return abort(404);
         }
+
 
         return $this->rankingCategory($request, RankingType::SKIMO_STATS, $cat, 0, 'all-time');
     }
 
     public function rankingAllTimeISMF(Request $request, string $category)
     {
-        $cat = Category::where('slug', $category)->whereIn('id', [1, 2, 3, 4, 5, 6, 25, 26])->first();
+        $cat = Category::where('slug', $category)->whereIn('id', [1, 2, 3, 4, 5, 6, 25, 26, 38])->first();
         if (!$cat) {
             return abort(404);
         }
@@ -136,14 +137,15 @@ class RankingController extends Controller
         $categories = Category::whereIn('id',
             $rankingType == 1
             ? [
-                1, 2,
+                1,2,38
             ]
             : [
-                1,2,3,4,5,6,25,26
+                1,2,3,4,5,6,25,26,38
             ]
         )->get();
 
         if ($filter == 'race-type' && $entityId) {
+            dd('With filter');
             $rankingQB = DB::table('rankings as r')
                 ->select(
                     DB::raw('SUM(r.points) as pts'),
@@ -167,6 +169,7 @@ class RankingController extends Controller
                 $rankingQB->whereBetween('r.obtainedAt', Ranking::getRankingYearTimeSpan($year));
             }
         } else if ($filter == 'all-time') {
+            dd('all-time');
             $rankingQB = DB::table('ranking_tables as r')
                 ->select(
                     DB::raw('SUM(r.points) as pts'),
@@ -186,6 +189,8 @@ class RankingController extends Controller
                 ->orderBy('pts', 'desc')
                 ->orderBy('a.lastName', 'asc');
         } else {
+            // dd('without racetype filter and limited to season');
+            // dd('Ranking Type: '.$rankingType);
             $rankingQB = DB::table('ranking_tables as r')
                 ->select(
                     DB::raw('r.points as pts'),
@@ -205,10 +210,14 @@ class RankingController extends Controller
                 ->groupBy('r.athleteId')
                 ->havingRaw('pts > 0')
                 ->orderBy('r.rank', 'asc');
+
+            // dd('Ranking Type: ' . $rankingType, $rankingQB->get());
         }
 
         $ranking = $rankingQB
             ->get();
+
+        // dd($ranking);
 
         $years = array_map(
             function($item) {
@@ -242,7 +251,8 @@ class RankingController extends Controller
 
             'entityId' => $entityId,
             'raceType' => RaceType::where('id', $entityId)->first(),
-            'raceTypes' => RaceType::where('slug','!=','relay-race')->orderBy('name', 'asc')->get(),
+            // 'raceTypes' => RaceType::where('slug','!=','relay-race')->orderBy('name', 'asc')->get(),
+            'raceTypes' => RaceType::orderBy('name', 'asc')->get(),
 
             'ranking' => $ranking,
             'year' => $year,

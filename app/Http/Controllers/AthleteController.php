@@ -35,6 +35,8 @@ class AthleteController extends Controller
     public function races(Request $request, Athlete $athlete, $year = null) {
         $timespan = Ranking::getRankingYearTimespan($year);
 
+        // dd($timespan);
+
         $theYear = substr($timespan[0], 0, 4) + 1;
 
         $builder = DB::table('race_events as re')
@@ -61,13 +63,15 @@ class AthleteController extends Controller
             })
             ->leftJoin('rankings as rnk', function($qb) {
                 $qb->on('rnk.participantId', '=', 'rep.id')
-                    ->where('rnk.type', 1)
-                    ->whereIn('rnk.categoryId', [1, 2]);
+                   ->whereIn('rnk.type', [1, 2])
+                   ->whereIn('rnk.categoryId', [1, 2, 14, 38]);
             })
             ->leftJoin('race_types as rt', 'rt.id', 're.type')
             ->where('rep.athleteId', $athlete->id)
             ->whereBetween('re.startDate', $timespan)
             ->groupBy('re.id');
+
+        // dd($builder->get());
 
         return [
             'year' => $theYear,

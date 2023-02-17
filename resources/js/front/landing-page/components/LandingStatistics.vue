@@ -8,14 +8,14 @@
                             <standing-athletes />
                         </div>
                         <div class="homepage__stats-card">
-                            <h2 class="h1 font-weight font-weight-bold text-blue text-uppercase mb-4">Popular</h2>
+                          <h2 class="h1 font-weight font-weight-bold text-blue text-uppercase mb-4">{{__('Popular')}}</h2>
                             <div class="text-center p-5" v-show="loadingPopular">Loading...</div>
                             <div class="table-responsive" v-show="!loadingPopular">
                                 <table class="table table--races text-uppercase">
                                     <thead>
                                         <tr>
-                                            <th class="pl-0">Athlete</th>
-                                            <th style="width: 100px;" class="text-right">Visits</th>
+                                          <th class="pl-0">{{__('Athlete')}}</th>
+                                          <th style="width: 100px;" class="text-right">{{__('Visits')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -33,7 +33,7 @@
                             </div>
 
                             <div class="pt-2">
-                                <a href="/athletes" class="d-inline-flex align-items-center">Show full list athletes<img src="/images/arrow-right-black.png" class="mt-1 ml-2"></a>
+                              <a href="/athletes" class="d-inline-flex align-items-center">{{__('Show full list athletes')}}<img src="/images/arrow-right-black.png" class="mt-1 ml-2"></a>
                             </div>
                         </div>
                     </div>
@@ -42,13 +42,13 @@
                             <standing-nations />
                         </div>
                         <div class="homepage__stats-card">
-                            <h2 class="h1 font-weight font-weight-bold text-blue text-uppercase mb-4">Birthdays</h2>
+                          <h2 class="h1 font-weight font-weight-bold text-blue text-uppercase mb-4">{{__('Birthdays')}}</h2>
                             <div class="table-responsive">
                                 <table class="table table--races text-uppercase">
                                     <thead>
                                         <tr>
-                                            <th class="pl-0">Athlete</th>
-                                            <th style="width: 100px;" class="text-right">Birthday</th>
+                                          <th class="pl-0">{{__('Athlete')}}</th>
+                                          <th style="width: 100px;" class="text-right">{{__('Birthday')}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>

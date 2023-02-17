@@ -44,12 +44,11 @@ npm run dev
 ```npm run production```
 
 # TODOs
-  
+
+* TODO Pipravit stranku na preklady
 
 * TODO V tabulke vysledkov pre etapy moznost zobrazenia aktualneho celkoveho poradia,
     tj scitanie vsetkych ubehnuvsich etap aj pre celovy vysledok preteku
-
-* TODO Pipravit stranku na preklady
 
 * TODO Moznost updatovania about stranky uzivatelom
 

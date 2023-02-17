@@ -97,6 +97,7 @@ export default {
                         new Promise(async (resolve, reject) => {
                             try {
                                 this.updatingRankingTypes.push(type)
+                              console.log(`API Call: ${UPDATE_RANKING_DATA_URL}/${type}`)
                                 await axios.get(`${UPDATE_RANKING_DATA_URL}/${type}`)
                                 this.updatingRankingTypes.splice(this.updatingRankingTypes.indexOf(type), 1)
 
@@ -119,6 +120,7 @@ export default {
                         new Promise(async (resolve, reject) => {
                             try {
                                 this.updatingRankingTypes.push(type)
+                              console.log(`API Call: ${UPDATE_RANKING_TABLE_URL}/${RankingTypesIds[type]}`)
                                 await axios.get(`${UPDATE_RANKING_TABLE_URL}/${RankingTypesIds[type]}`)
                                 this.updatingRankingTypes.splice(this.updatingRankingTypes.indexOf(type), 1)
 

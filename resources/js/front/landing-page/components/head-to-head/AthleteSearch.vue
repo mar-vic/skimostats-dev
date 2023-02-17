@@ -8,7 +8,7 @@
                     <div class="p-2 text-center" v-if="loadingPredictions">
                         <img style="width: 20px;" src="/images/loading-white.svg" alt="Loading...">
                     </div>
-                    <div class="px-3 py-2" v-else>No athletes found.</div>
+                    <div class="px-3 py-2" v-else>{{__('No athletes found')}}.</div>
                 </div>
                 <a
                     href="#"

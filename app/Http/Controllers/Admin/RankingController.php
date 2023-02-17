@@ -95,7 +95,6 @@ class RankingController extends Controller
 
         // dd($rankings);
 
-
         // Code ...
 
         // Script end
@@ -156,9 +155,9 @@ class RankingController extends Controller
                     ->orWhere('ee.rank', '<', 101);
             })
             ->where(function($qb) {
-                $qb->whereIn('e.categoryId', [1, 2])
-                    ->orWhereIn('ee.categoryId', [1, 2])
-                    ->orWhereIn('p.categoryId', [1, 2]);
+                $qb->whereIn('e.categoryId', [1, 2, 38])
+                   ->orWhereIn('ee.categoryId', [1, 2, 38])
+                   ->orWhereIn('p.categoryId', [1, 2, 38]);
             })
             ->get();
 
@@ -240,7 +239,7 @@ class RankingController extends Controller
 
         $rankingTypes = [];
         $rankings = [];
-        $categories = [1, 2];
+        $categories = [1, 2, 38];
 
         if ($rankingType == 2) {
             $categories = array_map(function($item){return $item['id'];}, Category::all()->toArray());

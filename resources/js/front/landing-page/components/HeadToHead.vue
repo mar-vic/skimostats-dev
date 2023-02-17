@@ -2,23 +2,22 @@
     <div class="position-relative" style="background: #f0f0f2;min-height:350px;">
         <div class="container position-relative py-0 py-md-4">
             <div class="athlete__name-placeholder h1 text-uppercase font-weight-bold ">
-                Head
-                <br>to head
+              {{ __('Head to head') }}
             </div>
             <div class="p-5 text-center" v-if="loading || !athlete">
                 <img src="/images/loading.svg" v-if="loading" />
                 <div v-else>
-                    Error. =(
+                  {{__('Error')}}. =(
                 </div>
             </div>
             <div class="py-5 position-relative" v-else>
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h2 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Head to head</h2>
+                      <h2 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">{{__('Head to head')}}</h2>
                     </div>
                     <div class="col-md-4 text-right mb-4 mb-md-0">
                         <div class="d-flex align-items-center justify-content-end">
-                            <div class="mr-2">presented by</div>
+                          <div class="mr-2">{{__('presented by')}}</div>
                             <div>
                                 <a href="https://www.atomic.com/" target="_blank">
                                     <img src="/images/logos/atomic-logo.png" style="width: 100px" alt="">
@@ -43,7 +42,7 @@
                                 <div class="h2h__athlete">
                                     <div class="h2h__athlete-info">
                                         <div class="h2h__athlete-rank">
-                                            <div class="flex-grow-1 text-center text-uppercase">Athlete ranking</div>
+                                          <div class="flex-grow-1 text-center text-uppercase">{{__('Athlete ranking')}}</div>
                                             <div class="h2h__athlete-rank-number">{{ athlete.rank ? athlete.rank.rank : '-' }}</div>
                                         </div>
                                         <div class="font-weight-bold">
@@ -76,7 +75,7 @@
                                     <div class="h2h__athlete-info">
                                         <div class="h2h__athlete-rank">
                                             <div class="h2h__athlete-rank-number">{{ opponent.rank ? opponent.rank.rank : '-' }}</div>
-                                            <div class="flex-grow-1 text-center text-uppercase">Athlete ranking</div>
+                                            <div class="flex-grow-1 text-center text-uppercase">{{__('Athlete ranking')}}</div>
                                         </div>
                                         <div class="font-weight-bold">
                                             <div>
@@ -100,17 +99,17 @@
 
                         <tr class="h2h__row">
                             <td>{{ athlete.age ? athlete.age : '-' }}</td>
-                            <td class="font-weight-bold text-center">Age</td>
+                            <td class="font-weight-bold text-center">{{__('Age')}}</td>
                             <td class="text-right">{{ opponent && opponent.age ? opponent.age : '-' }}</td>
                         </tr>
                         <tr class="h2h__row">
                             <td>{{ athlete.points ? athlete.points : '0' }}</td>
-                            <td class="font-weight-bold text-center">Points</td>
+                            <td class="font-weight-bold text-center">{{__('Points')}}</td>
                             <td class="text-right">{{ opponent && opponent.points ? opponent.points : '0' }}</td>
                         </tr>
                         <tr class="h2h__row">
                             <td>{{ athlete.victories ? athlete.victories : '0' }}</td>
-                            <td class="font-weight-bold text-center">Victories</td>
+                            <td class="font-weight-bold text-center">{{__('Victories')}}</td>
                             <td class="text-right">{{ opponent && opponent.victories ? opponent.victories : '0' }}</td>
                         </tr>
                         <!-- <tr class="h2h__row">

@@ -24,6 +24,11 @@ const router = new VueRouter({
     ],
 })
 
+// Localization
+import _ from 'lodash'
+Vue.prototype.trans = string => _.get(window.i18n, string, string);
+Vue.prototype.__ = string => _.get(window.i18n, string, string);
+
 window.racesVM = new Vue({
     components: {
         RacesContainer,

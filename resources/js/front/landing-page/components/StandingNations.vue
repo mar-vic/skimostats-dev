@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h2 class="h1 font-weight font-weight-bold text-blue text-uppercase mb-4">Standing nations</h2>
-        <div v-if="loading">Loading rankgings...</div>
+      <h2 class="h1 font-weight font-weight-bold text-blue text-uppercase mb-4">{{__('Standing nations')}}</h2>
+      <div v-if="loading">{{__('Loading rankings')}}...</div>
         <div v-else-if="error" class="alert alert-danger">
             {{error}}
         </div>
@@ -10,9 +10,9 @@
                 <table class="table table--races text-uppercase">
                     <thead>
                         <tr>
-                            <th style="width:30px;" class="pl-0">Rnk</th>
-                            <th>Nation</th>
-                            <th style="width: 80px;" class="text-right">Points</th>
+                          <th style="width:30px;" class="pl-0">{{__('Rnk')}}</th>
+                            <th>{{__('Nation')}}</th>
+                            <th style="width: 80px;" class="text-right">{{__('Points')}}</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -10,7 +10,7 @@
           <div v-else class="py-5">
             <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Results per season: {{ year }}</h1>
             <h2 class="font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">
-                season summary: {{seasonSummary.raceDays}} race days with {{seasonSummary.points}} SkiMo Stats Points
+              season summary: {{seasonSummary.raceDays}} race days with {{seasonSummary.points}} SkiMoStats Points
             </h2>
             <div class="d-flex mb-2">
               <div class="font-weight-bold text-uppercase text-blue">Select season:</div>

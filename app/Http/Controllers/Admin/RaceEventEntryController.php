@@ -27,6 +27,8 @@ class RaceEventEntryController extends Controller
     }
 
     public function update(Request $request, RaceEvent $event, Category $category, RaceEventEntry $entry) {
+        // dd('hello');
+
         $request->validate([
             'rank' => 'required',
             'entityId' => 'required_without:entityName',
@@ -34,11 +36,16 @@ class RaceEventEntryController extends Controller
             'time' => 'required',
         ]);
 
+        // dd($request);
+        // dd($entry);
+
         $entry->fill($request->only([
             'rank',
         ]));
 
         $raceType = RaceType::find($request->get('raceTypeId'));
+
+        // dd($raceType);
 
         $name = '';
 
@@ -125,6 +132,8 @@ class RaceEventEntryController extends Controller
             $entry->raceEventStageId = $request->get('raceEventStageId');
         }
 
+        // dd($entry);
+
         $entry->save();
 
         return back()->with('success', 'Sucessfully saved ' . $name . '.');
@@ -191,7 +200,7 @@ class RaceEventEntryController extends Controller
                 $firstName = $nameParts[1];
                 $lastName = $nameParts[0];
                 $findSQL->orWhere(
-                    DB::raw("CONCAT(lastName,' ',firstName)"), 
+                    DB::raw("CONCAT(lastName,' ',firstName)"),
                     'LIKE',
                     '%'.$athleteId.'%'
                 )
@@ -261,7 +270,7 @@ class RaceEventEntryController extends Controller
                 $firstName = $nameParts[1];
                 $lastName = $nameParts[0];
                 $findSQL->orWhere(
-                    DB::raw("CONCAT(lastName,' ',firstName)"), 
+                    DB::raw("CONCAT(lastName,' ',firstName)"),
                     'LIKE',
                     '%'.$athleteId.'%'
                 )

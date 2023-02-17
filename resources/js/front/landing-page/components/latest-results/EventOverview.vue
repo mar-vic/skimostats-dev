@@ -7,7 +7,7 @@
             </h1>
             <div class="font-weight-bold text-uppercase mb-1">{{ raceType }}</div>
             <div class="small text-disabled">
-                {{ event.resultCount }} results &nbsp;&nbsp;<span v-if="event.elevation">|&nbsp;&nbsp; {{ event.elevation }}m &nbsp;&nbsp;</span>|&nbsp;&nbsp; {{ futureEvent?'starts':'finished' }} {{ finishedAgo }}
+              {{ event.resultCount }} {{__('results')}} &nbsp;&nbsp;<span v-if="event.elevation">|&nbsp;&nbsp; {{ event.elevation }}m &nbsp;&nbsp;</span>|&nbsp;&nbsp; {{ futureEvent?__('starts'):__('finished') }} {{ finishedAgo }}
             </div>
         </div>
         <div class="position-relative">

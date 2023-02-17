@@ -4,8 +4,8 @@
             <div class="position-relative pt-5 pt-xl-0">
                 <div class="d-flex align-items-center justify-content-center homepage__upcoming-races-title">
                     <div class="latest-results__left-text font-family-heading text-blue">
-                        <div>Upcoming</div>
-                        Races
+                      <div>{{__('Upcoming')}}</div>
+                      {{__('Races')}}
                     </div>
                 </div>
                 <div class="pb-5 pt-0 pt-xl-5">
@@ -17,7 +17,7 @@
                                     <a href="#"
                                         @click.prevent="selectedCategory = null"
                                         class="badge badge--custom mr-1 my-1 text-uppercase"
-                                        :class="{'badge-active': selectedCategory === null}">all</a>
+                                       :class="{'badge-active': selectedCategory === null}">{{__('all')}}</a>
                                     <a href="#"
                                         v-for="c in filteredCategories"
                                         :key="`up-${c.name}`"
@@ -30,9 +30,9 @@
                                     <table class="table table--races table--races-striped text-uppercase">
                                         <thead>
                                             <tr>
-                                                <th style="width:70px;0">Date</th>
-                                                <th>Race</th>
-                                                <th style="width: 100px;">Categ.</th>
+                                              <th style="width:70px;0">{{__('Date')}}</th>
+                                              <th>{{__('Race')}}</th>
+                                              <th style="width: 100px;">{{__('Categ.')}}</th>
                                                 <!-- <th style="width: 120px;">Startlist</th>
                                                 <th class="text-center" style="width: 90px;">Class</th> -->
                                             </tr>
@@ -48,7 +48,7 @@
                                     </table>
                                 </div>
                                 <div class="pt-2">
-                                    <a href="/races" class="d-inline-flex align-items-center">Show all races<img src="/images/arrow-right-black.png" class="mt-1 ml-2"></a>
+                                  <a href="/races" class="d-inline-flex align-items-center">{{__('Show all races')}}<img src="/images/arrow-right-black.png" class="mt-1 ml-2"></a>
                                 </div>
                             </div>
                         </div>

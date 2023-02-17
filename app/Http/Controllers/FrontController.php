@@ -716,11 +716,13 @@ class FrontController extends Controller
                 11 => 8,
                 3 => 9,
                 10 => 10,
-                9 => 10
+                9 => 11
             ];
 
-            $aScore = $rnkCatsScores[$a[0]["rankingCategoryId"]];
-            $bScore = $rnkCatsScores[$b[0]["rankingCategoryId"]];
+            // dd($b[0]);
+
+            $aScore = $rnkCatsScores[$a[0]["rankingCategoryId"]] ?? 12; // returns the lowest score of 12, if there is no mapping
+            $bScore = $rnkCatsScores[$b[0]["rankingCategoryId"]] ?? 12;
 
             return $aScore - $bScore;
         });
