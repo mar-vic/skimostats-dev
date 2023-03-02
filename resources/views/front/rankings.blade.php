@@ -8,12 +8,12 @@
 
     <div class="container position-relative py-5">
         <div class="bg-logo-el"></div>
-        <div class="bg-text">Rankings</div>
+    <div class="bg-text">{{__('Rankings')}}</div>
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between pt-0 pt-md-5">
                     <div class="flex-grow-1 text-center text-md-left mb-2">
-                        <h1 class="page-heading text-uppercase font-weight-bold text-blue"><span class="text-uppercase">{{ $rankingTypeText }}</span> Ranking
+    <h1 class="page-heading text-uppercase font-weight-bold text-blue"><span class="text-uppercase">{{ $rankingTypeText }}</span> {{__('Ranking')}}
                             @if($filter=='all-time' || $year==0)
                             All-time {{ $category->name }}
                             @else
@@ -29,7 +29,7 @@
                                 @if($year != 0)
                                 {{$year-1}}/{{$year}}
                                 @else
-                                All-time
+                                {{__('All-time')}}
                                 @endif
                                 <i class="fas fa-caret-down"></i>
                             </button>
@@ -39,11 +39,11 @@
                                 @if ($rankingType == 1)
                                 <a href="{{ $filter == 'race-type'
                                     ? route('rankings.type.category', [$raceType->slug, $category->slug])
-                                    : route('rankings.all-time', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">All-time</a>
+                                    : route('rankings.all-time', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">{{__('All-time')}}</a>
                                 @else
                                 <a href="{{ $filter == 'race-type'
                                     ? route('rankings.type.category.ismf', [$raceType->slug, $category->slug])
-                                    : route('rankings.all-time-ismf', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">All-time</a>
+                                    : route('rankings.all-time-ismf', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">{{__('All-time')}}</a>
                                 @endif
 
                                 @foreach ($years as $yr)
@@ -59,8 +59,8 @@
 
                 <div class="d-flex justify-content-center justify-content-md-between flex-wrap mb-2">
                     <div class="mb-3 mb-md-0 text-center">
-                        <a href="{{ route('rankings.year', ['skimostats', $year==0 ? date("Y") : $year, 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 1) badge-active @endif">SkiMo Stats ranking</a>
-                        <a href="{{ route('rankings.year', ['ismf', $year==0 ? date("Y") : $year, $category->slug ?? 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 2) badge-active @endif">ISMF World Cup ranking</a>
+                                       <a href="{{ route('rankings.year', ['skimostats', $year==0 ? date("Y") : $year, 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 1) badge-active @endif">{{__('SkiMo Stats ranking')}}</a>
+                                           <a href="{{ route('rankings.year', ['ismf', $year==0 ? date("Y") : $year, $category->slug ?? 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 2) badge-active @endif">ISMF World Cup {{__('ranking')}}</a>
                     </div>
                     <div class="text-center">
 
@@ -95,7 +95,7 @@
                                 @if($filter == 'race-type')
                                 {{ $raceType->name }}
                                 @else
-                                Type of race
+                                {{__('Type of race')}}
                                 @endif
                                 <i class="fas fa-caret-down"></i>
                             </button>

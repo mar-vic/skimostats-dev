@@ -175,6 +175,8 @@ class RaceEvent extends Model
     public function getGeneralClassificationResults() {
         $stages = $this->getAllStages();
 
+        // dd($stages);
+
         if (count($stages) > 0) {
             $result = [];
 

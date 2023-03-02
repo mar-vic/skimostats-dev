@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container py-5">
-    <h1 class="mb-3 mb-md-5 text-uppercase text-blue font-weight-bold">About us</h1>
+                                         <h1 class="mb-3 mb-md-5 text-uppercase text-blue font-weight-bold">{{__('About us')}}</h1>
 
     <div class="row mb-5">
         <div class="col-md-2 mb-2 mb-md-0">
@@ -10,11 +10,9 @@
         </div>
         <div class="col-md-6">
             <div class="font-weight-bold mb-3">
-                Roland Hric (23 years)
+                                         Roland Hric (23 {{__('years')}})
             </div>
-            Let me introduce myself. I am a former ice-hockey player and canoeist who fell in love with mountain
-            sports a few years ago. I am a sports journalist with huge experience working with people,
-            sportsmen, data and historical data..
+            Let me introduce myself. I am a former ice-hockey player and canoeist who fell in love with mountain sports a few years ago. I am a sports journalist with huge experience working with people, sportsmen, data and historical data.
             We (with Randy) helped with something similar years back in cycling. I think that SkiMo needs to
             have an independent and modern communication channel which unites the whole sport &quot;under the
             one roof&quot;.

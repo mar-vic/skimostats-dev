@@ -20,40 +20,68 @@
                             <h1 class="font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4">Complete results</h1>
                             <div class="text-center text-md-left">
                                 <router-link
-                                    :to="{ name: 'event.category', params: { event: event.slug, category: category.slug }}"
-                                    class="badge badge--custom ml-1 my-1"
-                                    :class="{'badge-active': selectedCategory.id === category.id && !isGCscreen}"
-                                    v-for="category in results"
-                                    :key="`catz-${category.id}`"
-                                >{{ category.name }}</router-link><div class="inline" v-if="showGeneralClassification"><router-link
-                                    :to="{ name: 'event.category.gc', params: { event: event.slug, category: category.slug }}"
-                                    class="badge badge--custom ml-1 my-1"
-                                    :class="{'badge-active': selectedCategory.id === category.id && isGCscreen}"
-                                    v-for="category in gcCategories"
-                                    :key="`catzgc-${category.id}`"
-                                >General Classification - {{ category.name }}</router-link></div>
+                                  :to="{ name: 'event.category', params: { event: event.slug, category: category.slug }}"
+                                  class="badge badge--custom ml-1 my-1"
+                                  :class="{'badge-active': selectedCategory.id === category.id && !isGCscreen}"
+                                  v-for="category in results"
+                                  :key="`catz-${category.id}`"
+                                >{{ category.name }}</router-link>
+
+                                <!-- <div class="inline" v-if="showGeneralClassification">
+                                     <router-link
+                                     :to="{ name: 'event.category.gc', params: { event: event.slug, category: category.slug }}"
+                                     class="badge badge--custom ml-1 my-1"
+                                     :class="{'badge-active': selectedCategory.id === category.id && isGCscreen}"
+                                     v-for="category in gcCategories"
+                                     :key="`catzgc-${category.id}`"
+                                     >
+                                     General Classification - {{ category.name }}
+                                     </router-link>
+                                     </div>
+                                -->
                             </div>
                         </div>
-
 
                         <div class="table-responsive">
                             <table class="table table--races table--races-striped text-uppercase">
                                 <thead>
                                     <tr>
                                         <th style="width:70px;0">Rnk</th>
+
                                         <th>Athlete</th>
-                                        <th style="width: 120px;">
-                                          Time
-                                          <a
-                                            v-if="!isSprintRace"
-                                            class="badge badge--custom ml-2"
+
+                                        <th v-if="!isGeneralClassification" style="text-align:center;">
+                                          <span v-if="stage">
+                                            <a href="#"
+                                               @click.prevent="sortEntriesByStageTime">
+                                              Stage Time
+                                              <span v-if="!sortedByGcTime" class="fa fa-caret-down"></span>
+                                            </a>
+                                          </span>
+                                          <span v-else>Time</span>
+                                        </th>
+
+                                        <th v-if="stage" style="text-align:center;">
+                                          <a href="#"
+                                             @click.prevent="sortEntriesByGcTime">
+                                            GC Time
+                                            <span v-if="sortedByGcTime" class="fa fa-caret-down"></span>
+                                          </a>
+                                        </th>
+
+                                        <th v-if="isGeneralClassification" style="text-align:center;">
+                                          TIME
+                                        </th>
+
+                                        <th v-if="!isSprintRace">
+                                          <a class="badge badge--custom ml-2"
                                             :class="{'badge-active' : showTimeDifference}"
                                             style="cursor:pointer"
-                                            @click="showTimeDifference = !showTimeDifference"
-                                          >
+                                            @click="showTimeDifference = !showTimeDifference">
                                             diff
                                           </a>
                                         </th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,7 +99,8 @@
                                                 </a>
                                             </div>
                                         </td>
-                                        <td class="text-nowrap">
+
+                                        <td v-if="!isGeneralClassification" class="text-nowrap" style="text-align:center;">
                                             <div v-if="isSprintRace">
                                                 {{ entry.prependTime ? entry.prependTime + ' ' : '' }}
                                                 {{ entry.timeFormatted }}
@@ -88,6 +117,17 @@
                                                     :title="entry.timeFormatted" />
                                             </div>
                                         </td>
+
+                                        <td v-if="stage || isGeneralClassification" style="text-align:center;" >
+                                          <span v-if="relativeTime(entry.gcTime, entry.category) != 0 && showTimeDifference">
+                                            +{{relativeTime(entry.gcTime, entry.category)}}
+                                          </span>
+                                          <strong v-else>{{entry.gcTimeFormatted}}</strong>
+                                        </td>
+
+                                        <td v-if="!isSprintRace">
+                                        </td>
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -107,7 +147,8 @@ export default {
     data() {
         return {
           openYearDropdown: false,
-          showTimeDifference: false,
+          showTimeDifference: true,
+          sortedByGcTime: false
         }
     },
     components: {
@@ -115,42 +156,93 @@ export default {
         TimeDifference,
     },
     computed: {
-        ...mapState(['event', 'results', 'showGeneralClassification', 'generalClassificationResults']),
-        // ...mapGetters(['selectedCategory']),
-        selectedCategory() {
-            let category = this.results[0]
-            const findIn = this.isGCscreen ? this.generalClassificationResults : this.results
-            if (this.results.find(c => c.slug === this.$route.params.category)) {
-                category = findIn.find(c => c.slug === this.$route.params.category)
-            }
-            return category
-        },
-        gcCategories() {
-            return this.generalClassificationResults.filter(c => {
-                return c.entries && c.entries.length
-            })
-        },
-        isGCscreen() {
-            return this.$route.name === 'event.category.gc'
-        },
-        entries() {
-            return this.selectedCategory && this.selectedCategory.entries ? this.selectedCategory.entries.filter(e => e.participants && e.participants.length) : []
-        },
-        firstEntry() {
-            return this.entries.find(e => Number(e.rank) === 1) || {id:0, time:0}
-        },
-        isSprintRace() {
-            return this.event && this.event.raceType && this.event.raceType.type === 3
-        },
-        relatedEvents() {
-            return this.event && this.event.relatedEvents ? this.event.relatedEvents : []
-        },
-        year() {
-            return this.event.year
-        },
+      ...mapState(['event', 'results', 'stage', 'gcWinningTimes', 'isGeneralClassification', 'showGeneralClassification', 'generalClassificationResults']),
+      // ...mapGetters(['selectedCategory']),
+      selectedCategory() {
+        let category = this.results[0]
+        const findIn = this.isGCscreen ? this.generalClassificationResults : this.results
+        if (this.results.find(c => c.slug === this.$route.params.category)) {
+          category = findIn.find(c => c.slug === this.$route.params.category)
+        }
+        return category
+      },
+      gcCategories() {
+        return this.generalClassificationResults.filter(c => {
+          return c.entries && c.entries.length
+        })
+      },
+      isGCscreen() {
+        return this.$route.name === 'event.category.gc'
+      },
+      entries() {
+        return this.selectedCategory && this.selectedCategory.entries ? this.selectedCategory.entries.filter(e => e.participants && e.participants.length) : []
+      },
+      firstEntry() {
+        return this.entries.find(e => Number(e.rank) === 1) || {id:0, time:0}
+      },
+      isSprintRace() {
+        return this.event && this.event.raceType && this.event.raceType.type === 3
+      },
+      relatedEvents() {
+        return this.event && this.event.relatedEvents ? this.event.relatedEvents : []
+      },
+      year() {
+        return this.event.year
+      },
+
     },
     methods: {
-        ...mapMutations(['SET_CATEGORY']),
+      ...mapMutations(['SET_CATEGORY']),
+
+      relativeTime(absTime, category) {
+
+        if (!absTime) {
+          return ''
+        }
+
+        const milliseconds = absTime - this.gcWinningTimes[category];
+
+        if (milliseconds == 0) {
+          return milliseconds
+        }
+
+        const seconds = Math.floor((milliseconds / 1000) % 60);
+        const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
+        const hours = Math.floor((milliseconds / 1000 / 60 / 60) % 24);
+
+        const formattedTime = [
+          hours.toString().padStart(2, "0"),
+          minutes.toString().padStart(2, "0"),
+          seconds.toString().padStart(2, "0")
+        ].join(":");
+
+        return formattedTime
+      },
+
+      sortEntriesByGcTime() {
+        this.results.forEach(result => {
+          result.entries.sort((a, b) => {
+            if (!b.gcTime) {
+              return -1
+            }
+            return a.gcTime - b.gcTime
+          })
+        })
+        this.sortedByGcTime = true
+      },
+
+      sortEntriesByStageTime() {
+        this.results.forEach(result => {
+          result.entries.sort((a, b) => {
+            if (!b.gcTime) {
+              return -1
+            }
+
+            return a.time - b.time
+          })
+        })
+        this.sortedByGcTime = false
+      }
     },
     watch: {
         results() {

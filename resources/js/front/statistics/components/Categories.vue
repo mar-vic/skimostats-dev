@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="font-weight-bold text-blue">Select your category:</div>
+    <div class="font-weight-bold text-blue">{{__('Select your category')}}:</div>
     <div class="row mb-5 pb-2 pt-2" style="border-bottom:2px dotted; border-top:2px dotted;">
 
       <!-- FIRST MENU COLUMN -->

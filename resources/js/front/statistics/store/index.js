@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 
 import dataPaneStore from './modules/dataPaneStore'
@@ -8,6 +9,11 @@ import DataPane from '../components/data_pane/DataPane.vue'
 import DataPaneCountries from '../components/data_pane/DataPaneCountries.vue'
 import PlaceHolder from '../components/PlaceHolder.vue'
 import Histogram from '../components/Histogram.vue'
+
+// Localization
+import _ from 'lodash'
+Vue.prototype.trans = string => _.get(window.i18n, string, string);
+Vue.prototype.__ = string => _.get(window.i18n, string, string);
 
 export default {
 
@@ -34,8 +40,8 @@ export default {
         {
           id: 'cat1',
           isSelected: true,
-          shortName: 'victories',
-          longName: 'Victories',
+          shortName: "victories",
+          longName: "Victories",
           metric: 'wins',
           tooltip: '',
           dataSource: '/v1/statistics/mostWins',

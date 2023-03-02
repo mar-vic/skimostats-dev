@@ -3117,6 +3117,17 @@ var owlCarouselOptions = {
     },
     carouselNext: function carouselNext() {
       $('.owl-carousel').trigger('next.owl.carousel');
+    },
+    getOrdinal: function getOrdinal(n) {
+      var ord = 'th';
+      if (n % 10 == 1 && n % 100 != 11) {
+        ord = 'st';
+      } else if (n % 10 == 2 && n % 100 != 12) {
+        ord = 'nd';
+      } else if (n % 10 == 3 && n % 100 != 13) {
+        ord = 'rd';
+      }
+      return ord;
     }
   },
   mounted: function mounted() {
@@ -4180,13 +4191,27 @@ var render = function render() {
     staticClass: "latest-results__race-header text-center text-md-left"
   }, [_c("h1", {
     staticClass: "text-uppercase font-weight-bold mb-0"
-  }, [_vm._v("\n            " + _vm._s(_vm.event.name) + "\n            "), _c("span", {
+  }, [_vm._v("\n      " + _vm._s(_vm.event.name) + "\n      "), _c("span", {
     staticClass: "d-block float-none float-md-right"
   }, [_vm._v(_vm._s(_vm.eventDate))])]), _vm._v(" "), _c("div", {
     staticClass: "font-weight-bold text-uppercase mb-1"
   }, [_vm._v(_vm._s(_vm.raceType))]), _vm._v(" "), _c("div", {
     staticClass: "small text-disabled"
-  }, [_vm._v("\n          " + _vm._s(_vm.event.resultCount) + " " + _vm._s(_vm.__("results")) + "   "), _vm.event.elevation ? _c("span", [_vm._v("|   " + _vm._s(_vm.event.elevation) + "m   ")]) : _vm._e(), _vm._v("|   " + _vm._s(_vm.futureEvent ? _vm.__("starts") : _vm.__("finished")) + " " + _vm._s(_vm.finishedAgo) + "\n        ")])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n      " + _vm._s(_vm.event.resultCount) + " " + _vm._s(_vm.__("results")) + "   "), _vm.event.elevation ? _c("span", [_vm._v("|   " + _vm._s(_vm.event.elevation) + "m   ")]) : _vm._e(), _vm._v("|   " + _vm._s(_vm.futureEvent ? _vm.__("starts") : _vm.__("finished")) + " " + _vm._s(_vm.finishedAgo) + " "), _vm.event.stageSlugs ? _c("span", [_vm._v("|   stages: "), _vm._l(_vm.event.stageSlugs, function (stageSlug, index) {
+    return _c("span", {
+      staticStyle: {
+        "margin-right": "5px"
+      }
+    }, [_c("a", {
+      attrs: {
+        href: "/event/".concat(stageSlug)
+      }
+    }, [_c("strong", [_vm._v(_vm._s(index) + _vm._s(_vm.getOrdinal(index)))])])]);
+  })], 2) : _vm._e(), _vm.event.gcSlug && _vm.event.gcSlug != _vm.event.slug ? _c("span", [_vm._v("|   "), _c("a", {
+    attrs: {
+      href: "/event/".concat(_vm.event.gcSlug)
+    }
+  }, [_c("strong", [_vm._v("General Classification")])])]) : _vm._e()])]), _vm._v(" "), _c("div", {
     staticClass: "position-relative"
   }, [_vm.showNext ? _c("a", {
     staticClass: "carousel-right",

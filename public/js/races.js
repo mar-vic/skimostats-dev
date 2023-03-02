@@ -2403,7 +2403,7 @@ var render = function render() {
         _vm.openYearDropdown = false;
       }
     }
-  }, [_vm._v("\n                            " + _vm._s(_vm.month && _vm.month.text ? _vm.month.text : "all months") + "\n                            "), _c("i", {
+  }, [_vm._v("\n                            " + _vm._s(_vm.month && _vm.month.text ? _vm.month.text : _vm.__("all months")) + "\n                            "), _c("i", {
     staticClass: "fas fa-caret-down"
   })]), _vm._v(" "), _c("div", {
     staticClass: "dropdown__menu",
@@ -2424,7 +2424,7 @@ var render = function render() {
         }
       }
     }
-  }, [_vm._v("\n                                all\n                            ")]), _vm._v(" "), _vm._l(_vm.months, function (m) {
+  }, [_vm._v("\n                              " + _vm._s(_vm.__("all")) + "\n                            ")]), _vm._v(" "), _vm._l(_vm.months, function (m) {
     return _c("router-link", {
       key: "ms-".concat(m.numeric),
       staticClass: "pr-4",
@@ -2456,7 +2456,7 @@ var render = function render() {
         _vm.openCountriesDropdown = !_vm.openCountriesDropdown;
       }
     }
-  }, [_vm._v("\n                            " + _vm._s(_vm.country ? _vm.country.name : "all countries") + "\n                            "), _c("i", {
+  }, [_vm._v("\n                          " + _vm._s(_vm.country ? _vm.country.name : _vm.__("all countries")) + "\n                            "), _c("i", {
     staticClass: "fas fa-caret-down"
   })]), _vm._v(" "), _c("div", {
     staticClass: "dropdown__menu",
@@ -2482,7 +2482,7 @@ var render = function render() {
         _vm.openCountriesDropdown = false;
       }
     }
-  }, [_vm._v("\n                                all\n                            ")]), _vm._v(" "), _vm._l(_vm.countries, function (c) {
+  }, [_vm._v("\n                              " + _vm._s(_vm.__("all")) + "\n                            ")]), _vm._v(" "), _vm._l(_vm.countries, function (c) {
     return _c("a", {
       key: "ms-".concat(c.code),
       staticClass: "pr-4 d-flex align-items-center",

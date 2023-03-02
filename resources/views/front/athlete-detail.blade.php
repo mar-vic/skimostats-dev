@@ -33,10 +33,10 @@
                     @endif
                 </h1>
                 <div class="text-uppercase font-weight-bold">
-                    Athlete ranking: @if($athlete->rank) <a href="{{ $athlete->rank->url }}">{{ $athlete->rank->rank }}</a> @else N/A @endif
+                {{__('Athlete ranking')}}: @if($athlete->rank) <a href="{{ $athlete->rank->url }}">{{ $athlete->rank->rank }}</a> @else N/A @endif
 
                     |
-                    Career Wins: <a href="#">{{ $athlete->getCareerWins()->count() }}</a>
+                {{__('Career Wins')}}: <a href="#">{{ $athlete->getCareerWins()->count() }}</a>
 
                 </div>
 
@@ -78,13 +78,13 @@
                     <div class="col-6 col-md-4 mb-3">
                         <div>
                             <div>
-                                Date of birth
+                {{__('Date of birth')}}
                             </div>
                             <span class='text-uppercase font-weight-bold'>
                                 @if ($athlete->dateOfBirth)
                                 {{ $athlete->dateOfBirthFormatted() }} ({{ $athlete->age }})
                                 @else
-                                Not provided
+                                {{__('Not provided')}}
                                 @endif
                             </span>
                         </div>
@@ -92,13 +92,13 @@
                     <div class="col-6 col-md-3 mb-3">
                         <div>
                             <div>
-                                Nationality
+                                {{__('Nationality')}}
                             </div>
                             <span class='text-uppercase font-weight-bold'>
                                 @if ($athlete->country)
                                 {{ $athlete->country->name }}
                                 @else
-                                Not provided
+                                {{__('Not provided')}}
                                 @endif
                             </span>
                         </div>
@@ -107,13 +107,13 @@
                     <div class="col-md-5 mb-3">
                         <div>
                             <div>
-                                Place of birth
+                                {{__('Place of birth')}}
                             </div>
                             <span class='text-uppercase font-weight-bold'>
                                 @if ($athlete->placeOfBirth)
                                 {{ $athlete->placeOfBirth }}
                                 @else
-                                Not provided
+                                {{__('Not provided')}}
                                 @endif
                             </span>
                         </div>
@@ -122,13 +122,13 @@
                     <div class="col-6 col-md-4 mb-3">
                         <div>
                             <div>
-                                Weight
+                                {{__('Weight')}}
                             </div>
                             <span class='text-uppercase font-weight-bold'>
                                 @if ($athlete->weight)
                                 {{ $athlete->weight }} kg
                                 @else
-                                Not provided
+                                {{__('Not provided')}}
                                 @endif
                             </span>
                         </div>
@@ -136,13 +136,13 @@
                     <div class="col-6 col-md-3 mb-3">
                         <div>
                             <div>
-                                Height
+                                {{__('Height')}}
                             </div>
                             <span class='text-uppercase font-weight-bold'>
                                 @if ($athlete->height)
                                 {{ number_format($athlete->height/100, 2) }} m
                                 @else
-                                Not provided
+                                {{__('Not provided')}}
                                 @endif
                             </span>
                         </div>
@@ -150,7 +150,7 @@
                     <div class="col-6 col-md-5 mb-3">
                         <div>
                             <div>
-                                Visits this week
+                                {{__('Visits this week')}}
                             </div>
                             <div class='text-uppercase font-weight-bold'>
                                 {{ $athlete->weeklyVisits }}
@@ -172,7 +172,7 @@
                 <div class="row">
 
                     <div class="col-md-6 mb-4 mb-md-0">
-                        <h2 class="h1 text-uppercase font-weight-bold">Top results</h2>
+    <h2 class="h1 text-uppercase font-weight-bold">{{__('Top results')}}</h2>
 
                         @foreach ($allRankCounts as $raceName => $rankCounts)
                         <div class="row">
@@ -207,7 +207,7 @@
                     <!-- POINTS PER SPECIALTY -->
                     @if(count($pointsPerSpecialty))
                     <div class="col-md-6">
-                        <h2 class="h1 text-uppercase font-weight-bold">Points per specialty</h2>
+    <h2 class="h1 text-uppercase font-weight-bold">{{__('Points per specialty')}}</h2>
                         @foreach($pointsPerSpecialty as $item)
                         <div class="d-flex align-items-center flex-wrap mb-2">
                             <div style="width:80px;" class="text-nowrap pr-2">

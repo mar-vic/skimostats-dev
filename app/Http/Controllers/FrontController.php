@@ -405,12 +405,17 @@ class FrontController extends Controller
         }
 
         $results = (new RaceEventResultsResource($event))->toArray($event);
+        // dd($results);
         $generalClassificationResults = [];
+
+        // dd($event->isGeneralClassification);
 
         return view('front.race-event', [
             'data' => [
                 'event' => (new RaceEventResource($event))->toArray($event),
                 'results' => $results,
+                'stage' => $event->stageNumber,
+                'isGeneralClassification' => $event->isGeneralClassification,
                 'showGeneralClassification' => $event->eventParent && $event->eventParent->hasStages(),
                 'generalClassificationResults' => $event->getGeneralClassificationResults(),
             ],

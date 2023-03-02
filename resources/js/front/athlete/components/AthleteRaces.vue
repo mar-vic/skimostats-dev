@@ -8,12 +8,12 @@
             <img src="/images/loading.svg" alt="Loading...">
           </div>
           <div v-else class="py-5">
-            <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Results per season: {{ year }}</h1>
+            <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">{{__('Results per season')}}: {{ year }}</h1>
             <h2 class="font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">
-              season summary: {{seasonSummary.raceDays}} race days with {{seasonSummary.points}} SkiMoStats Points
+              {{__('season summary')}}: {{seasonSummary.raceDays}} {{__('race days')}} {{__('with')}} {{seasonSummary.points}} {{__('SkiMoStats Points')}}
             </h2>
             <div class="d-flex mb-2">
-              <div class="font-weight-bold text-uppercase text-blue">Select season:</div>
+              <div class="font-weight-bold text-uppercase text-blue">{{__('Select season')}}:</div>
               <div class="position-relative d-inline-block ml-3">
                 <button class="badge badge--custom " @click="openYearDropdown = !openYearDropdown">
                   {{year}}

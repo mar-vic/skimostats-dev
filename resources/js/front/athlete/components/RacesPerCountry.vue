@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h1 class="font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Races per country</h1>
+      <h1 class="font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">{{__('Races per country')}}</h1>
 
         <table class="table table--races">
             <thead>
                 <tr class="text-uppercase">
-                    <th>Country</th>
-                    <th style="width:30px;" class="text-right">Races</th>
+                  <th>{{__('Country')}}</th>
+                  <th style="width:30px;" class="text-right">{{__('Races')}}</th>
                 </tr>
             </thead>
             <tbody>

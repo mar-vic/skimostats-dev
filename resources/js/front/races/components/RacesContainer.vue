@@ -29,7 +29,7 @@
                         </div>
                         <div class="position-relative mr-2" v-click-outside="closeMonthDropdown">
                             <button class="badge badge--custom " @click="openMonthDropdown = !openMonthDropdown; openYearDropdown = false;">
-                                {{ month && month.text ? month.text : 'all months' }}
+                                {{ month && month.text ? month.text : __('all months') }}
                                 <i class="fas fa-caret-down"></i>
                             </button>
 
@@ -40,7 +40,7 @@
                                     class="pr-4"
                                     :class="{'font-weight-bold': !month}"
                                 >
-                                    all
+                                  {{__('all')}}
                                 </router-link>
                                 <router-link
                                     v-for="m in months"
@@ -55,7 +55,7 @@
                         </div>
                         <div class="position-relative mr-2" v-click-outside="closeCountriesDropdown">
                             <button class="badge badge--custom " @click="openCountriesDropdown = !openCountriesDropdown;">
-                                {{ country ? country.name : 'all countries' }}
+                              {{ country ? country.name : __('all countries') }}
                                 <i class="fas fa-caret-down"></i>
                             </button>
 
@@ -66,7 +66,7 @@
                                     class="pr-4"
                                     :class="{'font-weight-bold': !country}"
                                 >
-                                    all
+                                  {{__('all')}}
                                 </a>
                                 <a href="#"
                                     v-for="c in countries"

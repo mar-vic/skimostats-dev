@@ -10,13 +10,13 @@
                         <div class="h1 text-uppercase page-heading mb-0 font-weight-bold">
                             {{ str_pad($actualPage, 2, "0", STR_PAD_LEFT) }}/{{ str_pad($pageCount, 2, "0", STR_PAD_LEFT) }}
                         </div>
-                        <div class="font-size-xsmall">displaying page of</div>
+                            <div class="font-size-xsmall">{{__('displaying page of')}}</div>
                     </div>
                     <div class="text-uppercase font-weight-bold">
                         <h1 class=" page-heading mb-0 font-weight-bold">
-                            Athletes ({{ $athleteCount }})
+                            {{__('Athletes')}} ({{ $athleteCount }})
                         </h1>
-                        <div>Filter by country</div>
+                                <div>{{__('Filter by country')}}</div>
                     </div>
                 </div>
 
@@ -61,9 +61,9 @@
 
                 <form action="#athlete-list" method="GET">
                     <div class="input-group mb-4">
-                        <input type="text" name="find" class="form-control" value="{{Request::get('find')}}" placeholder="Search athletes..." />
+                                           <input type="text" name="find" class="form-control" value="{{Request::get('find')}}" placeholder="{{__('Search athletes ...')}}" />
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Search</button>
+                                           <button class="btn btn-primary" type="submit">{{__('Search')}}</button>
                         </div>
                     </div>
                 </form>
@@ -85,7 +85,7 @@
                                             alt="{{ $entry->countryName  }}"
                                             />
                                         @endif
-                                        <div class="latest-results__view-profile">View profile</div>
+                                           <div class="latest-results__view-profile">{{__('View profile')}}</div>
                                     </div>
                                 </div>
                             </a>
@@ -127,4 +127,3 @@
 </div>
 
 @endsection
-

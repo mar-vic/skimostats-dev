@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Resources;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,6 +23,27 @@ class RaceEventResource extends JsonResource
             $relatedEvents = RaceEvent::whereNotNull('type')->where('is_visible', true)->where('raceId', $this->raceId)->orderBy('year', 'asc')->get();
         }
 
+        $stageSlugs = null;
+        $generalClassificationSlug = null;
+
+        if ($this->stageNumber or $this->isGeneralClassification) {
+            $queryBuilder = DB::table('race_events as events')
+                          ->select('events.id',
+                                   'events.name',
+                                   'events.stageNumber',
+                                   'events.isGeneralClassification',
+                                   'events.parent',
+                                   'events.slug'
+                          )
+                          ->where('events.parent', '=', $raceEvent->parent)
+                          ->orderBy('events.stageNumber');
+            $events = $queryBuilder->get()->map(function ($event) { return $event->slug; });
+            $stageSlugs = $events->slice(1);
+            $generalClassificationSlug = $events->first();
+        }
+
+        // dd($generalClassificationSlug);
+
         return [
             'id' => $this->id,
             'raceId' => $this->raceId,
@@ -37,6 +59,8 @@ class RaceEventResource extends JsonResource
             'year' => $this->year,
             'categories' => RaceEventCategoryResource::collection($this->categories)->toArray($raceEvent),
             'resultCount' => RaceEventEntry::where('raceEventId', $this->id)->count(),
+            'stageSlugs' => $stageSlugs,
+            'gcSlug' => $generalClassificationSlug
         ];
     }
 }

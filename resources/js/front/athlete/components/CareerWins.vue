@@ -8,7 +8,7 @@
             <img src="/images/loading.svg" alt="Loading...">
           </div>
           <div v-else class="py-5">
-            <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">Career Wins</h1>
+            <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">{{__('Career Wins')}}</h1>
 
             <div class="position-relative">
               <table class="table table--races table--races-striped"> <!-- CAREER WINS TABLE -->
