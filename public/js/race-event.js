@@ -2634,17 +2634,21 @@ var render = function render() {
     staticClass: "font-weight-bold text-uppercase mb-1"
   }, [_vm._v(_vm._s(_vm.raceType))]), _vm._v(" "), _c("div", {
     staticClass: "small text-disabled"
-  }, [_vm._v("\n      " + _vm._s(_vm.event.resultCount) + " " + _vm._s(_vm.__("results")) + "   "), _vm.event.elevation ? _c("span", [_vm._v("|   " + _vm._s(_vm.event.elevation) + "m   ")]) : _vm._e(), _vm._v("|   " + _vm._s(_vm.futureEvent ? _vm.__("starts") : _vm.__("finished")) + " " + _vm._s(_vm.finishedAgo) + " "), _vm.event.stageSlugs ? _c("span", [_vm._v("|   stages: "), _vm._l(_vm.event.stageSlugs, function (stageSlug, index) {
+  }, [_vm._v("\n      " + _vm._s(_vm.event.resultCount) + " " + _vm._s(_vm.__("results")) + "   "), _vm.event.elevation ? _c("span", [_vm._v("|   " + _vm._s(_vm.event.elevation) + "m   ")]) : _vm._e(), _vm._v("|   " + _vm._s(_vm.futureEvent ? _vm.__("starts") : _vm.__("finished")) + " " + _vm._s(_vm.finishedAgo) + " "), _vm.event.stageSlugs && _vm.isDetail ? _c("span", [_vm._v("|   stages: "), _vm._l(_vm.event.stageSlugs, function (stageSlug, index) {
     return _c("span", {
       staticStyle: {
         "margin-right": "5px"
       }
-    }, [_c("a", {
+    }, [_vm.event.slug != stageSlug ? _c("a", {
       attrs: {
         href: "/event/".concat(stageSlug)
       }
+    }, [_c("strong", [_vm._v(_vm._s(index) + _vm._s(_vm.getOrdinal(index)))])]) : _c("span", {
+      staticStyle: {
+        color: "rgba(33, 37, 41, 0.5)"
+      }
     }, [_c("strong", [_vm._v(_vm._s(index) + _vm._s(_vm.getOrdinal(index)))])])]);
-  })], 2) : _vm._e(), _vm.event.gcSlug && _vm.event.gcSlug != _vm.event.slug ? _c("span", [_vm._v("|   "), _c("a", {
+  })], 2) : _vm._e(), _vm.event.gcSlug && _vm.event.gcSlug != _vm.event.slug && _vm.isDetail ? _c("span", [_vm._v("|   "), _c("a", {
     attrs: {
       href: "/event/".concat(_vm.event.gcSlug)
     }

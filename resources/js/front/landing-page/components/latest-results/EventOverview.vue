@@ -8,7 +8,7 @@
 
         <div class="font-weight-bold text-uppercase mb-1">{{ raceType }}</div>
         <div class="small text-disabled">
-          {{ event.resultCount }} {{__('results')}} &nbsp;&nbsp;<span v-if="event.elevation">|&nbsp;&nbsp; {{ event.elevation }}m &nbsp;&nbsp;</span>|&nbsp;&nbsp; {{ futureEvent?__('starts'):__('finished') }} {{ finishedAgo }} <span v-if="event.stageSlugs">|&nbsp;&nbsp; stages: <span style="margin-right:5px;" v-for="(stageSlug, index) in event.stageSlugs"><a :href="`/event/${stageSlug}`"><strong>{{index}}{{getOrdinal(index)}}</strong></a></span></span><span v-if="event.gcSlug && event.gcSlug != event.slug">|&nbsp;&nbsp; <a :href="`/event/${event.gcSlug}`"><strong>General Classification</strong></a></span>
+          {{ event.resultCount }} {{__('results')}} &nbsp;&nbsp;<span v-if="event.elevation">|&nbsp;&nbsp; {{ event.elevation }}m &nbsp;&nbsp;</span>|&nbsp;&nbsp; {{ futureEvent?__('starts'):__('finished') }} {{ finishedAgo }} <span v-if="event.stageSlugs && isDetail">|&nbsp;&nbsp; stages: <span style="margin-right:5px;" v-for="(stageSlug, index) in event.stageSlugs"><a v-if="event.slug != stageSlug" :href="`/event/${stageSlug}`"><strong>{{index}}{{getOrdinal(index)}}</strong></a><span style="color:rgba(33, 37, 41, 0.5)" v-else><strong>{{index}}{{getOrdinal(index)}}</strong></span></span></span><span v-if="event.gcSlug && event.gcSlug != event.slug && isDetail">|&nbsp;&nbsp; <a :href="`/event/${event.gcSlug}`"><strong>General Classification</strong></a></span>
         </div>
       </div>
       <div class="position-relative">
