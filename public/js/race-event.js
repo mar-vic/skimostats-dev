@@ -2745,7 +2745,7 @@ var render = function render() {
     staticClass: "font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4"
   }, [_vm._v("Complete results")]), _vm._v(" "), _c("div", {
     staticClass: "text-center text-md-left"
-  }, _vm._l(_vm.results, function (category) {
+  }, [_vm._l(_vm.results, function (category) {
     return _c("router-link", {
       key: "catz-".concat(category.id),
       staticClass: "badge badge--custom ml-1 my-1",
@@ -2762,7 +2762,31 @@ var render = function render() {
         }
       }
     }, [_vm._v(_vm._s(category.name))]);
-  }), 1)]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("label", {
+    staticClass: "switch btn-switch"
+  }, [_c("input", {
+    attrs: {
+      type: "checkbox",
+      name: "time_mode",
+      id: "time_mode",
+      value: "1"
+    },
+    domProps: {
+      checked: _vm.showTimeDifference ? "checked" : ""
+    },
+    on: {
+      click: function click($event) {
+        _vm.showTimeDifference = !_vm.showTimeDifference;
+      }
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "btn-switch-inner",
+    attrs: {
+      "for": "time_mode",
+      "data-on": "DIFF",
+      "data-off": "ABS"
+    }
+  })])], 2)]), _vm._v(" "), _c("div", {
     staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table--races table--races-striped text-uppercase"
@@ -2806,17 +2830,7 @@ var render = function render() {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("\n                                      TIME\n                                    ")]) : _vm._e(), _vm._v(" "), !_vm.isSprintRace ? _c("th", [_c("a", {
-    staticClass: "badge badge--custom ml-2",
-    staticStyle: {
-      cursor: "pointer"
-    },
-    on: {
-      click: function click($event) {
-        _vm.showTimeDifference = !_vm.showTimeDifference;
-      }
-    }
-  }, [_c("strong", [_vm.showTimeDifference ? _c("span", [_vm._v("abs")]) : _c("span", [_vm._v("diff")])])])]) : _vm._e()])]), _vm._v(" "), _c("tbody", _vm._l(_vm.entries, function (entry) {
+  }, [_vm._v("\n                                      TIME\n                                    ")]) : _vm._e()])]), _vm._v(" "), _c("tbody", _vm._l(_vm.entries, function (entry) {
     return _c("tr", {
       key: "entry".concat(_vm.isGCscreen ? "-gc" : "", "-").concat(entry.id),
       "class": {
@@ -2855,7 +2869,7 @@ var render = function render() {
       staticStyle: {
         "text-align": "center"
       }
-    }, [_vm.relativeTime(entry.gcTime, entry.category) != 0 && _vm.showTimeDifference ? _c("span", [_vm._v("\n                                        +" + _vm._s(_vm.relativeTime(entry.gcTime, entry.category)) + "\n                                      ")]) : _c("strong", [_vm._v(_vm._s(entry.gcTimeFormatted))])]) : _vm._e(), _vm._v(" "), !_vm.isSprintRace ? _c("td") : _vm._e()]);
+    }, [_vm.relativeTime(entry.gcTime, entry.category) != 0 && _vm.showTimeDifference ? _c("span", [_vm._v("\n                                        +" + _vm._s(_vm.relativeTime(entry.gcTime, entry.category)) + "\n                                      ")]) : _c("strong", [_vm._v(_vm._s(entry.gcTimeFormatted))])]) : _vm._e()]);
   }), 0)])])])])])])]);
 };
 var staticRenderFns = [];
@@ -2917,7 +2931,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".dropdown__menu[data-v-e9269b66] {\n  z-index: 10;\n  border: 1px #bebfc1 solid;\n  background: #fff;\n  border-radius: 3px;\n  position: absolute;\n  right: 0;\n  top: 100%;\n  min-width: 100%;\n  white-space: nowrap;\n}\n.dropdown__menu a[data-v-e9269b66] {\n  padding: 4px 10px;\n  display: block;\n}", ""]);
+exports.push([module.i, ".dropdown__menu[data-v-e9269b66] {\n  z-index: 10;\n  border: 1px #bebfc1 solid;\n  background: #fff;\n  border-radius: 3px;\n  position: absolute;\n  right: 0;\n  top: 100%;\n  min-width: 100%;\n  white-space: nowrap;\n}\n.dropdown__menu a[data-v-e9269b66] {\n  padding: 4px 10px;\n  display: block;\n}\n.btn-switch[data-v-e9269b66] {\n  display: inline-block;\n  margin: 0px;\n  margin-left: 40px;\n  position: relative;\n  top: 10px;\n}\n.btn-switch > label.btn-switch-inner[data-v-e9269b66] {\n  margin: 0px;\n  width: 80px;\n  height: 29px;\n  background: #E0E0E0;\n  border-radius: 3px;\n  overflow: hidden;\n  position: relative;\n  transition: all 0.3s ease;\n  /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/\n  display: block;\n}\n.btn-switch > label.btn-switch-inner[data-v-e9269b66]:after {\n  content: attr(data-on);\n  position: absolute;\n  font-size: 75%;\n  font-weight: bold;\n  top: 6px;\n  right: 8px;\n  /* background-color: red; */\n}\n.btn-switch > label.btn-switch-inner[data-v-e9269b66]:before {\n  content: attr(data-off);\n  width: 40px;\n  height: 25px;\n  background: #fff;\n  border-radius: 3px;\n  position: absolute;\n  right: 2px;\n  top: 2px;\n  text-align: center;\n  transition: all 0.3s ease;\n  font-weight: bold;\n  font-size: 75%;\n  box-shadow: 0px 0px 6px -2px #111;\n  padding: 4px 0px;\n}\n.btn-switch input[type=checkbox][data-v-e9269b66] {\n  cursor: pointer;\n  width: 80px;\n  height: 25px;\n  opacity: 0;\n  position: absolute;\n  top: 0;\n  z-index: 1;\n  margin: 0px;\n}\n.btn-switch input[type=checkbox]:not(:checked) + label.btn-switch-inner[data-v-e9269b66]:after {\n  content: attr(data-on);\n  left: 8px;\n}\n.btn-switch input[type=checkbox]:checked + label.btn-switch-inner[data-v-e9269b66]:after {\n  content: attr(data-off);\n  right: 8px;\n}\n.btn-switch input[type=checkbox]:checked + label.btn-switch-inner[data-v-e9269b66]:before {\n  content: attr(data-on);\n  right: auto;\n  /* top: -10px; */\n  left: 2px;\n}\n.btn-switch input[type=checkbox]:checked + label.btn-switch-inner[data-v-e9269b66] {\n  /*background: #66BB6A; */\n  /*color: #fff;*/\n}\n.btn-switch input[type=checkbox]:checked ~ .alert[data-v-e9269b66] {\n  display: block;\n}", ""]);
 
 // exports
 

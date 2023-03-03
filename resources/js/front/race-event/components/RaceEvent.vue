@@ -27,6 +27,12 @@
                                   :key="`catz-${category.id}`"
                                 >{{ category.name }}</router-link>
 
+                                <label class="switch btn-switch">
+                                  <input @click="showTimeDifference = !showTimeDifference" type="checkbox" :checked="showTimeDifference ? 'checked' : ''" name="time_mode" id="time_mode" value="1">
+                                  <label for="time_mode" data-on="DIFF" data-off="ABS" class="btn-switch-inner"></label>
+                                </label>
+
+
                                 <!-- <div class="inline" v-if="showGeneralClassification">
                                      <router-link
                                      :to="{ name: 'event.category.gc', params: { event: event.slug, category: category.slug }}"
@@ -40,6 +46,7 @@
                                      </div>
                                 -->
                             </div>
+
                         </div>
 
                         <div class="table-responsive">
@@ -71,14 +78,6 @@
 
                                         <th v-if="isGeneralClassification" style="text-align:center;">
                                           TIME
-                                        </th>
-
-                                        <th v-if="!isSprintRace">
-                                          <a class="badge badge--custom ml-2"
-                                            style="cursor:pointer"
-                                            @click="showTimeDifference = !showTimeDifference">
-                                            <strong><span v-if="showTimeDifference">abs</span><span v-else>diff</span></strong>
-                                          </a>
                                         </th>
 
                                     </tr>
@@ -122,9 +121,6 @@
                                             +{{relativeTime(entry.gcTime, entry.category)}}
                                           </span>
                                           <strong v-else>{{entry.gcTimeFormatted}}</strong>
-                                        </td>
-
-                                        <td v-if="!isSprintRace">
                                         </td>
 
                                     </tr>
@@ -275,5 +271,90 @@ export default {
         padding: 4px 10px;
         display: block;
     }
+}
+
+.btn-switch{
+  display: inline-block;
+  margin: 0px;
+  margin-left: 40px;
+  position: relative;
+  top: 10px;
+}
+
+.btn-switch > label.btn-switch-inner{
+  margin: 0px;
+  width: 80px;
+  height: 29px;
+  background: #E0E0E0;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
+  display: block;
+}
+
+.btn-switch > label.btn-switch-inner:after{
+  content: attr(data-on);
+  position: absolute;
+  font-size: 75%;
+  font-weight: bold;
+  top: 6px;
+  right: 8px;
+  /* background-color: red; */
+}
+
+.btn-switch > label.btn-switch-inner:before{
+  content: attr(data-off);
+  width: 40px;
+  height: 25px;
+  background: #fff;
+  border-radius: 3px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 75%;
+  box-shadow: 0px 0px 6px -2px #111;
+  padding: 4px 0px;
+}
+
+.btn-switch input[type="checkbox"]{
+  cursor: pointer;
+  width: 80px;
+  height: 25px;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  margin: 0px;
+}
+
+.btn-switch input[type="checkbox"]:not(:checked) + label.btn-switch-inner:after{
+  content: attr(data-on);
+  left: 8px;
+}
+
+.btn-switch input[type="checkbox"]:checked + label.btn-switch-inner:after{
+  content: attr(data-off);
+  right: 8px;
+}
+
+.btn-switch input[type="checkbox"]:checked + label.btn-switch-inner:before{
+  content: attr(data-on);
+  right: auto;
+  /* top: -10px; */
+  left: 2px;
+}
+
+.btn-switch input[type="checkbox"]:checked + label.btn-switch-inner{
+  /*background: #66BB6A; */
+  /*color: #fff;*/
+}
+
+.btn-switch input[type="checkbox"]:checked ~ .alert{
+  display: block;
 }
 </style>
