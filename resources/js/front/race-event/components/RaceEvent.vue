@@ -75,10 +75,9 @@
 
                                         <th v-if="!isSprintRace">
                                           <a class="badge badge--custom ml-2"
-                                            :class="{'badge-active' : showTimeDifference}"
                                             style="cursor:pointer"
                                             @click="showTimeDifference = !showTimeDifference">
-                                            diff
+                                            <strong><span v-if="showTimeDifference">abs</span><span v-else>diff</span></strong>
                                           </a>
                                         </th>
 

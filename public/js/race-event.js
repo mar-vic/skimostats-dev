@@ -2808,9 +2808,6 @@ var render = function render() {
     }
   }, [_vm._v("\n                                      TIME\n                                    ")]) : _vm._e(), _vm._v(" "), !_vm.isSprintRace ? _c("th", [_c("a", {
     staticClass: "badge badge--custom ml-2",
-    "class": {
-      "badge-active": _vm.showTimeDifference
-    },
     staticStyle: {
       cursor: "pointer"
     },
@@ -2819,7 +2816,7 @@ var render = function render() {
         _vm.showTimeDifference = !_vm.showTimeDifference;
       }
     }
-  }, [_vm._v("\n                                        diff\n                                      ")])]) : _vm._e()])]), _vm._v(" "), _c("tbody", _vm._l(_vm.entries, function (entry) {
+  }, [_c("strong", [_vm.showTimeDifference ? _c("span", [_vm._v("abs")]) : _c("span", [_vm._v("diff")])])])]) : _vm._e()])]), _vm._v(" "), _c("tbody", _vm._l(_vm.entries, function (entry) {
     return _c("tr", {
       key: "entry".concat(_vm.isGCscreen ? "-gc" : "", "-").concat(entry.id),
       "class": {
