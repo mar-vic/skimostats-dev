@@ -8,7 +8,7 @@ import dummyStore from './modules/dummyStore'
 import DataPane from '../components/data_pane/DataPane.vue'
 import DataPaneCountries from '../components/data_pane/DataPaneCountries.vue'
 import PlaceHolder from '../components/PlaceHolder.vue'
-import Histogram from '../components/Histogram.vue'
+// import Histogram from '../components/Histogram.vue'
 
 // Localization
 import _ from 'lodash'
@@ -28,7 +28,7 @@ export default {
     DataPane,
     DataPaneCountries,
     PlaceHolder,
-    Histogram,
+    // Histogram,
   },
 
   state () {
