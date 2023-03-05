@@ -205,7 +205,7 @@
 
     <script src="{{ mix('js/main.js') }}"></script>
 
-    <script src="/js/lang.js"></script>
+            {{-- <script src="/js/lang.js"></script> --}}
 
     @stack('scripts')
 </body>
