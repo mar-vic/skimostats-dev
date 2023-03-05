@@ -76,7 +76,6 @@
 
                 <!-- SOCIALS AND MAIL -->
                 <div class="topbar__social-icons d-none d-md-flex">
-                    @include('layouts.partials.language_switcher')
                     <a href='https://www.facebook.com/skimostats' target="_blank" class="topbar__social-icon mr-1">
                         <i class="fab fa-facebook-f"></i>
                     </a>
