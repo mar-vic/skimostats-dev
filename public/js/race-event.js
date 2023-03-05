@@ -2693,7 +2693,19 @@ var render = function render() {
         "is-detail": _vm.isDetail
       }
     });
-  }), 1)])])]);
+  }), 1)])]), _vm._v(" "), _vm.event.id == 1257 ? _c("div", [_c("h2", {
+    staticClass: "text-uppercase font-weight-bold"
+  }, [_vm._v("\n      Event live stream\n    ")]), _vm._v(" "), _c("iframe", {
+    attrs: {
+      width: "100%",
+      height: "400",
+      src: "https://www.youtube.com/embed/ay0AannDC90",
+      title: "YouTube video player",
+      frameborder: "0",
+      allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+      allowfullscreen: ""
+    }
+  })]) : _vm._e()]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -2743,7 +2755,7 @@ var render = function render() {
     staticClass: "d-flex justify-content-between align-items-center mb-3 flex-column flex-md-row"
   }, [_c("h1", {
     staticClass: "font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4"
-  }, [_vm._v("Complete results")]), _vm._v(" "), _c("div", {
+  }, [_vm._v("Results")]), _vm._v(" "), _c("div", {
     staticClass: "text-center text-md-left"
   }, [_vm._l(_vm.results, function (category) {
     return _c("router-link", {

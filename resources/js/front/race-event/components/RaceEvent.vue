@@ -17,7 +17,7 @@
                     <div class="col-md-10 col-lg-9">
 
                         <div class="d-flex justify-content-between align-items-center mb-3 flex-column flex-md-row">
-                            <h1 class="font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4">Complete results</h1>
+                            <h1 class="font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4">Results</h1>
                             <div class="text-center text-md-left">
                                 <router-link
                                   :to="{ name: 'event.category', params: { event: event.slug, category: category.slug }}"
