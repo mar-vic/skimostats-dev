@@ -4256,19 +4256,7 @@ var render = function render() {
         "is-detail": _vm.isDetail
       }
     });
-  }), 1)])]), _vm._v(" "), _vm.event.id == 1257 ? _c("div", [_c("h2", {
-    staticClass: "text-uppercase font-weight-bold"
-  }, [_vm._v("\n      Event live stream\n    ")]), _vm._v(" "), _c("iframe", {
-    attrs: {
-      width: "100%",
-      height: "400",
-      src: "https://www.youtube.com/embed/ay0AannDC90",
-      title: "YouTube video player",
-      frameborder: "0",
-      allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
-      allowfullscreen: ""
-    }
-  })]) : _vm._e()]);
+  }), 1)])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;
