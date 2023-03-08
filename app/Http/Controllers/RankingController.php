@@ -145,7 +145,7 @@ class RankingController extends Controller
         )->get();
 
         if ($filter == 'race-type' && $entityId) {
-            dd('With filter');
+            // dd('With filter');
             $rankingQB = DB::table('rankings as r')
                 ->select(
                     DB::raw('SUM(r.points) as pts'),
@@ -169,7 +169,7 @@ class RankingController extends Controller
                 $rankingQB->whereBetween('r.obtainedAt', Ranking::getRankingYearTimeSpan($year));
             }
         } else if ($filter == 'all-time') {
-            dd('all-time');
+            // dd('all-time');
             $rankingQB = DB::table('ranking_tables as r')
                 ->select(
                     DB::raw('SUM(r.points) as pts'),
