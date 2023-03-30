@@ -28,17 +28,113 @@ class RankingController extends Controller
     }
 
     public function refreshAllIsmfRankings(Request $request) {
+        set_time_limit(300);
+
         $type = RankingType::ISMF;
         $user = Auth::user();
 
         // Script start
         $rustart = getrusage();
 
+        // dd(Ranking::where('type', $type)->get());
+
         // delete all ismf ranking entries
         Ranking::where('type', $type)->delete();
 
+        // dd('ISMF rankings deleted!');
+
+        // dd(Ranking::where('type', $type)->get());
+
         // create new entries
         $ismfRaceIds = Race::getIsmfWorldCupIds();
+
+        $entries = DB::table('race_event_participants as p')
+            ->select(
+                DB::raw('COALESCE(e.rank, ee.rank) as rnk'),
+                'p.athleteId',
+                DB::raw('COALESCE(ev.endDate, ev.startDate) as obtainedAt'),
+                'p.id as participantId',
+                'ev.type as raceTypeId',
+                'ev.raceId',
+                'ev.id as raceEventId',
+                DB::raw('COALESCE(e.categoryId, ee.categoryId) as categoryId')
+            )
+            ->leftJoin('race_event_entries as e', 'e.raceEventParticipantId', 'p.id')
+            ->leftJoin('race_event_teams as t', 'p.raceEventTeamId', 't.id')
+            ->leftJoin('race_event_entries as ee', 'ee.raceEventTeamId', 't.id')
+            ->join('race_events as ev', function ($join) {
+                $join->on('ev.id', '=', 'e.raceEventId')
+                    ->orOn('ev.id', '=', 'ee.raceEventId');
+            })
+            ->whereNotNull('p.athleteId')
+            ->whereIn('ev.raceId', $ismfRaceIds)
+            ->having('rnk', '>=', 1)
+            ->having('rnk', '<', 51)
+            // ->limit(10)
+            ->get();
+
+        // dd($entries);
+
+        // dd(Ranking::where('type', $type)->get());
+
+        $rankings = [];
+        $now = Carbon::now();
+        foreach ($entries as $entry) {
+            $ranking = [
+                'type' => $type,
+                'rank' => $entry->rnk,
+                'points' => Ranking::mapIsmfPointsToRank($entry->rnk),
+                'athleteId' => $entry->athleteId,
+                'obtainedAt' => $entry->obtainedAt,
+                'participantId' => $entry->participantId,
+                'categoryId' => $entry->categoryId,
+                'raceTypeId' => $entry->raceTypeId,
+                'raceEventId' => $entry->raceEventId,
+                'raceId' => $entry->raceId,
+                'addedBy' => $user->id,
+                'created_at' => $now,
+                'updated_at' => $now
+            ];
+
+            // $rnk = Ranking::create($ranking);
+            DB::table('rankings')->insert($ranking);
+            $rankings[] = $ranking;
+        }
+
+        // dd($rankings);
+
+        // Code ...
+
+        // Script end
+        function rutime($ru, $rus, $index) {
+            return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
+            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+        }
+
+        $ru = getrusage();
+        echo count($rankings)." rank entries created.\n";
+        echo "This process used " . rutime($ru, $rustart, "utime") .
+            " ms for its computations\n";
+        echo "It spent " . rutime($ru, $rustart, "stime") .
+            " ms in system calls\n";
+
+    }
+
+    public function refreshAllIsmfYouthWcRankings(Request $request) {
+        set_time_limit(300);
+        $type = RankingType::YOUTH_WC;
+        $user = Auth::user();
+
+        // Script start
+        $rustart = getrusage();
+
+        // delete all youth wc ranking entries
+        Ranking::where('type', $type)->delete();
+
+        // dd('Youth WC ranking deleted!');
+
+        // create new entries
+        $youthWcRaceIds = Race::getIsmfYouthWorldCupIds();
 
         // dd($ismfRaceIds);
 
@@ -61,7 +157,7 @@ class RankingController extends Controller
                     ->orOn('ev.id', '=', 'ee.raceEventId');
             })
             ->whereNotNull('p.athleteId')
-            ->whereIn('ev.raceId', $ismfRaceIds)
+            ->whereIn('ev.raceId', $youthWcRaceIds)
             ->having('rnk', '>=', 1)
             ->having('rnk', '<', 51)
             // ->limit(10)
@@ -109,10 +205,11 @@ class RankingController extends Controller
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
             " ms in system calls\n";
-
     }
 
     public function refreshAllSkimostatsRankings(Request $request) {
+        set_time_limit(300);
+
         $type = RankingType::SKIMO_STATS;
         $user = Auth::user();
 
@@ -120,6 +217,8 @@ class RankingController extends Controller
         $rustart = getrusage();
 
         Ranking::where('type', $type)->delete();
+
+        // dd('Skimostats ranking deletd!');
 
         // create new entries
         $entries = DB::table('race_event_participants as p')
@@ -234,6 +333,8 @@ class RankingController extends Controller
 
 
     public function updateRankingTable(int $rankingType = null, int $year = null) {
+        set_time_limit(300);
+
         // Script start
         $rustart = getrusage();
 
@@ -241,7 +342,7 @@ class RankingController extends Controller
         $rankings = [];
         $categories = [1, 2, 38];
 
-        if ($rankingType == 2) {
+        if ($rankingType == 2 or $rankingType == 3) {
             $categories = array_map(function($item){return $item['id'];}, Category::all()->toArray());
         }
 
@@ -251,6 +352,7 @@ class RankingController extends Controller
             $rankingTypes = [
                 RankingType::ISMF,
                 RankingType::SKIMO_STATS,
+                RankingType::YOUTH_WC,
             ];
         }
         foreach ($rankingTypes as $type) {

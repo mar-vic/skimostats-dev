@@ -87,6 +87,8 @@ class RaceEventController extends Controller
         $categories = Category::all();
         $countries = Country::orderBy('name', 'asc')->get();
 
+        // dd('admin.'.$this->slug.'.edit');
+
         return view('admin.'.$this->slug.'.edit', [
             'edit' => $edit,
             'entry' => $entry,

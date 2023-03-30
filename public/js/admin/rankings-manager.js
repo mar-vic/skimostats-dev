@@ -2202,11 +2202,13 @@ var States = {
 };
 var RankingTypes = {
   SKIMO_STATS: 'skimostats',
-  ISMF: 'ismf'
+  ISMF: 'ismf',
+  YOUTH_WC: 'youthwc'
 };
 var RankingTypesIds = {
   skimostats: 1,
-  ismf: 2
+  ismf: 2,
+  youthwc: 3
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2269,7 +2271,7 @@ var RankingTypesIds = {
                               case 0:
                                 _context.prev = 0;
                                 _this.updatingRankingTypes.push(type);
-                                console.log("API Call: ".concat(UPDATE_RANKING_DATA_URL, "/").concat(type));
+                                console.log("API Call (DATA): ".concat(UPDATE_RANKING_DATA_URL, "/").concat(type));
                                 _context.next = 5;
                                 return axios.get("".concat(UPDATE_RANKING_DATA_URL, "/").concat(type));
                               case 5:
@@ -2328,7 +2330,7 @@ var RankingTypesIds = {
                               case 0:
                                 _context3.prev = 0;
                                 _this.updatingRankingTypes.push(type);
-                                console.log("API Call: ".concat(UPDATE_RANKING_TABLE_URL, "/").concat(RankingTypesIds[type]));
+                                console.log("API Call (TABLE): ".concat(UPDATE_RANKING_TABLE_URL, "/").concat(RankingTypesIds[type]), RankingTypesIds, type);
                                 _context3.next = 5;
                                 return axios.get("".concat(UPDATE_RANKING_TABLE_URL, "/").concat(RankingTypesIds[type]));
                               case 5:

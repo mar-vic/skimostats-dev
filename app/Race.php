@@ -26,6 +26,8 @@ class Race extends Model
 
     private static $ismfWorldCupRaces = [7]; //, 10, 14];
 
+    private static $ismfYouthWorldCupRaces = [165];
+
     public function sluggable(): array
     {
         return [
@@ -37,6 +39,10 @@ class Race extends Model
 
     public static function getIsmfWorldCupIds() {
         return self::$ismfWorldCupRaces;
+    }
+
+    public static function getIsmfYouthWorldCupIds() {
+        return self::$ismfYouthWorldCupRaces = [165];
     }
 
     public function raceCategories() {
