@@ -73,7 +73,7 @@
 
                                            <a href="{{ route('rankings.year', ['ismf', $year==0 ? date("Y") : $year, 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 2) badge-active @endif">ISMF World Cup {{__('ranking')}}</a>
 
-                                               <a href="{{ route('rankings.year', ['youthwc', $year==0 ? date("Y") : $year, 'u18-men']) }}" class="badge my-1 badge--custom @if($rankingType == 3) badge-active @endif">Youth World Cup {{__('ranking')}}</a>
+                                               <a href="{{ route('rankings.year', ['youthwc', $year==0 ? date("Y") : $year, 'u18-men']) }}" class="badge my-1 badge--custom @if($rankingType == 3) badge-active @endif">ISMF Youth World Cup {{__('ranking')}}</a>
 
                     </div>
                     <div class="text-center">
