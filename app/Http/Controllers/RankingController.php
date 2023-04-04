@@ -305,8 +305,7 @@ class RankingController extends Controller
             'category' => $category,
 
             'rankingType' => $rankingType,
-            'rankingTypeText' => $rankingType == 2 ? 'ISMF World Cup' : 'SkiMo Stats',
-
+            'rankingTypeText' => $rankingType == 1 ? 'SkiMo Stats' : ($rankingType == 2 ? 'ISMF World Cup' : 'ISMF Youth World Cup'),
             'entityId' => $entityId,
             'raceType' => RaceType::where('id', $entityId)->first(),
             // 'raceTypes' => RaceType::where('slug','!=','relay-race')->orderBy('name', 'asc')->get(),
