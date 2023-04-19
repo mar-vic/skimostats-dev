@@ -37,9 +37,11 @@ class RankingController extends Controller
         if (!$year) {
             $year = $this->getActualYear();
         }
+
         $mapType = [
             'ismf' => RankingType::ISMF,
             'skimostats' => RankingType::SKIMO_STATS,
+            'youthwc' => RankingType::YOUTH_WC,
         ];
 
         if (!in_array($rankingType, array_keys($mapType))) {
@@ -78,6 +80,17 @@ class RankingController extends Controller
         return $this->rankingCategory($request, RankingType::ISMF, $cat, 0, 'all-time');
     }
 
+    public function rankingAllTimeYouthWc(Request $request, string $category)
+    {
+        $cat = Category::where('slug', $category)->whereIn('id', [23, 24, 25, 26, 27, 28])->first();
+        if (!$cat) {
+            return abort(404);
+        }
+
+        return $this->rankingCategory($request, RankingType::YOUTH_WC, $cat, 0, 'all-time');
+    }
+
+
     public function rankingRaceType(Request $request, string $raceType, string $category) {
         $type = RaceType::where('slug', $raceType)->first();
         $cat = Category::where('slug', $category)->whereIn('id', [1,2])->first();
@@ -97,6 +110,17 @@ class RankingController extends Controller
         }
 
         return $this->rankingCategory($request, RankingType::ISMF, $cat, 0, 'race-type', $type->id);
+    }
+
+    public function rankingRaceTypeYouthWc(Request $request, string $raceType, string $category) {
+        $type = RaceType::where('slug', $raceType)->first();
+        $cat = Category::where('slug', $category)->whereIn('id', [23, 24, 25, 26, 27, 28])->first();
+
+        if (!$type || !$cat) {
+            return abort(404);
+        }
+
+        return $this->rankingCategory($request, RankingType::YOUTH_WC, $cat, 0, 'race-type', $type->id);
     }
 
 
@@ -121,12 +145,27 @@ class RankingController extends Controller
         return $this->rankingCategory($request, RankingType::ISMF, $cat, $year, 'race-type', $type->id);
     }
 
+    public function rankingRaceTypeYearYouthWc(Request $request, int $year, string $raceType, string $category)
+    {
+        $type = RaceType::where('slug', $raceType)->first();
+        $cat = Category::where('slug', $category)->whereIn('id', [23, 24, 25, 26, 27, 28])->first();
+        if (!$type || !$cat) {
+            return abort(404);
+        }
+
+        return $this->rankingCategory($request, RankingType::YOUTH_WC, $cat, $year, 'race-type', $type->id);
+    }
+
     public function rankingCategory(Request $request, int $rankingType, Category $category, int $year = null, string $filter = null, int $entityId = null) {
+
+        // dd($category->slug);
 
         // if (!$year) {
         //     dd($year.$filter.$entityId);
         //     $year = $this->getActualYear();
         // }
+
+        // dd("Ranking type: ".$rankingType, "Category: ".$category, "Year: ".$year, "Filter: ".$filter, "EntityId: ".$entityId);
 
         $minYear = $rankingType == RankingType::ISMF ? 2018 : 1900;
 
@@ -134,15 +173,32 @@ class RankingController extends Controller
             return abort(404);
         }
 
-        $categories = Category::whereIn('id',
-            $rankingType == 1
-            ? [
-                1,2,38
-            ]
-            : [
-                1,2,3,4,5,6,25,26,38
-            ]
-        )->get();
+        $categoryIds = [];
+        // SKIMO CATEGORIES
+        if ($rankingType == 1) {
+            $categoryIds = [1, 2, 38];
+        }
+
+        // ISMF CATEGORIES
+        if ($rankingType == 2) {
+            $categoryIds = [1, 2, 3, 4, 5, 6, 25, 26, 38];
+        }
+
+        // ISMF YOUTH WC CATS
+        if ($rankingType == 3) {
+            $categoryIds = [23, 24, 25, 26, 27, 28];
+        }
+
+        $categories = Category::whereIn('id', $categoryIds)->get();
+        // $categories = Category::whereIn('id',
+        //     $rankingType == 1
+        //     ? [
+        //         1,2,38
+        //     ]
+        //     : [
+        //         1,2,3,4,5,6,25,26,38
+        //     ]
+        // )->get();
 
         if ($filter == 'race-type' && $entityId) {
             // dd('With filter');
@@ -242,13 +298,14 @@ class RankingController extends Controller
 
         rsort($years);
 
+        // dd($categories, $category, $rankingType);
+
         return view('front.rankings', [
             'categories' => $categories,
             'category' => $category,
 
             'rankingType' => $rankingType,
-            'rankingTypeText' => $rankingType == 2 ? 'ISMF World Cup' : 'SkiMo Stats',
-
+            'rankingTypeText' => $rankingType == 1 ? 'SkiMo Stats' : ($rankingType == 2 ? 'ISMF World Cup' : 'ISMF Youth World Cup'),
             'entityId' => $entityId,
             'raceType' => RaceType::where('id', $entityId)->first(),
             // 'raceTypes' => RaceType::where('slug','!=','relay-race')->orderBy('name', 'asc')->get(),

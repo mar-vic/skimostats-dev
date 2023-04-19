@@ -123,10 +123,13 @@ Auth::routes(['register' => false]);
     Route::get('/rankings', 'RankingController@ranking')->name('rankings');
     Route::get('/rankings/skimostats/all-time/{category}', 'RankingController@rankingAllTime')->name('rankings.all-time');
     Route::get('/rankings/ismf/all-time/{category}', 'RankingController@rankingAllTimeISMF')->name('rankings.all-time-ismf');
+    Route::get('/rankings/youthwc/all-time/{category}', 'RankingController@rankingAllTimeYouthWc')->name('rankings.all-time-youthwc');
     Route::get('/rankings/skimostats/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceType')->name('rankings.type.category');
     Route::get('/rankings/ismf/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeISMF')->name('rankings.type.category.ismf');
+    Route::get('/rankings/youthwc/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYouthWc')->name('rankings.type.category.youthwc');
     Route::get('/rankings/skimostats/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYear')->name('rankings.type.year');
     Route::get('/rankings/ismf/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearISMF')->name('rankings.type.year.ismf');
+    Route::get('/rankings/youthwc/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearYouthWc')->name('rankings.type.year.youthwc');
     Route::get('/rankings/{rankingType}/{category}', 'RankingController@rankingCategorySlug')->name('rankings.category');
     Route::get('/rankings/{rankingType}/{year}/{category}', 'RankingController@rankingYear')->name('rankings.year');
     // End rankings
@@ -236,6 +239,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('team/remove-athlete/{teamAthlete}', 'Admin\TeamController@removeAthlete')->name('team.remove-athlete');
 
     Route::get('rankings/refresh/ismf', 'Admin\RankingController@refreshAllIsmfRankings')->name('rankings.refresh.ismf');
+    Route::get('rankings/refresh/youthwc', 'Admin\RankingController@refreshAllIsmfYouthWcRankings')->name('rankings.refresh.youthwc');
     Route::get('rankings/refresh/skimostats', 'Admin\RankingController@refreshAllSkimostatsRankings')->name('rankings.refresh.skimostats');
 
     Route::get('rankings', 'Admin\RankingController@index')->name('rankings.index');

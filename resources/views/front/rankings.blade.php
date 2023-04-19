@@ -37,19 +37,23 @@
                             <div class="dropdown__menu dropdown__menu--right">
 
                                 @if ($rankingType == 1)
-                                <a href="{{ $filter == 'race-type'
+                                    <a href="{{ $filter == 'race-type'
                                     ? route('rankings.type.category', [$raceType->slug, $category->slug])
                                     : route('rankings.all-time', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">{{__('All-time')}}</a>
-                                @else
-                                <a href="{{ $filter == 'race-type'
+                                @elseif ($rankingType == 2)
+                                    <a href="{{ $filter == 'race-type'
                                     ? route('rankings.type.category.ismf', [$raceType->slug, $category->slug])
                                     : route('rankings.all-time-ismf', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">{{__('All-time')}}</a>
+                                @else
+                                    <a href="{{ $filter == 'race-type'
+                                    ? route('rankings.type.category.youthwc', [$raceType->slug, $category->slug])
+                                    : route('rankings.all-time-youthwc', [$category->slug]) }}" class="@if($year==0) font-weight-bold @endif">{{__('All-time')}}</a>
                                 @endif
 
                                 @foreach ($years as $yr)
                                 <a href="{{ $filter == 'race-type'
-                                        ? route($rankingType==1 ? 'rankings.type.year' : 'rankings.type.year.ismf', [$yr, $raceType->slug, $category->slug])
-                                        : route('rankings.year', [$rankingType == 2 ? 'ismf' : 'skimostats', $yr, $category->slug]) }}" class="pr-4 @if($yr==$year) font-weight-bold @endif">{{$yr-1}}/{{$yr}}</a>
+                                        ? route($rankingType==1 ? 'rankings.type.year' : ($rankingType==2 ? 'rankings.type.year.ismf': 'rankings.type.year.youthwc'), [$yr, $raceType->slug, $category->slug])
+                                        : route('rankings.year', [$rankingType == 1 ? 'skimostats' : ($rankingType==2 ? 'ismf' : 'youthwc'), $yr, $category->slug]) }}" class="pr-4 @if($yr==$year) font-weight-bold @endif">{{$yr-1}}/{{$yr}}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -58,9 +62,19 @@
                 </div>
 
                 <div class="d-flex justify-content-center justify-content-md-between flex-wrap mb-2">
-                    <div class="mb-3 mb-md-0 text-center">
-                                       <a href="{{ route('rankings.year', ['skimostats', $year==0 ? date("Y") : $year, 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 1) badge-active @endif">{{__('SkiMo Stats ranking')}}</a>
-                                           <a href="{{ route('rankings.year', ['ismf', $year==0 ? date("Y") : $year, $category->slug ?? 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 2) badge-active @endif">ISMF World Cup {{__('ranking')}}</a>
+                                       <div class="mb-3 mb-md-0 text-center">
+
+                                       <a
+                                       href="{{ route('rankings.year', ['skimostats', $year==0 ? date("Y") : $year, 'men']) }}"
+                                       class="badge my-1 badge--custom @if($rankingType == 1) badge-active @endif"
+                                       >
+                                        {{__('SkiMo Stats ranking')}}
+                                       </a>
+
+                                           <a href="{{ route('rankings.year', ['ismf', $year==0 ? date("Y") : $year, 'men']) }}" class="badge my-1 badge--custom @if($rankingType == 2) badge-active @endif">ISMF World Cup {{__('ranking')}}</a>
+
+                                               <a href="{{ route('rankings.year', ['youthwc', $year==0 ? date("Y") : $year, 'u18-men']) }}" class="badge my-1 badge--custom @if($rankingType == 3) badge-active @endif">ISMF Youth World Cup {{__('ranking')}}</a>
+
                     </div>
                     <div class="text-center">
 
@@ -76,12 +90,12 @@
                                 @foreach($categories as $cat)
                                 <a href="{{ $filter=='race-type'
                             ? ( $year==0
-                                ? route($rankingType==1 ? 'rankings.type.category' : 'rankings.type.category.ismf', [$raceType->slug, $cat->slug])
-                                : route($rankingType==1 ? 'rankings.type.year' : 'rankings.type.year.ismf', [$year, $raceType->slug, $cat->slug])
+                                ? route($rankingType==1 ? 'rankings.type.category' : ($rankingType==2 ? 'rankings.type.category.ismf' : 'rankings.type.category.youthwc'), [$raceType->slug, $cat->slug])
+                                : route($rankingType==1 ? 'rankings.type.year' : ($rankingType==2 ? 'rankings.type.year.ismf' : 'rankings.type.year.youthwc'), [$year, $raceType->slug, $cat->slug])
                             )
                             : ( $year==0
-                                ? route($rankingType==1 ? 'rankings.all-time' : 'rankings.all-time-ismf', [$cat->slug])
-                                : route('rankings.year', [$rankingType == 2 ? 'ismf' : 'skimostats', $year, $cat->slug])
+                                ? route($rankingType==1 ? 'rankings.all-time' : ($rankingType==2 ? 'rankings.all-time-ismf' : 'rankings.all-time-youthwc'), [$cat->slug])
+                                : route('rankings.year', [$rankingType == 1 ? 'skimostats' : ($rankingType==2 ? 'ismf' : 'youthwc'), $year, $cat->slug])
                             ) }}" class="@if($cat->id==$category->id) font-weight-bold @endif">{{ $cat->name }}</a>
                                 @endforeach
                             </div>
@@ -103,14 +117,14 @@
                             <div class="dropdown__menu dropdown__menu--right text-nowrap text-left">
                                 @foreach($raceTypes as $type)
                                 <a href="{{ $year == 0
-                                        ? route($rankingType==1 ? 'rankings.type.category' : 'rankings.type.category.ismf', [$type->slug, $category->slug])
-                                        : route($rankingType==1 ? 'rankings.type.year' : 'rankings.type.year.ismf', [$year, $type->slug, $category->slug]) }}" class="@if($filter=='race-type' && $entityId==$type->id) font-weight-bold @endif">{{ $type->name }}</a>
+                                        ? route($rankingType==1 ? 'rankings.type.category' : ($rankingType==2 ? 'rankings.type.category.ismf' : 'rankings.type.category.youthwc'), [$type->slug, $category->slug])
+                                        : route($rankingType==1 ? 'rankings.type.year' : ($rankingType==2 ? 'rankings.type.year.ismf' : 'rankings.type.year.youthwc'), [$year, $type->slug, $category->slug]) }}" class="@if($filter=='race-type' && $entityId==$type->id) font-weight-bold @endif">{{ $type->name }}</a>
                                 @endforeach
 
                                 @if($filter == 'race-type')
                                 <a href="{{ $year==0
-                                        ? route($rankingType==1 ? 'rankings.all-time' : 'rankings.all-time-ismf', [$category->slug])
-                                        : route('rankings.year', [$rankingType == 2 ? 'ismf' : 'skimostats', $year, $category->slug]) }}">&times; Clear filter</a>
+                                        ? route($rankingType==1 ? 'rankings.all-time' : ($rankingType==2 ? 'rankings.all-time-ismf' : 'rankings.all-time-youthwc'), [$category->slug])
+                                        : route('rankings.year', [$rankingType == 1 ? 'skimostats' : ($rankingType==2 ? 'ismf' : 'youthwc'), $year, $category->slug]) }}">&times; Clear filter</a>
                                 @endif
                             </div>
                         </div>

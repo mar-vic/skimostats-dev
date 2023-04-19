@@ -42,13 +42,15 @@ const States = {
 }
 
 const RankingTypes = {
-    SKIMO_STATS: 'skimostats',
-    ISMF: 'ismf',
+  SKIMO_STATS: 'skimostats',
+  ISMF: 'ismf',
+  YOUTH_WC: 'youthwc'
 }
 
 const RankingTypesIds = {
-    skimostats: 1,
-    ismf: 2,
+  skimostats: 1,
+  ismf: 2,
+  youthwc: 3,
 }
 
 export default {
@@ -96,10 +98,10 @@ export default {
                     promises.push(
                         new Promise(async (resolve, reject) => {
                             try {
-                                this.updatingRankingTypes.push(type)
-                              console.log(`API Call: ${UPDATE_RANKING_DATA_URL}/${type}`)
-                                await axios.get(`${UPDATE_RANKING_DATA_URL}/${type}`)
-                                this.updatingRankingTypes.splice(this.updatingRankingTypes.indexOf(type), 1)
+                              this.updatingRankingTypes.push(type)
+                              console.log(`API Call (DATA): ${UPDATE_RANKING_DATA_URL}/${type}`)
+                              await axios.get(`${UPDATE_RANKING_DATA_URL}/${type}`)
+                              this.updatingRankingTypes.splice(this.updatingRankingTypes.indexOf(type), 1)
 
                                 resolve()
                             } catch(e) {
@@ -120,8 +122,8 @@ export default {
                         new Promise(async (resolve, reject) => {
                             try {
                                 this.updatingRankingTypes.push(type)
-                              console.log(`API Call: ${UPDATE_RANKING_TABLE_URL}/${RankingTypesIds[type]}`)
-                                await axios.get(`${UPDATE_RANKING_TABLE_URL}/${RankingTypesIds[type]}`)
+                              console.log(`API Call (TABLE): ${UPDATE_RANKING_TABLE_URL}/${RankingTypesIds[type]}`, RankingTypesIds, type)
+                              await axios.get(`${UPDATE_RANKING_TABLE_URL}/${RankingTypesIds[type]}`)
                                 this.updatingRankingTypes.splice(this.updatingRankingTypes.indexOf(type), 1)
 
                                 resolve()
