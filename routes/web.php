@@ -129,7 +129,7 @@ Auth::routes(['register' => false]);
     Route::get('/rankings/youthwc/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYouthWc')->name('rankings.type.category.youthwc');
     Route::get('/rankings/skimostats/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYear')->name('rankings.type.year');
     Route::get('/rankings/ismf/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearISMF')->name('rankings.type.year.ismf');
-    Route::get('/rankings/youthwc/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearYouthWc')->name('rankings.type.year.youthwc');
+    Route::get('/rankings/youthwc/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearYouthWc')->name('rankings.type.year.ismf');
     Route::get('/rankings/{rankingType}/{category}', 'RankingController@rankingCategorySlug')->name('rankings.category');
     Route::get('/rankings/{rankingType}/{year}/{category}', 'RankingController@rankingYear')->name('rankings.year');
     // End rankings
