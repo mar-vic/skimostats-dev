@@ -435,8 +435,8 @@ class AthleteController extends Controller
             ->leftJoin('race_types as rt', 'rt.id', 're.type')
             ->where('rep.athleteId', $athlete->id)
             ->where('ree.rank', 1)
-            ->whereRaw('rnk.rankingCategoryId in (1, 2, 4, 5, 6, 7, 8, 9, 10, 13)')
-            ->groupBy('re.id');
+            ->whereRaw('rnk.rankingCategoryId in (1, 2, 4, 5, 6, 7, 8, 9, 10, 13)');
+            // ->groupBy('re.id');
 
         return $builder->get();
     }

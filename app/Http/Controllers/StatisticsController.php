@@ -25,32 +25,67 @@ class StatisticsController extends Controller
 
     public function mostWins(Request $request, $year = null) {
 
+        // $queryBuilder = DB::table('race_events as events')
+        //     ->select(
+        //         'events.id as eventId',
+        //         'events.name as eventName',
+        //         'events.slug as eventSlug',
+        //         'countries.code as countryCode',
+        //         'countries.name as countryName',
+        //         'entries.rank',
+        //         'rankings.points',
+        //         'types.name as raceTypeName',
+        //         'categories.slug as categorySlug',
+        //         'events.startDate',
+        //         'entries.status',
+        //         'athletes.id as athleteId',
+        //         'athletes.firstName',
+        //         'athletes.lastName',
+        //         'athletes.gender',
+        //         'athletes.image',
+        //         'athletes.slug',
+        //         'categories.name as catName',
+        //         'ranking_categories.name'
+        //     )
+        //     ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+        //     ->join('athletes', 'participants.athleteId', 'athletes.id')
+        //     ->join('categories', 'categories.id', 'participants.categoryId')
+        //     ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+        //     ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+        //     ->join('race_event_entries as entries', function($qb) {
+        //         $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+        //             ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+        //     })
+        //     ->leftJoin('rankings', function($qb) {
+        //         $qb->on('rankings.participantId', '=', 'participants.id')
+        //             ->where('rankings.type', 1)
+        //             ->whereIn('rankings.categoryId', [1, 2]);
+        //     })
+        //     ->join('ranking_categories', 'ranking_categories.id', 'events.rankingCategoryId')
+        //     ->whereNotIn('ranking_categories.id', [3, 12])
+        //     ->leftJoin('race_types as types', 'types.id', 'events.type')
+        //     ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26])
+        //     ->where('entries.rank', 1);
+
         $queryBuilder = DB::table('race_events as events')
             ->select(
-                'events.id as eventId',
+                'events.startDate as eventStartDate',
                 'events.name as eventName',
                 'events.slug as eventSlug',
-                'countries.code as countryCode',
-                'countries.name as countryName',
-                'entries.rank',
-                'rankings.points',
-                'types.name as raceTypeName',
+                'rankings.rank',
                 'categories.slug as categorySlug',
-                'events.startDate',
-                'entries.status',
+                'categories.name as categoryName',
+                'countries.name as countryName',
+                'countries.code as countryCode',
                 'athletes.id as athleteId',
                 'athletes.firstName',
                 'athletes.lastName',
                 'athletes.gender',
                 'athletes.image',
-                'athletes.slug',
-                'categories.name as catName',
-                'ranking_categories.name'
+                'athletes.slug as athleteSlug'
             )
             ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
-            ->join('athletes', 'participants.athleteId', 'athletes.id')
             ->join('categories', 'categories.id', 'participants.categoryId')
-            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
             ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
             ->join('race_event_entries as entries', function($qb) {
                 $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
@@ -61,18 +96,21 @@ class StatisticsController extends Controller
                     ->where('rankings.type', 1)
                     ->whereIn('rankings.categoryId', [1, 2]);
             })
-            ->join('ranking_categories', 'ranking_categories.id', 'events.rankingCategoryId')
-            ->whereNotIn('ranking_categories.id', [3, 12])
-            ->leftJoin('race_types as types', 'types.id', 'events.type')
-            ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26])
-            ->where('entries.rank', 1);
+            ->join('athletes', 'participants.athleteId', 'athletes.id')
+            ->join('countries', 'athletes.countryId', 'countries.id')
+            ->where('entries.rank', 1)
+            ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26]);
+            // ->groupBy('events.id');
+
+        // dd($queryBuilder->get());
+
 
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
         }
 
-        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+        $groupedByCategories = $queryBuilder->get()->groupBy('categoryName');
 
         $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
             return $item->groupBy('athleteId')->map(function ($item, $key) {
@@ -82,12 +120,14 @@ class StatisticsController extends Controller
                     'lastName' => $item[0]->lastName,
                     'gender' => $item[0]->gender,
                     'profilePic' => $item[0]->image,
-                    'slug' => $item[0]->slug,
+                    'slug' => $item[0]->athleteSlug,
                     'country' => $item[0]->countryCode,
                     'qty' => $item->count(),
                 ]);
             })->sortBy([['qty', 'desc']]);
         });
+
+        // dd($groupedByAthletes);
 
         return $groupedByAthletes->map(function ($item) {
             return $item->slice(0, 30);
