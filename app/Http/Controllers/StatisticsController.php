@@ -100,10 +100,38 @@ class StatisticsController extends Controller
             ->join('countries', 'athletes.countryId', 'countries.id')
             ->where('entries.rank', 1)
             ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26]);
-            // ->groupBy('events.id');
+        // ->groupBy('events.id');
 
         // dd($queryBuilder->get());
 
+        // dd($queryBuilder->get()->groupBy('categoryName'));
+
+        $queryBuilder = DB::table('rankings')
+                      ->join('athletes', 'rankings.athleteId', 'athletes.id')
+                      ->join('countries', 'athletes.countryId', 'countries.id')
+                      ->join('categories', 'rankings.categoryId', 'categories.id')
+                      ->join('race_events as events', 'rankings.raceEventId', 'events.id')
+                      ->where('rankings.type', 2)
+                      ->whereIn('rankings.categoryId', [1, 2, 3, 4, 23, 24, 25, 26])
+                      ->where('rankings.rank', 1)
+                      ->select(
+                          'events.startDate as eventStartDate',
+                          'events.name as eventName',
+                          'events.slug as eventSlug',
+                          'rankings.rank',
+                          'categories.slug as categorySlug',
+                          'categories.name as categoryName',
+                          'countries.name as countryName',
+                          'countries.code as countryCode',
+                          'athletes.id as athleteId',
+                          'athletes.firstName',
+                          'athletes.lastName',
+                          'athletes.gender',
+                          'athletes.image',
+                          'athletes.slug as athleteSlug'
+                      );
+
+        // dd($queryBuilder->get()->groupBy('categoryName'));
 
         if ($year) {
             $timespan = Ranking::getRankingYearTimespan($year);
