@@ -1,0 +1,55 @@
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+
+.stats-menu .nav-item:not(.selected) > a::before {
+    content: '';
+    display: block;
+    background: #fce000;
+    width: 0%;
+    height: 5px;
+    position: relative;
+    top: 30px;
+    left: 80px;
+    /* left: 50%; */
+    /* bottom: -100px; */
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+    transform: translateX(-50%);
+    transition:.2s all ease;
+}
+
+.stats-menu .nav-item:not(.selected) > a:hover::before  {
+    bottom: 0;
+    width: 80%;
+    border-radius: 0;
+}
+
+.stats-menu .nav-item.selected {
+    background-color: #fce000;
+    border-bottom-right-radius: 25px;
+    font-weight: bold;
+}
+
+.stats-menu-mob .nav-item a {
+    color: #15174a !important;
+}
+
+.stats-menu-mob .nav-item.selected {
+    background-color: #fce000;
+    border-bottom-right-radius: 25px;
+    font-weight: bold;
+    color: #15174a !important;
+}
+
+.highlighted-row {
+    background-color: #fce000 !important;
+    font-weight: bold;
+    border: 1px solid #15174a;
+}
+
+#statsnav-toggler {
+    border: none;
+}
+
+tr a {
+    text-decoration: underline;
+}

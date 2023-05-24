@@ -6,6 +6,7 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+@import '../../../node_modules/bootstrap/scss/bootstrap';
 
 // Global
 @import 'global/transitions';
@@ -27,3 +28,4 @@
 @import 'pages/layout';
 @import 'pages/homepage';
 @import 'pages/athletes';
+@import 'pages/statistics';
