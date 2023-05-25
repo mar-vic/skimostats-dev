@@ -1,4 +1,4 @@
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
+/* @import '../../../../node_modules/bootstrap/scss/bootstrap'; */
 
 .stats-menu .nav-item:not(.selected) > a::before {
     content: '';
@@ -50,6 +50,6 @@
     border: none;
 }
 
-tr a {
+.table-stats tr a {
     text-decoration: underline;
 }

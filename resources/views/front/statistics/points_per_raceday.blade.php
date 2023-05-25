@@ -7,8 +7,8 @@
 @if ($data->isNotEmpty())
 <div x-data="{
           data: {{ $data }},
-          selectedRaceCat: '{{ $categories->first() }}',
-          highlightedAthlete: {{ $data->get($categories->first())->first() }},
+          selectedRaceCat: '{{ $data->keys()[0] }}',
+          highlightedAthlete: {{ $data->first()->first() }},
           highlightedRowId: ''
           }" x-init="highlightedRowId=selectedRaceCat + '-1'" class="container position-relative pb-5">
 
@@ -30,10 +30,10 @@
 
             <div class="dropdown__menu dropdown__menu--right">
 
-              <a href="/statistics/victories/all-seasons" {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
+              <a href="/statistics/points-per-raceday/all-seasons" {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
 
               @foreach ($years as $yr)
-              <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/victories/".$yr }}>{{ $yr }}</a>
+              <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/points-per-raceday/".$yr }}>{{ $yr }}</a>
               @endforeach
 
             </div>
@@ -47,11 +47,13 @@
     <div class="col-7 col-md-9">
       <div class="row justify-content-right">
 
-        @foreach ($categories as $category)
+        @foreach ($catOrdering as $raceCat)
 
+        @if ($data->keys()->contains($raceCat))
         <div class="col col-auto ml-1 mr-1 pl-0 pr-0">
-          <a @click.prevent="selectedRaceCat = $event.target.innerHTML; highlightedRowId = selectedRaceCat + '-1'" href="#" :class="selectedRaceCat == $el.innerHTML ? 'badge-active' : ''" class="badge my-1 badge--custom">{{ $category }}</a>
+          <a @click.prevent="selectedRaceCat = $event.target.innerHTML; highlightedRowId = selectedRaceCat + '-1'" href="#" :class="selectedRaceCat == $el.innerHTML ? 'badge-active' : ''" class="badge my-1 badge--custom">{{ $raceCat }}</a>
         </div>
+        @endif
 
         @endforeach
       </div>
@@ -69,7 +71,7 @@
         </div>
         <div class="latest-results__info">
           <div class="font-weight-bold" x-text="highlightedAthlete.firstName + ' ' + highlightedAthlete.lastName"></div>
-          <div class="small mb-2" x-text="'wins: ' + highlightedAthlete.qty"></div>
+          <div class="small mb-2" x-text="'points / raceday: ' + highlightedAthlete.qty"></div>
           <div class="d-flex justify-content-between align-items-center">
             <img :if="highlightedAthlete.country" class="latest-results__mini-flag" :src="'/images/flags/flags-mini/' + highlightedAthlete.country.toLowerCase() + '.png'" :alt="highlightedAthlete.country" />
             <div class="latest-results__view-profile">View profile</div>
@@ -80,19 +82,19 @@
 
     <div class="col-md-9">
 
-      @foreach ($categories as $category)
-      <div x-show="'{{ $category }}' == selectedRaceCat" class="row">
+      @foreach ($data->keys() as $raceCat)
+      <div x-show="'{{ $raceCat }}' == selectedRaceCat" class="row">
         <table class="table table-stats table--races table--races-striped">
           <thead>
             <tr>
               <th style="width:10%">#</th>
               <th style="width:70%">Name</th>
-              <th style="width:20%;text-align:right">Wins</th>
+              <th style="width:20%;text-align:right">points / raceday</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($data[$category] as $entry)
-            <tr id="{{ $category.'-'.$loop->iteration }}" x-data="{ athlete: {{$entry}} }" @click="highlightedRowId = $el.id" x-effect="highlightedRowId == $el.id ? highlightedAthlete = athlete : null" :class="highlightedRowId == $el.id ? 'highlighted-row text-blue' : ''" style="cursor:pointer">
+            @foreach ($data[$raceCat] as $entry)
+            <tr id="{{ $raceCat.'-'.$loop->iteration }}" x-data="{ athlete: {{$entry}} }" @click="highlightedRowId = $el.id" x-effect="highlightedRowId == $el.id ? highlightedAthlete = athlete : null" :class="highlightedRowId == $el.id ? 'highlighted-row text-blue' : ''" style="cursor:pointer">
               <td>{{ $loop->iteration }}</td>
               <td>
                 <span class="d-none d-md-inline">{{$entry['firstName']}} {{$entry['lastName']}}</span><a class="d-inline d-md-none" href="/athlete/{{$entry['slug']}}">{{$entry['firstName']}} {{$entry['lastName']}}</a>

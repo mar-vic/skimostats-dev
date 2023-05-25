@@ -137,10 +137,19 @@ Auth::routes(['register' => false]);
     Route::get('/races', 'FrontController@races')->name('races');
     Route::get('/races/{year}', 'FrontController@races')->name('races.year');
     Route::get('/races/{year}/{month}', 'FrontController@races')->name('races.month');
-// Route::get('/statistics', 'FrontController@hypermediaStatistics')->name('statistics');
-// Route::get('/statistics/{statsCategory}', 'FrontController@hypermediaStatistics')->name('statistics.category');
+
+// STATISTICS
     Route::get('/statistics/', 'FrontController@statsVictories')->name('statistics');
     Route::get('/statistics/victories/{year?}', 'FrontController@statsVictories')->name('statistics.victories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/race-days/{year?}', 'FrontController@statsRaceDays')->name('statistics.raceDays')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/grand-course-victories/{year?}', 'FrontController@statsGCVictories')->name('statistics.gcVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/world-cup-victories/{year?}', 'FrontController@statsWCVictories')->name('statistics.wcVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/chocolates/{year?}', 'FrontController@statsChocolates')->name('statistics.chocolates')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/top-tens/{year?}', 'FrontController@statsTopTens')->name('statistics.topTens')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/countries-raced-in/{year?}', 'FrontController@statsCountriesRacedIn')->name('statistics.countriesRacedIn')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/points-per-raceday/{year?}', 'FrontController@statsPointsPerRaceday')->name('statistics.pointsPerRaceday')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+// END STATISTICS
+
     Route::get('/about-us', 'FrontController@aboutUs')->name('about-us');
     Route::get('/get-instafeed', 'FrontController@getInstafeed')->name('get-instafeed');
     Route::get('/race-event/{event}', 'FrontController@raceEventDetailRedirect')->name('raceEventDetail');
