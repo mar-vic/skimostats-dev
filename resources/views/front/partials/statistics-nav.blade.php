@@ -88,7 +88,7 @@
 <nav class="stats-menu-mob d-block d-md-none container navbar navbar-expand-lg navbar-light mb-5 mt-3">
   <div class="container-fluid">
     <div class="d-none d-md-block bg-text">{{__('Statistics')}}</div>
-    <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-5 text-blue mb-0">{{ str_replace('-', ' ', $statsCategorySlug ) }}</h1>
+    <h1 class="font-weight-bold text-uppercase pt-0 pt-md-5 text-blue mb-0">{{ str_replace('-', ' ', $statsCategorySlug ) }}</h1>
     <button id="statsnav-toggler" class="navbar-toggler pl-0 pr-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 
       <span class="navbar-toggler-icon"></span>

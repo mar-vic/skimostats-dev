@@ -662,14 +662,15 @@ class FrontController extends Controller
                         return $groupedByAthletes->keys()->contains($item);
         });
 
-        return view('front.statistics.victories', [
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'victories',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'categories' => $categories
+            'categories' => $categories,
+            'metric' => ['wins', '']
         ]);
     }
 
@@ -746,14 +747,15 @@ class FrontController extends Controller
             return $groupedByAthletes->keys()->contains($item);
         });
 
-        return view('front.statistics.race_days', [
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'race-days',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'categories' => $categories
+            'categories' => $categories,
+            'metric' => ['race days', '']
         ]);
     }
 
@@ -826,14 +828,15 @@ class FrontController extends Controller
             return $groupedByAthletes->keys()->contains($item);
         });
 
-        return view('front.statistics.grand_course_victories', [
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'grand-course-victories',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'categories' => $categories
+            'categories' => $categories,
+            'metric' => ['GC wins', '']
         ]);
     }
 
@@ -907,14 +910,15 @@ class FrontController extends Controller
             return $groupedByAthletes->keys()->contains($item);
         });
 
-        return view('front.statistics.world_cup_victories', [
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'world-cup-victories',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'categories' => $categories
+            'categories' => $categories,
+            'metric' => ['WC wins', '']
         ]);
     }
 
@@ -989,14 +993,15 @@ class FrontController extends Controller
                         return $groupedByAthletes->keys()->contains($item);
         });
 
-        return view('front.statistics.chocolates', [
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'chocolates',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'categories' => $categories
+            'categories' => $categories,
+            'metric' => ['chocolates', "A 'chocolate' is a fourth place."]
         ]);
     }
 
@@ -1070,14 +1075,15 @@ class FrontController extends Controller
                         return $groupedByAthletes->keys()->contains($item);
         });
 
-        return view('front.statistics.top_tens', [
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'top-tens',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'categories' => $categories
+            'categories' => $categories,
+            'metric' => ['top tens', '']
         ]);
     }
 
@@ -1145,14 +1151,20 @@ class FrontController extends Controller
             })->sortBy([['qty', 'desc']]);
         });
 
-        return view('front.statistics.countries_raced_in', [
+        $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
+        ->filter(function ($item, $key) use ($groupedByAthletes) {
+            return $groupedByAthletes->keys()->contains($item);
+        });
+
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'countries-raced-in',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'catOrdering' => ['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women']
+            'categories' => $categories,
+            'metric' => ['countries', '']
         ]);
     }
 
@@ -1219,14 +1231,20 @@ class FrontController extends Controller
             })->sortBy([['qty', 'desc']]);
         });
 
-        return view('front.statistics.points_per_raceday', [
+        $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
+        ->filter(function ($item, $key) use ($groupedByAthletes) {
+            return $groupedByAthletes->keys()->contains($item);
+        });
+
+        return view('front.statistics.athletes_seasonal', [
             'statsCategorySlug' => 'points-per-raceday',
             'data' => $groupedByAthletes->map(function ($item) {
                 return $item->slice(0, 30);
             }),
             'year' => $year,
             'years' =>  $years,
-            'catOrdering' => ['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women']
+            'categories' => $categories,
+            'metric' => ['points / racedays', 'Average number of points scored by athlete in a race day. Only athletes with at least five racedays are considered.']
         ]);
     }
 

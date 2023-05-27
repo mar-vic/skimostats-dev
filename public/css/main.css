@@ -11986,7 +11986,33 @@ body {
   border: none;
 }
 
-.table-stats tr a {
+tr a {
   text-decoration: underline;
+}
+
+.metric-tooltip {
+  cursor: help;
+  background-color: #15174a;
+  color: white;
+  font-size: 11px;
+  border-radius: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  /* make the width of seacond header of table stats smaller */
+
+  .name-header {
+    width: 50%;
+  }
+
+  /* widen the third header of the table to make room for spans with tooltips */
+
+  .metric-header {
+    width: 40%;
+  }
 }
 
