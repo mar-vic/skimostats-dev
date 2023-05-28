@@ -4,7 +4,6 @@
 @section('content')
 @parent
 
-
 @if ($data->isNotEmpty())
 <div x-data="{
           data: {{ $data }},
@@ -34,10 +33,10 @@
 
                         <div class="dropdown__menu dropdown__menu--right">
 
-                            <a href="/statistics/victories/all-seasons" {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
+                            <a href={{ "/statistics/".$statsCategorySlug."/all-seasons" }} {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
 
                             @foreach ($years as $yr)
-                            <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/victories/".$yr }}>{{ $yr }}</a>
+                            <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/".$statsCategorySlug."/".$yr }}>{{ $yr }}</a>
                             @endforeach
 
                         </div>
@@ -139,10 +138,10 @@
 
                         <div class="dropdown__menu dropdown__menu--right">
 
-                            <a href="/statistics/victories/all-seasons" {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
+                          <a href={{ "/statistics/".$statsCategorySlug."/all-seasons" }} {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
 
                             @foreach ($years as $yr)
-                            <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/victories/".$yr }}>{{ $yr }}</a>
+                            <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/".$statsCategorySlug."/".$yr }}>{{ $yr }}</a>
                             @endforeach
 
                         </div>
