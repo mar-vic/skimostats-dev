@@ -37,8 +37,8 @@
         <li {!! $statsCategorySlug=='world-cup-victories' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
           <a class="nav-link pl-3" href="/statistics/world-cup-victories">World Cup victories</a>
         </li>
-        <li {!! $statsCategorySlug=='wins-by-countries' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-          <a class="nav-link pl-3" href="/statistics/wins-by-countries">Wins by countries</a>
+        <li {!! $statsCategorySlug=='countries-by-wins' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+          <a class="nav-link pl-3" href="/statistics/countries-by-wins">Countries by wins</a>
         </li>
         <li {!! $statsCategorySlug=='chocolates' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
           <a class="nav-link pl-3" href="/statistics/chocolates">Chocolates</a>
@@ -118,8 +118,8 @@
         <li {!! $statsCategorySlug=='world-cup-victories' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
           <a class="nav-link pl-3" href="/statistics/world-cup-victories">World Cup victories</a>
         </li>
-        <li {!! $statsCategorySlug=='wins-by-countries' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-          <a class="nav-link pl-3" href="/statistics/wins-by-countries">Wins by countries</a>
+        <li {!! $statsCategorySlug=='countries-by-wins' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+          <a class="nav-link pl-3" href="/statistics/countries-by-wins">Countries by wins</a>
         </li>
         <li {!! $statsCategorySlug=='chocolates' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
           <a class="nav-link pl-3" href="/statistics/chocolates">Chocolates</a>

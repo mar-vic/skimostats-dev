@@ -139,6 +139,7 @@ Auth::routes(['register' => false]);
     Route::get('/races/{year}/{month}', 'FrontController@races')->name('races.month');
 
 // STATISTICS
+// ATHLETES BY SEASON
     Route::get('/statistics/', 'FrontController@statsVictories')->name('statistics');
     Route::get('/statistics/victories/{year?}', 'FrontController@statsVictories')->name('statistics.victories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
     Route::get('/statistics/race-days/{year?}', 'FrontController@statsRaceDays')->name('statistics.raceDays')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
@@ -148,6 +149,20 @@ Auth::routes(['register' => false]);
     Route::get('/statistics/top-tens/{year?}', 'FrontController@statsTopTens')->name('statistics.topTens')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
     Route::get('/statistics/countries-raced-in/{year?}', 'FrontController@statsCountriesRacedIn')->name('statistics.countriesRacedIn')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
     Route::get('/statistics/points-per-raceday/{year?}', 'FrontController@statsPointsPerRaceday')->name('statistics.pointsPerRaceday')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+
+// ATHLETES BY RANKING CATEGORY
+    Route::get('/statistics/active-athletes/{rankingCategory?}', 'FrontController@statsActiveAthletes')->name('statistics.activeAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+    Route::get('/statistics/youngest-athletes/{rankingCategory?}', 'FrontController@statsYoungestAthletes')->name('statistics.youngestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+    Route::get('/statistics/oldest-athletes/{rankingCategory?}', 'FrontController@statsOldestAthletes')->name('statistics.oldestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+
+// ATHLETES MONTHLY
+Route::get('/statistics/points-per-month/{monthYear?}', 'FrontController@statsPointsPerMonth')->name('statistics.pointPerMonth')->where('monthYear', '\b(0[1-9]|1[0-2])-(19|20)\d{2}\b');
+
+// ->where('monthYear', '^(?:0[1-9]|1[0-2])-(?:19|20)\d{2}$');
+
+// COUNTRIES BY SEASON
+    Route::get('/statistics/countries-by-wins/{year?}', 'FrontController@statsCountriesByWins')->name('statistics.countriesByWins')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+   Route::get('/statistics/countries-by-winners/{year?}', 'FrontController@statsCountriesByWinners')->name('statistics.countriesByWinners')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
 // END STATISTICS
 
     Route::get('/about-us', 'FrontController@aboutUs')->name('about-us');

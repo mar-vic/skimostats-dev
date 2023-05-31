@@ -1248,6 +1248,486 @@ class FrontController extends Controller
         ]);
     }
 
+    public function statsActiveAthletes(Request $request, string $rankingCategory = 'all') {
+
+        $queryBuilder = DB::table('race_events as events')
+                      ->selectRaw('athletes.id as athleteId, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
+                      ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+                      ->join('athletes', 'participants.athleteId', 'athletes.id')
+                      ->join('categories', 'categories.id', 'participants.categoryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+                      ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+                      ->join('race_event_entries as entries', function($qb) {
+                          $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                             ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+                      })
+                      ->leftJoin('rankings', function($qb) {
+                          $qb->on('rankings.participantId', '=', 'participants.id')
+                             ->where('rankings.type', 1)
+                             ->whereIn('rankings.categoryId', [1, 2]);
+                      })
+                      ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+                      ->whereRaw('DATEDIFF(events.endDate, events.startDate) + 1 > 0')
+                      ->whereRaw('DATEDIFF(CURRENT_DATE(), events.startDate) < 420');
+
+        if ($rankingCategory == 'world-cup') {
+            $queryBuilder = $queryBuilder->where('rankings.rankingCategoryId', 1);
+        } else {
+            $queryBuilder = $queryBuilder->whereIn('rankings.rankingCategoryId', [6, 7]);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+
+                $raceDays = $item->reduce(function ($carry, $item) {
+                    return $carry + $item->eventDuration;
+                }, 0);
+
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $raceDays,
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
+        ->filter(function ($item, $key) use ($groupedByAthletes) {
+            return $groupedByAthletes->keys()->contains($item);
+        });
+
+        return view('front.statistics.athletes_by_ranking_category', [
+            'statsCategorySlug' => 'active-athletes',
+            'data' => $groupedByAthletes->map(function ($item) {
+                return $item->slice(0, 30);
+            }),
+            'rankingCategory' => $rankingCategory,
+            'categories' => $categories,
+            'metric' => ['recent races', 'Active athlete is one having at least one race day in the last 14 months.']
+        ]);
+    }
+
+    public function statsOldestAthletes(Request $request, string $rankingCategory = 'all') {
+
+        $queryBuilder = DB::table('race_events as events')
+                      ->selectRaw('athletes.id as athleteId, TIMESTAMPDIFF(YEAR, athletes.dateOfBirth, CURRENT_DATE()) as age, athletes.dateOfBirth, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
+                      ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+                      ->join('athletes', 'participants.athleteId', 'athletes.id')
+                      ->join('categories', 'categories.id', 'participants.categoryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+                      ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+                      ->join('race_event_entries as entries', function($qb) {
+                          $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                             ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+                      })
+                      ->leftJoin('rankings', function($qb) {
+                          $qb->on('rankings.participantId', '=', 'participants.id')
+                             ->where('rankings.type', 1)
+                             ->whereIn('rankings.categoryId', [1, 2]);
+                      })
+                      ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+                      ->whereRaw('DATEDIFF(events.endDate, events.startDate) + 1 > 0')
+                      ->whereRaw('DATEDIFF(CURRENT_DATE(), events.startDate) < 420')
+                      ->whereRaw('athletes.dateOfBirth IS NOT NULL AND DATEDIFF(CURRENT_DATE(), athletes.dateOfBirth) > 0');
+
+        if ($rankingCategory == 'world-cup') {
+            $queryBuilder = $queryBuilder->where('rankings.rankingCategoryId', 1);
+        } else {
+            $queryBuilder = $queryBuilder->whereIn('rankings.rankingCategoryId', [6, 7]);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('gender');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $item[0]->age,
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        $categories = collect(['male', 'female'])
+        ->filter(function ($item, $key) use ($groupedByAthletes) {
+            return $groupedByAthletes->keys()->contains($item);
+        });
+
+        return view('front.statistics.athletes_by_ranking_category', [
+            'statsCategorySlug' => 'oldest-athletes',
+            'data' => $groupedByAthletes->map(function ($item) {
+                return $item->slice(0, 30);
+            }),
+            'rankingCategory' => $rankingCategory,
+            'categories' => $categories,
+            'metric' => ['age', 'Only athletes having at least one race day in the last 14 months are considered.']
+        ]);
+    }
+
+    public function statsYoungestAthletes(Request $request, string $rankingCategory = 'all') {
+
+            $queryBuilder = DB::table('race_events as events')
+                      ->selectRaw('athletes.id as athleteId, TIMESTAMPDIFF(YEAR, athletes.dateOfBirth, CURRENT_DATE()) as age, athletes.dateOfBirth, athletes.firstName, athletes.lastName, athletes.image, athletes.slug, athletes.gender, countries.code as countryCode, categories.name as catName, events.startDate as eventStartDate, events.endDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration')
+                      ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+                      ->join('athletes', 'participants.athleteId', 'athletes.id')
+                      ->join('categories', 'categories.id', 'participants.categoryId')
+                      ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+                      ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+                      ->join('race_event_entries as entries', function($qb) {
+                          $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                             ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+                      })
+                      ->leftJoin('rankings', function($qb) {
+                          $qb->on('rankings.participantId', '=', 'participants.id')
+                             ->where('rankings.type', 1)
+                             ->whereIn('rankings.categoryId', [1, 2]);
+                      })
+                      // ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+                      ->whereRaw('DATEDIFF(events.endDate, events.startDate) + 1 > 0')
+                      ->whereRaw('DATEDIFF(CURRENT_DATE(), events.startDate) < 420')
+                      ->whereRaw('athletes.dateOfBirth IS NOT NULL AND DATEDIFF(CURRENT_DATE(), athletes.dateOfBirth) > 0');
+
+        if ($rankingCategory == 'world-cup') {
+            $queryBuilder = $queryBuilder->where('rankings.rankingCategoryId', 1);
+        } else {
+            $queryBuilder = $queryBuilder->whereIn('rankings.rankingCategoryId', [6, 7]);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('gender');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $item[0]->age,
+                ]);
+            })->sortBy([['qty', 'asc']]);
+        });
+
+        $categories = collect(['male', 'female'])
+        ->filter(function ($item, $key) use ($groupedByAthletes) {
+            return $groupedByAthletes->keys()->contains($item);
+        });
+
+        return view('front.statistics.athletes_by_ranking_category', [
+            'statsCategorySlug' => 'youngest-athletes',
+            'data' => $groupedByAthletes->map(function ($item) {
+                return $item->slice(0, 30);
+            }),
+            'rankingCategory' => $rankingCategory,
+            'categories' => $categories,
+            'metric' => ['age', 'Only athletes having at least one race day in the last 14 months are considered.']
+        ]);
+    }
+
+    public function statsCountriesByWins(Request $request, string $year = 'current-season') {
+
+        $queryBuilder = DB::table('race_events')
+            ->select('race_events.year')
+            ->whereRaw('race_events.startDate < CURRENT_DATE')
+            ->groupBy('race_events.year')
+            ->orderBy('race_events.year', 'desc');
+        $years = $queryBuilder->get()->map(function ($item) {
+            return $item->year;
+        });
+
+        $queryBuilder = DB::table('race_events as events')
+            ->select(
+                'events.id as eventId',
+                'events.name as eventName',
+                'events.slug as eventSlug',
+                'countries.code as countryCode',
+                'countries.name as countryName',
+                'entries.rank',
+                'rankings.points',
+                'types.name as raceTypeName',
+                'categories.slug as categorySlug',
+                'events.startDate',
+                'entries.status',
+                'athletes.id as athleteId',
+                'athletes.firstName',
+                'athletes.lastName',
+                'athletes.gender',
+                'athletes.image',
+                'athletes.slug',
+                'athletes.countryId as countryId',
+                'categories.name as catName'
+            )
+            ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+            ->join('athletes', 'participants.athleteId', 'athletes.id')
+            ->join('categories', 'categories.id', 'participants.categoryId')
+            ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+            ->join('race_event_entries as entries', function($qb) {
+                $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                    ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+            })
+            ->leftJoin('rankings', function($qb) {
+                $qb->on('rankings.participantId', '=', 'participants.id')
+                    ->where('rankings.type', 1)
+                    ->whereIn('rankings.categoryId', [1, 2]);
+            })
+            ->leftJoin('race_types as types', 'types.id', 'events.type')
+            ->join('countries', 'countries.id', 'athletes.countryId')
+            ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+            ->where('entries.rank', 1);
+
+        if ($year != 'all-seasons') {
+            $year = ($year == 'current-season' ? $years->first() : (int)$year);
+
+            if (!$years->contains($year)) {
+                return abort(404);
+            }
+
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByCountries = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('countryId')->map(function ($item, $key) {
+                return collect([
+                    'countryId' => $key,
+                    'countryName' => $item[0]->countryName,
+                    'countryCode' => $item[0]->countryCode,
+                    'qty' => $item->count(),
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
+        ->filter(function ($item, $key) use ($groupedByCountries) {
+            return $groupedByCountries->keys()->contains($item);
+        });
+
+        return view('front.statistics.countries_seasonal', [
+            'statsCategorySlug' => 'countries-by-wins',
+            'data' => $groupedByCountries->map(function ($item) {
+                return $item->slice(0, 30);
+            }),
+            'year' => $year,
+            'years' =>  $years,
+            'categories' => $categories,
+            'metric' => ['victories', 'Number of victories achieved by athletes representing the country.']
+        ]);
+    }
+
+    public function statsCountriesByWinners(Request $request, string $year = 'current-season') {
+
+        $queryBuilder = DB::table('race_events')
+            ->select('race_events.year')
+            ->whereRaw('race_events.startDate < CURRENT_DATE')
+            ->groupBy('race_events.year')
+            ->orderBy('race_events.year', 'desc');
+        $years = $queryBuilder->get()->map(function ($item) {
+            return $item->year;
+        });
+
+        $queryBuilder = DB::table('race_events as events')
+            ->select(
+                'events.id as eventId',
+                'events.name as eventName',
+                'events.slug as eventSlug',
+                'countries.code as countryCode',
+                'countries.name as countryName',
+                'entries.rank',
+                'rankings.points',
+                'types.name as raceTypeName',
+                'categories.slug as categorySlug',
+                'events.startDate',
+                'entries.status',
+                'athletes.id as athleteId',
+                'athletes.firstName',
+                'athletes.lastName',
+                'athletes.gender',
+                'athletes.image',
+                'athletes.slug',
+                'athletes.countryId as countryId',
+                'categories.name as catName'
+            )
+            ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+            ->join('athletes', 'participants.athleteId', 'athletes.id')
+            ->join('categories', 'categories.id', 'participants.categoryId')
+            ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+            ->join('race_event_entries as entries', function($qb) {
+                $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                    ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+            })
+            ->leftJoin('rankings', function($qb) {
+                $qb->on('rankings.participantId', '=', 'participants.id')
+                    ->where('rankings.type', 1)
+                    ->whereIn('rankings.categoryId', [1, 2]);
+            })
+            ->leftJoin('race_types as types', 'types.id', 'events.type')
+            ->join('countries', 'countries.id', 'athletes.countryId')
+            ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+            ->where('entries.rank', 1);
+
+        if ($year != 'all-seasons') {
+            $year = ($year == 'current-season' ? $years->first() : (int)$year);
+
+            if (!$years->contains($year)) {
+                return abort(404);
+            }
+
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder = $queryBuilder->whereBetween('events.startDate', $timespan);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByCountries = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('countryId')->map(function ($item, $key) {
+
+                $winners = $item->countBy(function ($entry) {
+                    return $entry->athleteId;
+                });
+
+                return collect([
+                    'countryId' => $key,
+                    'countryName' => $item[0]->countryName,
+                    'countryCode' => $item[0]->countryCode,
+                    'qty' => $winners->count(),
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
+        ->filter(function ($item, $key) use ($groupedByCountries) {
+            return $groupedByCountries->keys()->contains($item);
+        });
+
+        return view('front.statistics.countries_seasonal', [
+            'statsCategorySlug' => 'countries-by-winners',
+            'data' => $groupedByCountries->map(function ($item) {
+                return $item->slice(0, 30);
+            }),
+            'year' => $year,
+            'years' =>  $years,
+            'categories' => $categories,
+            'metric' => ['winners', 'Number of winning athletes (ie., those with at least one victory) representing the country.']
+        ]);
+    }
+
+    public function statsPointsPerMonth(Request $request, $monthYear = null) {
+
+        if (!$monthYear) {
+            $monthYear = date('m-Y');
+        }
+
+        // dd(explode('-',$monthYear)[1]);
+
+        $queryBuilder = DB::table('race_events')
+        ->select('race_events.year')
+        ->whereRaw('race_events.startDate < CURRENT_DATE')
+        ->groupBy('race_events.year')
+        ->orderBy('race_events.year', 'desc');
+
+        $years = $queryBuilder->get()->map(function ($item) {
+            return $item->year;
+        });
+
+        $month =  explode('-', $monthYear)[0];
+        $year =  explode('-', $monthYear)[1];
+
+        if (!$years->contains($year)) {
+            return abort(404);
+        }
+
+        $queryBuilder = DB::table('race_events as events')
+            ->select(
+                'athletes.id as athleteId',
+                'athletes.firstName',
+                'athletes.lastName',
+                'athletes.image',
+                'athletes.slug',
+                'athletes.gender',
+                'countries.code as countryCode',
+                'categories.name as catName',
+                'rankings.points'
+            )
+            ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+            ->join('athletes', 'participants.athleteId', 'athletes.id')
+            ->join('categories', 'categories.id', 'participants.categoryId')
+            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+            ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+            ->join('race_event_entries as entries', function($qb) {
+                $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                    ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+            })
+            ->leftJoin('rankings', function($qb) {
+                $qb->on('rankings.participantId', '=', 'participants.id')
+                    ->where('rankings.type', 1)
+                    ->whereIn('rankings.categoryId', [1, 2]);
+            })
+            ->leftJoin('race_types as types', 'types.id', 'events.type')
+            ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
+            ->whereRaw("EXTRACT(MONTH FROM events.startDate) = $month and EXTRACT(YEAR FROM events.startDate) = $year");
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+            return $item->groupBy('athleteId')->map(function ($item, $key) {
+
+                $points = $item->reduce(function ($carry, $item) {
+                    return $carry + $item->points;
+                }, 0);
+
+                return collect([
+                    'athleteId' => $key,
+                    'firstName' => $item[0]->firstName,
+                    'lastName' => $item[0]->lastName,
+                    'gender' => $item[0]->gender,
+                    'profilePic' => $item[0]->image,
+                    'slug' => $item[0]->slug,
+                    'country' => $item[0]->countryCode,
+                    'qty' => $points,
+                ]);
+            })->sortBy([['qty', 'desc']]);
+        });
+
+        $data = $groupedByAthletes
+            ->map(function ($item) {
+                return $item->slice(0, 30);
+            })
+            ->filter(function ($item) {
+                return $item->first()['qty'] > 0;
+            });
+
+        $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
+        ->filter(function ($item, $key) use ($data) {
+            return $data->keys()->contains($item);
+        });
+
+        return view('front.statistics.athletes_monthly', [
+            'statsCategorySlug' => 'points-per-month',
+            'data' => $data,
+            'month' => (int)$month - 1,
+            'year' => (int)$year,
+            'years' => $years,
+            'categories' => $categories,
+            'metric' => ['points', '']
+        ]);
+    }
+
     public function worldCup(Request $request, int $year = 0) {
 
         if (!$year) {

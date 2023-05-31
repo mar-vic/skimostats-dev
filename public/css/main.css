@@ -12002,17 +12002,21 @@ tr a {
   font-weight: bold;
 }
 
+.date-picker-input {
+  font-size: 75%;
+}
+
 @media (max-width: 576px) {
   /* make the width of seacond header of table stats smaller */
 
   .name-header {
-    width: 50%;
+    width: 45%;
   }
 
   /* widen the third header of the table to make room for spans with tooltips */
 
   .metric-header {
-    width: 40%;
+    width: 45%;
   }
 }
 

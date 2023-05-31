@@ -66,6 +66,10 @@ tr a {
     font-weight: bold;
 }
 
+.date-picker-input {
+    font-size: 75%;
+}
+
 @media (max-width: 576px) {
     /* make the width of seacond header of table stats smaller */
     .name-header {
