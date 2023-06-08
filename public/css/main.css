@@ -12020,3 +12020,87 @@ tr a {
   }
 }
 
+.btn-switch {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+.btn-switch > label.btn-switch-inner {
+  margin: 0px;
+  width: 80px;
+  height: 29px;
+  background: #E0E0E0;
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  /*box-shadow: 0px 0px 8px 0px rgba(17, 17, 17, 0.34) inset;*/
+  display: block;
+}
+
+.btn-switch > label.btn-switch-inner:after {
+  content: attr(data-on);
+  position: absolute;
+  font-size: 75%;
+  font-weight: bold;
+  top: 6px;
+  right: 8px;
+  /* background-color: red; */
+}
+
+.btn-switch > label.btn-switch-inner:before {
+  content: attr(data-off);
+  width: 40px;
+  height: 25px;
+  background: #fff;
+  border-radius: 3px;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 75%;
+  box-shadow: 0px 0px 6px -2px #111;
+  padding: 4px 0px;
+}
+
+.btn-switch input[type=checkbox] {
+  cursor: pointer;
+  width: 80px;
+  height: 25px;
+  width: auto !important;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  margin: 0px;
+}
+
+.btn-switch input[type=checkbox]:not(:checked) + label.btn-switch-inner:after {
+  content: attr(data-on);
+  left: 8px;
+}
+
+.btn-switch input[type=checkbox]:checked + label.btn-switch-inner:after {
+  content: attr(data-off);
+  right: 8px;
+}
+
+.btn-switch input[type=checkbox]:checked + label.btn-switch-inner:before {
+  content: attr(data-on);
+  right: auto;
+  /* top: -10px; */
+  left: 2px;
+}
+
+.btn-switch input[type=checkbox]:checked + label.btn-switch-inner {
+  /*background: #66BB6A; */
+  /*color: #fff;*/
+}
+
+.btn-switch input[type=checkbox]:checked ~ .alert {
+  display: block;
+}
+

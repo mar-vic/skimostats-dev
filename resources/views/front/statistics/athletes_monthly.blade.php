@@ -150,6 +150,7 @@
                     <input
                       x-ref="dateInput"
                       type="text"
+                      class="date-picker-input"
                       class=""
                       />
                   </div>

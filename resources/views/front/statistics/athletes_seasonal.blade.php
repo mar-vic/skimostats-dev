@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <div class="col-6 col-md-9">
+        <div class="col-7 col-md-9">
             <div class="row justify-content-right">
 
                 @foreach ($categories as $category)
