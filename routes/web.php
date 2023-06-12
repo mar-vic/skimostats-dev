@@ -164,6 +164,7 @@ Route::get('/statistics/points-per-month/{monthYear?}', 'FrontController@statsPo
 // COUNTRIES BY SEASON
     Route::get('/statistics/countries-by-wins/{year?}', 'FrontController@statsCountriesByWins')->name('statistics.countriesByWins')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
    Route::get('/statistics/countries-by-winners/{year?}', 'FrontController@statsCountriesByWinners')->name('statistics.countriesByWinners')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/countries-skimo-scores/{year?}', 'FrontController@statsCountriesBySkimo')->name('statistics.countriesBySkimo')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
 // END STATISTICS
 
     Route::get('/about-us', 'FrontController@aboutUs')->name('about-us');

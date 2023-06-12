@@ -904,6 +904,8 @@ class FrontController extends Controller
         ]);
     }
 
+
+
     public function statsGCVictories(Request $request, string $year = 'current-season') {
 
         $queryBuilderYears = DB::table('race_events')
@@ -1769,6 +1771,84 @@ class FrontController extends Controller
             'years' =>  $years,
             'categories' => $categories,
             'metric' => ['winners', 'Number of winning athletes (ie., those with at least one victory) representing the country.']
+        ]);
+    }
+
+    public function statsCountriesBySkimo(Request $request, string $year = 'current-season') {
+
+        $minYear = 1900;
+
+        $queryBuilder = DB::table('race_events')
+        ->select('race_events.year')
+        ->whereRaw('race_events.startDate < CURRENT_DATE')
+        ->groupBy('race_events.year')
+        ->orderBy('race_events.year', 'desc');
+        $years = $queryBuilder->get()->map(function ($item) {
+            return $item->year;
+        });
+
+        $queryBuilder = DB::table('rankings as r')
+                      ->select(
+                          DB::raw('SUM(r.points) as pts'),
+                          'r.athleteId',
+                          'r.rank',
+                          'r.categoryId',
+                          'a.firstName',
+                          'a.lastName',
+                          'a.slug as athleteSlug',
+                          'c.code as countryCode',
+                          'c.name as countryName',
+                          'c.id as countryId',
+                          'categories.name as catName'
+                      )
+                      ->join('athletes as a', 'a.id', 'r.athleteId')
+                      ->leftJoin('countries as c', 'c.id', 'a.countryId')
+                      ->join('categories', 'categories.id', 'r.categoryId')
+                      ->whereIn('r.categoryId', [1, 2]) // i.e., Men, Women
+                      ->groupBy('r.athleteId')
+                      ->havingRaw('pts > 0')
+                      ->orderBy('pts', 'desc')
+                      ->orderBy('a.lastName', 'asc');
+
+        if ($year != 'all-seasons') {
+            $year = ($year == 'current-season' ? $years->first() : (int)$year);
+
+            if (!$years->contains($year)) {
+                return abort(404);
+            }
+
+            $timespan = Ranking::getRankingYearTimespan($year);
+            $queryBuilder->whereBetween('r.obtainedAt', $timespan);
+        }
+
+        $groupedByCategories = $queryBuilder->get()->groupBy('catName');
+
+        $groupedByCountries = $groupedByCategories->map(function ($item, $key) {
+
+            return $item->groupBy('countryId')->map(function ($item, $key) {
+                return collect([
+                    'countryId' => $key,
+                    'countryName' => $item[0]->countryName,
+                    'countryCode' => $item[0]->countryCode,
+                    'qty' => $item->sum('pts'),
+                ]);
+            })->sortBy([['qty', 'desc']])->reject(function ($value, $key) {
+                return $value['countryId'] == '';
+            });
+        });
+
+        $categories = collect(['Men', 'Women'])
+        ->filter(function ($item, $key) use ($groupedByCountries) {
+            return $groupedByCountries->keys()->contains($item);
+        });
+
+        return view('front.statistics.countries_seasonal', [
+            'statsCategorySlug' => 'countries-skimo-scores',
+            'data' => $groupedByCountries,
+            'year' => $year,
+            'years' =>  $years,
+            'categories' => $categories,
+            'metric' => ['points', '']
         ]);
     }
 

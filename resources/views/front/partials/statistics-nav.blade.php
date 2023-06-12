@@ -46,8 +46,8 @@
         <li {!! $statsCategorySlug=='top-tens' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
           <a class="nav-link pl-3" href="/statistics/top-tens">Top 10 finishes</a>
         </li>
-        <li {!! $statsCategorySlug=='nations-skimo-scores' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-          <a class="nav-link pl-3" href="/statistics/nations-skimo-scores">Nations SKIMO scores</a>
+        <li {!! $statsCategorySlug=='countries-skimo-scores' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+          <a class="nav-link pl-3" href="/statistics/countries-skimo-scores">Countries SKIMO scores</a>
         </li>
       </ul>
     </div>
