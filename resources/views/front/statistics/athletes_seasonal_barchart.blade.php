@@ -120,7 +120,6 @@
 @endsection
 
 @push('scripts')
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script defer type="text/javascript">
   function drawChart(selectedData) {
@@ -176,5 +175,4 @@
     drawChart(Alpine.store('chart').getSelectedData());
   });
 </script>
-<script src="{{mix('js/statistics.js')}}"></script>
 @endpush

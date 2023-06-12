@@ -161,8 +161,3 @@
 @endif
 
 @endsection
-
-@push('scripts')
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-<script src="{{mix('js/statistics.js')}}"></script>
-@endpush
