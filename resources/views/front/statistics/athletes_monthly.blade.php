@@ -1,4 +1,4 @@
-@extends('front.hypermedia_statistics')
+@extends('front.statistics')
 
 @section('content')
 @parent

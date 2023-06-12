@@ -4,15 +4,9 @@
 'meta_keywords' => 'skimo statistics, skimo stats, skimo results, skimountaineering statistics, skimo results, pierra menta results, ismf world cup, ismf world cup results, skimo countries, skimo racers, popular athletes, oldest skimo athlete, youngest skimo athlete, tallest skimo athlete, heaviest skimo athlete, lightest skimo athlete'
 ])
 @section('content')
-<div id="statistics-vm-container">
-
-
-</div>
+@include('front/partials/statistics-nav')
 @endsection
 
 @push('scripts')
-<script src="{{mix('js/statistics.js')}}"></script>
-<script>
-    statisticsVM.init()
-</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 @endpush
