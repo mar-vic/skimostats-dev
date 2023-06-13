@@ -10,21 +10,17 @@
           highlightedAthlete: {{ $data->get($categories->first())->first() }},
           highlightedRowId: '',
           highlightedPosition: 1,
-          }"
-     x-init="highlightedRowId=selectedRaceCat + '-1'"
-     class="container position-relative pb-5">
+          }" x-init="highlightedRowId=selectedRaceCat + '-1'" class="container position-relative pb-5">
 
     <!-- FILTERS -->
     <div class="row mb-4">
 
         <!-- MONTH FILTER -->
-        <div class="col-6 col-md-3 mt-1">
+        <div class="col-auto col-md-3 mt-1">
             <div class="row">
                 <div class="my-auto col-auto pr-1 font-weight-bold text-uppercase text-blue">month:</div>
                 <div class="col pl-1 pr-3">
-                  <div
-                    x-data
-                    x-init="flatpickr($refs.dateInput, {
+                    <div x-data x-init="flatpickr($refs.dateInput, {
                             plugins: [
                             new monthSelectPlugin({
                             shorthand: true,
@@ -36,20 +32,14 @@
                             defaultDate: new Date({{ $year }}, {{ $month }}),
                             onChange: function(selectedDates, dateStr, instance) { let month = selectedDates[0].getMonth() + 1; let year = selectedDates[0].getFullYear(); window.location.href = '/statistics/points-per-month/' + (month < 10 ? '0' + month : month) + '-' + year; }
                             })
-                            "
-                    class="w-100"
-                    >
-                    <input
-                      x-ref="dateInput"
-                      type="text"
-                      class="date-picker-input"
-                      />
-                  </div>
+                            " class="w-100">
+                        <input x-ref="dateInput" type="text" class="date-picker-input" />
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-6 col-md-9">
+        <div class="col d-flex justify-content-center">
             <div class="row justify-content-right">
 
                 @foreach ($categories as $category)
@@ -70,7 +60,7 @@
         <div class="col-3 d-none d-md-block">
             <a :href="'/athlete/' + highlightedAthlete.slug" class="latest-results__first mb-3 profile-pic">
                 <div class="latest-results__photo position-relative" x-bind:style="'background-image:url(/images' + (highlightedAthlete.profilePic ? '/athletes/' + highlightedAthlete.profilePic : (highlightedAthlete.gender == 'female' ? '/woman_silhouette.jpg' : '/man_silhouette.jpg')) + ')'">
-    <div class="latest-results__number latest-results__number--first" x-text="highlightedPosition"></div>
+                    <div class="latest-results__number latest-results__number--first" x-text="highlightedPosition"></div>
                 </div>
                 <div class="latest-results__info">
                     <div class="font-weight-bold" x-text="highlightedAthlete.firstName + ' ' + highlightedAthlete.lastName"></div>
@@ -93,12 +83,12 @@
                             <th style="width:10%">#</th>
                             <th style="">Name</th>
                             <th style="text-align:right">
-                              {{ $metric[0] }}
-                              @if ($metric[1] != '')
-                              <span class="metric-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $metric[1] }}">
-                                ?
-                              </span>
-                              @endif
+                                {{ $metric[0] }}
+                                @if ($metric[1] != '')
+                                <span class="metric-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $metric[1] }}">
+                                    ?
+                                </span>
+                                @endif
                             </th>
                         </tr>
                     </thead>
@@ -130,9 +120,7 @@
             <div class="row">
                 <div class="my-auto col-auto font-weight-bold text-uppercase text-blue">season:</div>
                 <div class="col pl-1 pr-1">
-                  <div
-                    x-data
-                    x-init="flatpickr($refs.dateInput, {
+                    <div x-data x-init="flatpickr($refs.dateInput, {
                             plugins: [
                             new monthSelectPlugin({
                             shorthand: true,
@@ -144,16 +132,9 @@
                             defaultDate: new Date({{ $year }}, {{ $month }}),
                             onChange: function(selectedDates, dateStr, instance) { let month = selectedDates[0].getMonth() + 1; let year = selectedDates[0].getFullYear(); window.location.href = '/statistics/points-per-month/' + (month < 10 ? '0' + month : month) + '-' + year; }
                             })
-                            "
-                    class="w-100"
-                    >
-                    <input
-                      x-ref="dateInput"
-                      type="text"
-                      class="date-picker-input"
-                      class=""
-                      />
-                  </div>
+                            " class="w-100">
+                        <input x-ref="dateInput" type="text" class="date-picker-input" class="" />
+                    </div>
                 </div>
             </div>
         </div>

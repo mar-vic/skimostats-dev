@@ -12006,7 +12006,7 @@ tr a {
   font-size: 75%;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
   /* make the width of seacond header of table stats smaller */
 
   .name-header {
@@ -12017,6 +12017,10 @@ tr a {
 
   .metric-header {
     width: 45%;
+  }
+
+  .categories-list {
+    justify-content: center;
   }
 }
 

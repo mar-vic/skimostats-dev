@@ -17,7 +17,7 @@
     <div class="row mb-4">
 
         <!-- RANKING CATEGORY FILTER -->
-        <div class="col-6 col-md-3 mt-1">
+        <div class="col-auto col-md-3 mt-1">
             <div class="row">
                 <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">RANK CATEGORY:</div>
                 <div class="col col-auto pl-1 pr-1">
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="col-6 col-md-9">
+        <div class="col d-flex justify-content-center">
             <div class="row justify-content-right">
 
                 @foreach ($categories as $category)

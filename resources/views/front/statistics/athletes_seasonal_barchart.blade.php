@@ -14,7 +14,7 @@
     <div class="row mb-4">
 
         <!-- SEASON FILTER -->
-        <div class="col-5 col-md-2 mt-1">
+        <div class="col-auto mt-1">
             <div class="row">
                 <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">season:</div>
                 <div class="col col-auto pl-1 pr-1">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="col-auto col-md-8">
+        <div class="col d-flex justify-content-center">
             <div class="row justify-content-right">
 
                 @foreach ($categories as $category)
@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="col-auto col-md-2 d-flex justify-content-end">
+        <div class="col-auto d-flex justify-content-end">
           <label class="switch btn-switch">
             <input @click="$dispatch('modeChanged')" type="checkbox" name="time_mode" id="time_mode" value="1">
             <label for="time_mode" data-on="AVG" data-off="SUM" class="btn-switch-inner"></label>

@@ -70,7 +70,7 @@ tr a {
     font-size: 75%;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     /* make the width of seacond header of table stats smaller */
     .name-header {
         width: 45%;
@@ -79,6 +79,10 @@ tr a {
     /* widen the third header of the table to make room for spans with tooltips */
     .metric-header {
         width: 45%;
+    }
+
+    .categories-list {
+        justify-content: center;
     }
 }
 

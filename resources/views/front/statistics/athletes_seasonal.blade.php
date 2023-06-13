@@ -11,15 +11,13 @@
           highlightedAthlete: {{ $data->get($categories->first())->first() }},
           highlightedRowId: '',
           highlightedPosition: 1,
-          }"
-     x-init="highlightedRowId=selectedRaceCat + '-1'"
-     class="container position-relative pb-5">
+          }" x-init="highlightedRowId=selectedRaceCat + '-1'" class="container position-relative pb-5">
 
     <!-- FILTERS -->
     <div class="row mb-4">
 
         <!-- SEASON FILTER -->
-        <div class="col-6 col-md-3 mt-1">
+        <div class="col-auto col-md-3 mt-1">
             <div class="row">
                 <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">season:</div>
                 <div class="col col-auto pl-1 pr-1">
@@ -47,8 +45,8 @@
             </div>
         </div>
 
-        <div class="col-7 col-md-9">
-            <div class="row justify-content-right">
+        <div class="col d-flex justify-content-center">
+            <div class="row">
 
                 @foreach ($categories as $category)
 
@@ -68,7 +66,7 @@
         <div class="col-3 d-none d-md-block">
             <a :href="'/athlete/' + highlightedAthlete.slug" class="latest-results__first mb-3 profile-pic">
                 <div class="latest-results__photo position-relative" x-bind:style="'background-image:url(/images' + (highlightedAthlete.profilePic ? '/athletes/' + highlightedAthlete.profilePic : (highlightedAthlete.gender == 'female' ? '/woman_silhouette.jpg' : '/man_silhouette.jpg')) + ')'">
-    <div class="latest-results__number latest-results__number--first" x-text="highlightedPosition"></div>
+                    <div class="latest-results__number latest-results__number--first" x-text="highlightedPosition"></div>
                 </div>
                 <div class="latest-results__info">
                     <div class="font-weight-bold" x-text="highlightedAthlete.firstName + ' ' + highlightedAthlete.lastName"></div>
@@ -91,12 +89,12 @@
                             <th style="width:10%">#</th>
                             <th style="">Name</th>
                             <th style="text-align:right">
-                              {{ $metric[0] }}
-                              @if ($metric[1] != '')
-                              <span class="metric-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $metric[1] }}">
-                                ?
-                              </span>
-                              @endif
+                                {{ $metric[0] }}
+                                @if ($metric[1] != '')
+                                <span class="metric-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $metric[1] }}">
+                                    ?
+                                </span>
+                                @endif
                             </th>
                         </tr>
                     </thead>
@@ -138,7 +136,7 @@
 
                         <div class="dropdown__menu dropdown__menu--right">
 
-                          <a href={{ "/statistics/".$statsCategorySlug."/all-seasons" }} {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
+                            <a href={{ "/statistics/".$statsCategorySlug."/all-seasons" }} {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
 
                             @foreach ($years as $yr)
                             <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/".$statsCategorySlug."/".$yr }}>{{ $yr }}</a>

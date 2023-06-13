@@ -12,7 +12,7 @@
     <div class="row mb-4">
 
         <!-- SEASON FILTER -->
-        <div class="col-6 col-md-3 mt-1">
+        <div class="col-auto mt-1">
             <div class="row">
                 <div class="my-auto col col-auto font-weight-bold text-uppercase text-blue">season:</div>
                 <div class="col col-auto pl-1 pr-1">
@@ -40,8 +40,8 @@
             </div>
         </div>
 
-        <div class="col-6 col-md-9">
-            <div class="row justify-content-right">
+        <div class="col d-flex justify-content-center">
+            <div class="row">
 
                 @foreach ($categories as $category)
 
