@@ -57,10 +57,10 @@
         </div>
 
         <div class="col-auto d-flex justify-content-end">
-          <label class="switch btn-switch">
-            <input @click="$dispatch('modeChanged')" type="checkbox" name="time_mode" id="time_mode" value="1">
-            <label for="time_mode" data-on="AVG" data-off="SUM" class="btn-switch-inner"></label>
-          </label>
+            <label class="switch btn-switch">
+                <input @click="$dispatch('modeChanged')" type="checkbox" name="time_mode" id="time_mode" value="1">
+                <label for="time_mode" data-on="AVG" data-off="SUM" class="btn-switch-inner"></label>
+            </label>
         </div>
 
     </div>
@@ -122,57 +122,77 @@
 @push('scripts')
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script defer type="text/javascript">
-  function drawChart(selectedData) {
-    google.charts.load('current', {'packages':['bar']});
-    google.charts.setOnLoadCallback(draw);
+    function drawChart(selectedData) {
+        google.charts.load('current', {
+            'packages': ['bar']
+        });
+        google.charts.setOnLoadCallback(draw);
 
-    function draw() {
-      if (Alpine.store('chart').mode == 'SUM') {
-        var data = new google.visualization.arrayToDataTable([
-          ['Age', 'Points (Total)'],
-          ["18-25", selectedData['18-25']['pointsSum']],
-          ["26-35", selectedData['26-35']['pointsSum']],
-          ["36-45", selectedData['36-45']['pointsSum']],
-          ["46+", selectedData['46+']['pointsSum']],
-        ]);
-      } else {
-        var data = new google.visualization.arrayToDataTable([
-          ['Age', 'Points (Average)'],
-          ["18-25", selectedData['18-25']['pointsSum'] / selectedData['18-25']['athletesCount']],
-          ["26-35", selectedData['26-35']['pointsSum'] / selectedData['26-35']['athletesCount']],
-          ["36-45", selectedData['36-45']['pointsSum'] / selectedData['36-45']['athletesCount']],
-          ["46+", selectedData['46+']['pointsSum'] / selectedData['46+']['athletesCount']],
-        ]);
-      }
+        function draw() {
+            if (Alpine.store('chart').mode == 'SUM') {
+                var data = new google.visualization.arrayToDataTable([
+                    ['Age', 'Points (Total)'],
+                    ["18-25", ('18-25' in selectedData) ? selectedData['18-25']['pointsSum'] : 0],
+                    ["26-35", ('26-35' in selectedData) ? selectedData['26-35']['pointsSum'] : 0],
+                    ["36-45", ('36-45' in selectedData) ? selectedData['36-45']['pointsSum'] : 0],
+                    ["46+", ('46+' in selectedData) ? selectedData['46+']['pointsSum'] : 0],
+                ]);
+            } else {
+                var data = new google.visualization.arrayToDataTable([
+                    ['Age', 'Points (Average)'],
+                    ["18-25", ('18-25' in selectedData) ? selectedData['18-25']['pointsSum'] / selectedData['18-25']['athletesCount'] : 0],
+                    ["26-35", ('26-35' in selectedData) ? selectedData['26-35']['pointsSum'] / selectedData['26-35']['athletesCount'] : 0],
+                    ["36-45", ('36-45' in selectedData) ? selectedData['36-45']['pointsSum'] / selectedData['36-45']['athletesCount'] : 0],
+                    ["46+", ('46+' in selectedData) ? selectedData['46+']['pointsSum'] / selectedData['46+']['athletesCount'] : 0],
+                ]);
+            }
 
-      var options = {
-        bars: 'vertical',
-        axes: { x: { 0: { side: 'bottom', label: 'Age'} } },
-        bar: { groupWidth: "90%" }
-      };
+            var options = {
+                bars: 'vertical',
+                axes: {
+                    x: {
+                        0: {
+                            side: 'bottom',
+                            label: 'Age'
+                        }
+                    }
+                },
+                bar: {
+                    groupWidth: "90%"
+                }
+            };
 
-      var chart = new google.charts.Bar(document.getElementById('chart_div'));
-      chart.draw(data, options);
+            var chart = new google.charts.Bar(document.getElementById('chart_div'));
+            chart.draw(data, options);
+        }
     }
-  }
 
-  document.addEventListener('alpine:init', () => { Alpine.store('chart', { selectedRaceCat: '', data: null, mode: 'SUM', getSelectedData() { return Alpine.store('chart').data[Alpine.store('chart').selectedRaceCat]; } }) } );
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('chart', {
+            selectedRaceCat: '',
+            data: null,
+            mode: 'SUM',
+            getSelectedData() {
+                return Alpine.store('chart').data[Alpine.store('chart').selectedRaceCat];
+            }
+        })
+    });
 
-  document.addEventListener('alpine:initialized', () => {
-    drawChart(Alpine.store('chart').getSelectedData());
-  })
+    document.addEventListener('alpine:initialized', () => {
+        drawChart(Alpine.store('chart').getSelectedData());
+    })
 
-  document.addEventListener('categoryChanged', () => {
-    drawChart(Alpine.store('chart').getSelectedData());
-  });
+    document.addEventListener('categoryChanged', () => {
+        drawChart(Alpine.store('chart').getSelectedData());
+    });
 
-  document.addEventListener('modeChanged', () => {
-    if (Alpine.store('chart').mode == 'SUM') {
-      Alpine.store('chart').mode = 'AVG'
-    } else {
-      Alpine.store('chart').mode = 'SUM'
-    }
-    drawChart(Alpine.store('chart').getSelectedData());
-  });
+    document.addEventListener('modeChanged', () => {
+        if (Alpine.store('chart').mode == 'SUM') {
+            Alpine.store('chart').mode = 'AVG'
+        } else {
+            Alpine.store('chart').mode = 'SUM'
+        }
+        drawChart(Alpine.store('chart').getSelectedData());
+    });
 </script>
 @endpush

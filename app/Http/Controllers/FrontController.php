@@ -873,20 +873,6 @@ class FrontController extends Controller
             });
         });
 
-        // dd($groupedByAgeWithStats);
-
-        // $groupedByAge = $groupedByAthletes->groupBy
-
-        // $data = $groupedByAthletes
-        //     ->map(function ($item) {
-        //         return $item->slice(0, 30);
-        //     })
-        //     ->filter(function ($item) {
-        //         return $item->first()['qty'] > 0;
-        //     });
-
-        // dd($groupedByAge);
-
         $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
         ->filter(function ($item, $key) use ($groupedByAge) {
             return $groupedByAge->keys()->contains($item);
