@@ -139,9 +139,9 @@ Auth::routes(['register' => false]);
     Route::get('/races/{year}/{month}', 'FrontController@races')->name('races.month');
 
 // STATISTICS
-// ATHLETES BY SEASON
-    Route::get('/statistics/', 'FrontController@statsVictories')->name('statistics');
-    Route::get('/statistics/victories/{year?}', 'FrontController@statsVictories')->name('statistics.victories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+// FOR ATHLETES FILTERED BY SEASON
+    Route::get('/statistics/', 'StatisticsController@victories')->name('statistics');
+    Route::get('/statistics/victories/{year?}', 'StatisticsController@victories')->name('statistics.victories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
     Route::get('/statistics/race-days/{year?}', 'FrontController@statsRaceDays')->name('statistics.raceDays')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
     Route::get('/statistics/grand-course-victories/{year?}', 'FrontController@statsGCVictories')->name('statistics.gcVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
     Route::get('/statistics/world-cup-victories/{year?}', 'FrontController@statsWCVictories')->name('statistics.wcVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
