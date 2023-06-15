@@ -70,7 +70,7 @@
                 </div>
                 <div class="latest-results__info">
                     <div class="font-weight-bold" x-text="highlightedAthlete.firstName + ' ' + highlightedAthlete.lastName"></div>
-                    <div class="small mb-2" x-text="'wins: ' + highlightedAthlete.qty"></div>
+                    <div class="small mb-2" x-text="'{{$metric[0]}}: ' + highlightedAthlete.qty"></div>
                     <div class="d-flex justify-content-between align-items-center">
                         <img :if="highlightedAthlete.country" class="latest-results__mini-flag" :src="'/images/flags/flags-mini/' + highlightedAthlete.country.toLowerCase() + '.png'" :alt="highlightedAthlete.country" />
                         <div class="latest-results__view-profile">View profile</div>

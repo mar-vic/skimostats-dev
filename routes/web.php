@@ -142,29 +142,29 @@ Auth::routes(['register' => false]);
 // FOR ATHLETES FILTERED BY SEASON
     Route::get('/statistics/', 'StatisticsController@victories')->name('statistics');
     Route::get('/statistics/victories/{year?}', 'StatisticsController@victories')->name('statistics.victories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/race-days/{year?}', 'FrontController@statsRaceDays')->name('statistics.raceDays')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/grand-course-victories/{year?}', 'FrontController@statsGCVictories')->name('statistics.gcVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/world-cup-victories/{year?}', 'FrontController@statsWCVictories')->name('statistics.wcVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/chocolates/{year?}', 'FrontController@statsChocolates')->name('statistics.chocolates')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/top-tens/{year?}', 'FrontController@statsTopTens')->name('statistics.topTens')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/countries-raced-in/{year?}', 'FrontController@statsCountriesRacedIn')->name('statistics.countriesRacedIn')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/points-per-raceday/{year?}', 'FrontController@statsPointsPerRaceday')->name('statistics.pointsPerRaceday')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/race-days/{year?}', 'StatisticsController@raceDays')->name('statistics.raceDays')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/points-per-raceday/{year?}', 'StatisticsController@pointsPerRaceday')->name('statistics.pointsPerRaceday')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/grand-course-victories/{year?}', 'StatisticsController@grandCourseVictories')->name('statistics.grandCourseVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/world-cup-victories/{year?}', 'StatisticsController@worldCupVictories')->name('statistics.worldCupVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/chocolates/{year?}', 'StatisticsController@chocolates')->name('statistics.chocolates')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/top-tens/{year?}', 'StatisticsController@topTens')->name('statistics.topTens')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/countries-raced-in/{year?}', 'StatisticsController@countriesRacedIn')->name('statistics.countriesRacedIn')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
 
 // ATHLETES BY SEASON WITH HISTOGRAM
-   Route::get('/statistics/points-per-age/{year?}', 'FrontController@statsPointsPerAge')->name('statistics.pointsPerAge')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+   Route::get('/statistics/points-per-age/{year?}', 'StatisticsController@pointsPerAge')->name('statistics.pointsPerAge')->where('year', '^(\b(19|20)\d{2}\b)$');
 
 // ATHLETES BY RANKING CATEGORY
-    Route::get('/statistics/active-athletes/{rankingCategory?}', 'FrontController@statsActiveAthletes')->name('statistics.activeAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
-    Route::get('/statistics/youngest-athletes/{rankingCategory?}', 'FrontController@statsYoungestAthletes')->name('statistics.youngestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
-    Route::get('/statistics/oldest-athletes/{rankingCategory?}', 'FrontController@statsOldestAthletes')->name('statistics.oldestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+    Route::get('/statistics/active-athletes/{rankingCategory?}', 'StatisticsController@activeAthletes')->name('statistics.activeAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+    Route::get('/statistics/youngest-athletes/{rankingCategory?}', 'StatisticsController@youngestAthletes')->name('statistics.youngestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+    Route::get('/statistics/oldest-athletes/{rankingCategory?}', 'StatisticsController@oldestAthletes')->name('statistics.oldestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
 
 // ATHLETES MONTHLY
-Route::get('/statistics/points-per-month/{monthYear?}', 'FrontController@statsPointsPerMonth')->name('statistics.pointPerMonth')->where('monthYear', '\b(0[1-9]|1[0-2])-(19|20)\d{2}\b');
+Route::get('/statistics/points-per-month/{monthYear?}', 'StatisticsController@pointsPerMonth')->name('statistics.pointPerMonth')->where('monthYear', '\b(0[1-9]|1[0-2])-(19|20)\d{2}\b');
 
 // COUNTRIES BY SEASON
-    Route::get('/statistics/countries-by-wins/{year?}', 'FrontController@statsCountriesByWins')->name('statistics.countriesByWins')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-   Route::get('/statistics/countries-by-winners/{year?}', 'FrontController@statsCountriesByWinners')->name('statistics.countriesByWinners')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-Route::get('/statistics/countries-skimo-scores/{year?}', 'FrontController@statsCountriesBySkimo')->name('statistics.countriesBySkimo')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+    Route::get('/statistics/wins-per-countries/{year?}', 'StatisticsController@winsPerCountries')->name('statistics.winsPerCountries')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+   Route::get('/statistics/winners-per-countries/{year?}', 'StatisticsController@winnersPerCountry')->name('statistics.winnersPerCountry')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/points-per-country/{year?}', 'StatisticsController@pointsPerCountry')->name('statistics.pointsPerCountry')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
 // END STATISTICS
 
     Route::get('/about-us', 'FrontController@aboutUs')->name('about-us');

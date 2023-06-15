@@ -37,8 +37,8 @@
                 <li {!! $statsCategorySlug=='world-cup-victories' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/world-cup-victories">World Cup victories</a>
                 </li>
-                <li {!! $statsCategorySlug=='countries-by-wins' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-                    <a class="nav-link pl-3" href="/statistics/countries-by-wins">Countries by wins</a>
+                <li {!! $statsCategorySlug=='wins-per-countries' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+                    <a class="nav-link pl-3" href="/statistics/wins-per-countries">Wins per countries</a>
                 </li>
                 <li {!! $statsCategorySlug=='chocolates' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/chocolates">Chocolates</a>
@@ -46,8 +46,8 @@
                 <li {!! $statsCategorySlug=='top-tens' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/top-tens">Top 10 finishes</a>
                 </li>
-                <li {!! $statsCategorySlug=='countries-skimo-scores' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-                    <a class="nav-link pl-3" href="/statistics/countries-skimo-scores">Countries SKIMO scores</a>
+                <li {!! $statsCategorySlug=='points-per-country' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+                    <a class="nav-link pl-3" href="/statistics/points-per-country">Points per country</a>
                 </li>
             </ul>
         </div>
@@ -58,8 +58,8 @@
                 <li {!! $statsCategorySlug=='active-athletes' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/active-athletes">Active athletes</a>
                 </li>
-                <li {!! $statsCategorySlug=='countries-by-winners' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-                    <a class="nav-link pl-3" href="/statistics/countries-by-winners">Countries by winners</a>
+                <li {!! $statsCategorySlug=='winners-per-countries' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+                    <a class="nav-link pl-3" href="/statistics/winners-per-countries">Winners per countries</a>
                 </li>
                 <li {!! $statsCategorySlug=='countries-raced-in' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/countries-raced-in">Countries raced in</a>
@@ -118,8 +118,8 @@
                 <li {!! $statsCategorySlug=='world-cup-victories' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/world-cup-victories">World Cup victories</a>
                 </li>
-                <li {!! $statsCategorySlug=='countries-by-wins' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-                    <a class="nav-link pl-3" href="/statistics/countries-by-wins">Countries by wins</a>
+                <li {!! $statsCategorySlug=='wins-per-countries' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+                    <a class="nav-link pl-3" href="/statistics/wins-per-countries">Wins per countries</a>
                 </li>
                 <li {!! $statsCategorySlug=='chocolates' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/chocolates">Chocolates</a>
@@ -127,15 +127,15 @@
                 <li {!! $statsCategorySlug=='top-tens' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/top-tens">Top 10 finishes</a>
                 </li>
-                <li {!! $statsCategorySlug=='countries-skimo-scores' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-                    <a class="nav-link pl-3" href="/statistics/countries-skimo-scores">Countries SKIMO scores</a>
+                <li {!! $statsCategorySlug=='points-per-country' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+                    <a class="nav-link pl-3" href="/statistics/points-per-country">Points per country </a>
                 </li>
 
                 <li {!! $statsCategorySlug=='world-cup-victories' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/world-cup-victories">World Cup victories</a>
                 </li>
-                <li {!! $statsCategorySlug=='wins-by-countries' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-                    <a class="nav-link pl-3" href="/statistics/wins-by-countries">Wins by countries</a>
+                <li {!! $statsCategorySlug=='winners-per-countries' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
+                    <a class="nav-link pl-3" href="/statistics/winners-per-countries">Winners per countries</a>
                 </li>
                 <li {!! $statsCategorySlug=='chocolates' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/chocolates">Chocolates</a>
@@ -143,10 +143,6 @@
                 <li {!! $statsCategorySlug=='top-tens' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/top-tens">Top 10 finishes</a>
                 </li>
-                <li {!! $statsCategorySlug=='nations-skimo-scores' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
-                    <a class="nav-link pl-3" href="/statistics/nations-skimo-scores">Nations SKIMO scores</a>
-                </li>
-
                 <li {!! $statsCategorySlug=='points-per-raceday' ? 'class=" nav-item selected"' : 'class="nav-item"' !!}>
                     <a class="nav-link pl-3" href="/statistics/points-per-raceday">Points per raceday</a>
                 </li>

@@ -22,13 +22,11 @@
                     <div class="position-relative dropdown__container no-vue">
 
                         <button class="badge badge--custom dropdown__toggle">
-                            {{ $year == 'all-seasons' ? 'All' : $year }}
+                            {{ $year }}
                             <i class="fas fa-caret-down"></i>
                         </button>
 
                         <div class="dropdown__menu dropdown__menu--right">
-
-                            <a href={{ "/statistics/".$statsCategorySlug."/all-seasons" }} {{ $year == 'all-seasons' ? "class=fw-bold" : '' }}>All</a>
 
                             @foreach ($years as $yr)
                             <a {{ $year == $yr ? "class=fw-bold" : '' }} href={{ "/statistics/".$statsCategorySlug."/".$yr }}>{{ $yr }}</a>
