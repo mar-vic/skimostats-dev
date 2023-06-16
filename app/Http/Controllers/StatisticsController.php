@@ -62,8 +62,6 @@ class StatisticsController extends Controller
             $queryBuilder->whereBetween('events.startDate', $timespan);
         }
 
-        // dd($queryBuilder->get()->where('firstName', 'Rémi')->where('lastName', 'Bonnet'));
-
         $groupedByCategories = $queryBuilder->get()->groupBy('categoryName');
 
         $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
@@ -688,7 +686,7 @@ class StatisticsController extends Controller
                       ->join('ranking_categories', 'ranking_categories.id', 'events.rankingCategoryId')
                       ->whereNotIn('ranking_categories.id', [3, 12])
                       ->whereIn('categories.id', [1, 2, 23, 24, 25, 26])
-                      ->whereIn('entries.rank', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+                      ->whereIn('rankings.rank', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
         if ($year != 'all-seasons') {
             $year = ($year == 'current-season' ? $years->first() : (int)$year);
