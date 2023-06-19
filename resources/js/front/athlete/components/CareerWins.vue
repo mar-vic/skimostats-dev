@@ -11,6 +11,7 @@
             <h1 class="page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4">{{__('Career Wins')}}</h1>
 
             <div class="position-relative">
+            <div v-if="careerWins" class="table-responsive">
               <table class="table table--races table--races-striped"> <!-- CAREER WINS TABLE -->
 
                 <thead> <!-- TABLE HEAD -->
@@ -67,6 +68,7 @@
                 </tbody> <!-- END TABLE BODY -->
 
               </table> <!-- END CAREER WINS TABLE -->
+              </div>
             </div>
             <img v-if="loading"
                  src="/images/loading.svg"

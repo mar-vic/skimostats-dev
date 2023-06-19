@@ -2906,6 +2906,8 @@ var render = function render() {
     staticClass: "page-heading font-weight-bold text-uppercase pt-0 pt-md-2 text-blue mb-4"
   }, [_vm._v(_vm._s(_vm.__("Career Wins")))]), _vm._v(" "), _c("div", {
     staticClass: "position-relative"
+  }, [_vm.careerWins ? _c("div", {
+    staticClass: "table-responsive"
   }, [_c("table", {
     staticClass: "table table--races table--races-striped"
   }, [_c("thead", [_c("tr", [_c("th", {
@@ -2971,7 +2973,7 @@ var render = function render() {
         item: event
       }
     });
-  }), 1)])]), _vm._v(" "), _vm.loading ? _c("img", {
+  }), 1)])]) : _vm._e()]), _vm._v(" "), _vm.loading ? _c("img", {
     staticStyle: {
       position: "absolute",
       left: "50%",
