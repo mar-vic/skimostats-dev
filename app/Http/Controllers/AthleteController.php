@@ -51,7 +51,8 @@ class AthleteController extends Controller
                 'rt.name as raceTypeName',
                 'cat.slug as categorySlug',
                 're.startDate',
-                'ree.status'
+                'ree.status',
+                'rnk.type'
             )
             ->join('race_event_participants as rep', 'rep.raceEventId', 're.id')
             ->join('categories as cat', 'cat.id', 'rep.categoryId')
@@ -61,11 +62,7 @@ class AthleteController extends Controller
                 $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
                     ->orOn('ree.raceEventTeamId', '=', 'ret.id');
             })
-            ->leftJoin('rankings as rnk', function($qb) {
-                $qb->on('rnk.participantId', '=', 'rep.id')
-                   ->whereIn('rnk.type', [1, 2])
-                   ->whereIn('rnk.categoryId', [1, 2, 14, 38]);
-            })
+            ->leftJoin('rankings as rnk', function($qb) {$qb->on('rnk.participantId', '=', 'rep.id')->whereIn('rnk.type', [1])->whereIn('rnk.categoryId', [1, 2, 14, 38]);})
             ->leftJoin('race_types as rt', 'rt.id', 're.type')
             ->where('rep.athleteId', $athlete->id)
             ->whereBetween('re.startDate', $timespan)
