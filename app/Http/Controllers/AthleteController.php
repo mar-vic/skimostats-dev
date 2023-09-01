@@ -52,7 +52,8 @@ class AthleteController extends Controller
                 'cat.slug as categorySlug',
                 're.startDate',
                 'ree.status',
-                'rnk.type'
+                'rnk.type',
+                'rnk.rankingCategoryId as rankingCategory'
             )
             ->join('race_event_participants as rep', 'rep.raceEventId', 're.id')
             ->join('categories as cat', 'cat.id', 'rep.categoryId')
@@ -67,8 +68,6 @@ class AthleteController extends Controller
             ->where('rep.athleteId', $athlete->id)
             ->whereBetween('re.startDate', $timespan)
             ->groupBy('re.id');
-
-        // dd($builder->get());
 
         return [
             'year' => $theYear,

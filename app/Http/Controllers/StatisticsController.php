@@ -367,7 +367,7 @@ class StatisticsController extends Controller
                       ->where('rankings.type', 1)
                       ->whereIn('categories.id',  [1, 2, 23, 24, 25, 26])
                       ->where('rankings.rank', 1)
-                      ->where('rankings.rankingCategoryId', 6) // Grand Courses have category id 1
+                      ->where('rankings.rankingCategoryId', 6) // Grand Courses have category id
                       ->select(
                           'athletes.id as athleteId',
                           'athletes.firstName',
@@ -380,9 +380,10 @@ class StatisticsController extends Controller
                           'countries.name as countryName',
                           'categories.name as catName',
                           'events.startDate as eventStartDate',
-                          'events.endDate'
+                          'events.endDate',
+                          "events.name",
+                          "rankings.rankingCategoryId"
                       );
-
 
         if ($year != 'all-seasons') {
             $year = ($year == 'current-season' ? $years->first() : (int)$year);
