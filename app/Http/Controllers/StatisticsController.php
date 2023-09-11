@@ -108,7 +108,7 @@ class StatisticsController extends Controller
 
         // Selecting all participations of all athletes
         $queryBuilder = DB::table("race_events as events")
-        ->selectRaw("athletes.id as athleteId, athletes.firstName as firstName, athletes.lastName as lastName, athletes.gender as gender, athletes.image as image, athletes.slug as slug, countries.code as countryCode, categories.id as categoryId, categories.name as categoryName, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration")
+        ->selectRaw("race_types.name as raceTypeName, events.name as eventName, rankings.type as rankingType, rankingCats.name as rankingCategory, rankingCats.id, athletes.id as athleteId, athletes.firstName as firstName, athletes.lastName as lastName, athletes.gender as gender, athletes.image as image, athletes.slug as slug, countries.code as countryCode, categories.id as categoryId, categories.name as categoryName, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration")
         ->join("race_event_participants as participants", "participants.raceEventId", "events.Id")
         ->join('categories', 'categories.id', 'participants.categoryId')
         ->leftJoin("race_event_teams as teams", "teams.id", "participants.raceEventTeamId")
@@ -118,7 +118,13 @@ class StatisticsController extends Controller
         })
         ->join("athletes", "participants.athleteId", "athletes.id")
         ->leftJoin("countries", "countries.id", "athletes.countryId")
+        ->join("rankings", "rankings.participantId", "participants.id")
+        ->leftJoin("ranking_categories as rankingCats", "rankingCats.id", "rankings.rankingCategoryId")
+        ->leftJoin("race_types", "race_types.id", "events.type")
+        ->where("rankings.type", 1)
+        ->whereNot("rankings.rankingCategoryId", 6)
         ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26]);
+
 
         // Confine to a season
         if ($year != 'all-seasons') {
@@ -131,6 +137,14 @@ class StatisticsController extends Controller
             $timespan = Ranking::getRankingYearTimespan($year);
             $queryBuilder->whereBetween('events.startDate', $timespan);
         }
+
+        // dd($queryBuilder->get());
+
+        // $handle = fopen("/home/marcus/Projects/skimostats-dev/backup/damevine_racedays_2023.csv", "w");
+
+        // $queryBuilder->get()->each(fn ($row) => fputcsv($handle, [$row->eventName, $row->categoryName, $row->raceTypeName, $row->rankingCategory]));
+
+        // fclose($handle);
 
         $groupedByCategories = $queryBuilder->get()->groupBy('categoryName');
 

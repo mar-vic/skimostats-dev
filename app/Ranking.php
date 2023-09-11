@@ -86,8 +86,8 @@ class Ranking extends Model
         }
 
         return [
-            ($year - 1) . '-10-01 00:00:00',
-            $year . '-06-01 23:59:59'
+            ($year - 1) . '-08-01 00:00:00',
+            $year . '-07-31 23:59:59'
         ];
     }
 
