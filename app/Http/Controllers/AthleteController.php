@@ -298,6 +298,8 @@ class AthleteController extends Controller
         // get php collection object from querybuilder
         $collection = $queryBuilder->get();
 
+        // dd($collection)
+
         // group the collection by races
         $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
             return [$item->raceId => [
@@ -316,7 +318,7 @@ class AthleteController extends Controller
                 6 => 1,
                 5 => 2,
                 1 => 3,
-                7 => 4,
+                7 => 4, // Stages should be excluded!
                 8 => 5,
                 2 => 6,
                 4 => 7,
@@ -446,31 +448,23 @@ class AthleteController extends Controller
              ->whereRaw('rankings.rank in (1, 2, 3, 4)')
              ->join('race_events as events', 'events.id', 'rankings.raceEventId')
              ->join('races', 'races.id', 'events.raceId')
-             // ->groupBy('races.id')
-             // ->orderByRaw("case races.rankingCategoryId ".
-             //              "when 6 then 1 ".
-             //              "when 5 then 2 ".
-             //              "when 1 then 3 ".
-             //              "when 7 then 4 ".
-             //              "when 8 then 5 ".
-             //              "when 2 then 6 ".
-             //              "when 4 then 7 ".
-             //              "when 11 then 8 ".
-             //              "when 3 then 9 ".
-             //              "else 10 ".
-             //              "end asc")
-             // ->limit(10)
+             ->whereRaw("events.slug not like '%stage%'")
              ->selectRaw('races.id as raceId, '.
                          'races.name as raceName, '.
                          'races.rankingCategoryId as rankingCategory, '.
                          'events.name as eventName, '.
                          'events.slug as eventSlug, '.
                          'events.startDate as date, '.
+                         "events.parent, ".
+                         "events.isGeneralClassification, ".
                          'rankings.points, '.
+                         'rankings.type, '.
                          'rankings.rank');
 
         // get php collection object from querybuilder
         $collection = $queryBuilder->get();
+
+        // dd($collection);
 
         // group the collection by races
         $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
@@ -485,6 +479,8 @@ class AthleteController extends Controller
                     'raceId' => $item->raceId
             ]];
         });
+
+        // dd($grouppedByRace);
 
         // sort the collection by rankingCategoryId
         $sorted = $grouppedByRace->sort(function ($a, $b) {
@@ -507,6 +503,8 @@ class AthleteController extends Controller
 
             return $aScore - $bScore;
         });
+
+        // dd($sorted->values());
 
         // TODO: sort race events by their date
 
@@ -600,6 +598,7 @@ class AthleteController extends Controller
             ->where('rep.athleteId', $athlete->id)
             ->whereBetween('re.startDate', $timespan)
             ->whereRaw('ree.rank is not null')
+            ->whereRaw("re.slug not like '%general-classification%'")
             ->groupBy('re.id');
 
         $collection = $builder->get();
