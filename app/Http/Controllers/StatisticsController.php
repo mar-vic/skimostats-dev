@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Query\JoinClause;
+use App\Enums\RankingType;
 use Illuminate\Support\Facades\DB;
 
 use App\Ranking;
@@ -122,7 +123,8 @@ class StatisticsController extends Controller
         ->leftJoin("ranking_categories as rankingCats", "rankingCats.id", "rankings.rankingCategoryId")
         ->leftJoin("race_types", "race_types.id", "events.type")
         ->where("rankings.type", 1)
-        ->whereNot("rankings.rankingCategoryId", 6)
+        ->whereIn("athletes.gender", ['male', 'female'])
+        ->whereRaw("rankings.rankingCategoryId", 6)
         ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26]);
 
 
@@ -146,9 +148,13 @@ class StatisticsController extends Controller
 
         // fclose($handle);
 
-        $groupedByCategories = $queryBuilder->get()->groupBy('categoryName');
+        $groupedByCategories = $queryBuilder->get()->groupBy('gender');
 
-        $groupedByAthletes = $groupedByCategories->map(function ($item, $key) {
+        $groupedByGender = $queryBuilder->get()->groupBy('gender');
+
+        // dd($groupedByGender);
+
+        $groupedByAthletes = $groupedByGender->map(function ($item, $key) {
             return $item->groupBy('athleteId')->map(function ($item, $key) {
 
                 $raceDays = $item->reduce(function ($carry, $item) {
@@ -168,7 +174,9 @@ class StatisticsController extends Controller
             })->sortBy([['qty', 'desc']])->slice(0, 30);
         });
 
-        $categories = collect(['Men', 'Women', 'Men U23', 'Women U23', 'U20 Men', 'U20 Women', 'U18 Men', 'U18 Women'])
+        // dd($groupedByAthletes);
+
+        $categories = collect(['male', 'female'])
             ->filter(function ($item, $key) use ($groupedByAthletes) {
                 return $groupedByAthletes->keys()->contains($item);
             });
@@ -731,7 +739,6 @@ class StatisticsController extends Controller
     }
 
     public function pointsPerCountry(Request $request, string $year = 'current-season') {
-
         $years = $this->years($request);
 
         $queryBuilder = DB::table('rankings as r')
