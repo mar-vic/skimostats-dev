@@ -664,20 +664,7 @@ class FrontController extends Controller
              ->join('race_events as events', 'events.id', 'rankings.raceEventId')
              ->join('races', 'races.id', 'events.raceId')
              ->whereNotIn('races.rankingCategoryId', [10, 7])
-             // ->groupBy('races.id')
-             // ->orderByRaw("case races.rankingCategoryId ".
-             //              "when 6 then 1 ".
-             //              "when 5 then 2 ".
-             //              "when 1 then 3 ".
-             //              "when 7 then 4 ".
-             //              "when 8 then 5 ".
-             //              "when 2 then 6 ".
-             //              "when 4 then 7 ".
-             //              "when 11 then 8 ".
-             //              "when 3 then 9 ".
-             //              "else 10 ".
-             //              "end asc")
-             // ->limit(10)
+             ->whereRaw("events.slug NOT LIKE '%stage%'")
              ->selectRaw('races.id as raceId, '.
                          'races.name as raceName, '.
                          'rankings.rankingCategoryId as rankingCategory, '.
