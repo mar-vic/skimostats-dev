@@ -107,26 +107,28 @@ class StatisticsController extends Controller
     {
         $years = $this->years($request);
 
-        // Selecting all participations of all athletes
-        $queryBuilder = DB::table("race_events as events")
-        ->selectRaw("race_types.name as raceTypeName, events.name as eventName, rankings.type as rankingType, rankingCats.name as rankingCategory, rankingCats.id, athletes.id as athleteId, athletes.firstName as firstName, athletes.lastName as lastName, athletes.gender as gender, athletes.image as image, athletes.slug as slug, countries.code as countryCode, categories.id as categoryId, categories.name as categoryName, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration")
-        ->join("race_event_participants as participants", "participants.raceEventId", "events.Id")
-        ->join('categories', 'categories.id', 'participants.categoryId')
-        ->leftJoin("race_event_teams as teams", "teams.id", "participants.raceEventTeamId")
-        ->join("race_event_entries as entries", function ($qb) {
-            $qb->on("entries.raceEventParticipantId", "=", "participants.id")
-            ->orOn("entries.raceEventTeamId", "=", "teams.id");
-        })
-        ->join("athletes", "participants.athleteId", "athletes.id")
-        ->leftJoin("countries", "countries.id", "athletes.countryId")
-        ->join("rankings", "rankings.participantId", "participants.id")
-        ->leftJoin("ranking_categories as rankingCats", "rankingCats.id", "rankings.rankingCategoryId")
-        ->leftJoin("race_types", "race_types.id", "events.type")
-        ->where("rankings.type", 1)
-        ->whereIn("athletes.gender", ['male', 'female'])
-        ->whereRaw("rankings.rankingCategoryId", 6)
-        ->whereIn('categories.id', [1, 2, 3, 4, 23, 24, 25, 26]);
-
+        $queryBuilder =  DB::table('race_events as events')
+            ->selectRaw(
+                'events.id as eventId, events.name as eventName, events.slug as eventSlug, events.startDate, DATEDIFF(events.endDate, events.startDate) + 1 as eventDuration, '.
+                "athletes.id athleteId, athletes.firstName as firstName, athletes.lastName as lastName, athletes.gender as gender, athletes.image as image, athletes.slug as athleteSlug, ".
+                "countries.code as countryCode"
+            )
+            ->join('race_event_participants as participants', 'participants.raceEventId', 'events.id')
+            ->join('categories', 'categories.id', 'participants.categoryId')
+            ->leftJoin('race_event_teams as teams', 'teams.id', 'participants.raceEventTeamId')
+            ->join('race_event_entries as entries', function($qb) {
+                $qb->on('entries.raceEventParticipantId', '=', 'participants.id')
+                    ->orOn('entries.raceEventTeamId', '=', 'teams.id');
+            })
+            ->leftJoin('rankings', function($qb) {
+                $qb->on('rankings.participantId', '=', 'participants.id')
+                    ->where('rankings.type', 1)
+                    ->whereIn('rankings.categoryId', [1, 2]);
+            })
+            ->join("athletes", "participants.athleteId", "athletes.id")
+            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+            // ->where("athletes.id", "=", 700)
+            ->whereRaw("events.slug not like '%general-classification%'");
 
         // Confine to a season
         if ($year != 'all-seasons') {
@@ -140,17 +142,7 @@ class StatisticsController extends Controller
             $queryBuilder->whereBetween('events.startDate', $timespan);
         }
 
-        // dd($queryBuilder->get());
-
-        // $handle = fopen("/home/marcus/Projects/skimostats-dev/backup/damevine_racedays_2023.csv", "w");
-
-        // $queryBuilder->get()->each(fn ($row) => fputcsv($handle, [$row->eventName, $row->categoryName, $row->raceTypeName, $row->rankingCategory]));
-
-        // fclose($handle);
-
-        $groupedByCategories = $queryBuilder->get()->groupBy('gender');
-
-        $groupedByGender = $queryBuilder->get()->groupBy('gender');
+        $groupedByGender = $queryBuilder->get()->unique()->groupBy('gender');
 
         // dd($groupedByGender);
 
@@ -167,14 +159,12 @@ class StatisticsController extends Controller
                     'lastName' => $item[0]->lastName,
                     'gender' => $item[0]->gender,
                     'profilePic' => $item[0]->image,
-                    'slug' => $item[0]->slug,
+                    'slug' => $item[0]->athleteSlug,
                     'country' => $item[0]->countryCode,
                     'qty' => $raceDays,
                 ]);
             })->sortBy([['qty', 'desc']])->slice(0, 30);
         });
-
-        // dd($groupedByAthletes);
 
         $categories = collect(['male', 'female'])
             ->filter(function ($item, $key) use ($groupedByAthletes) {
