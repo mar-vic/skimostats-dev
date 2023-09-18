@@ -9,11 +9,16 @@
             flex-direction: column;
         }
     }
+
+    &__left__container {
+        background: url("/images/line-vertical.png") repeat-y right, url("/images/parts/latest/left-big.png") no-repeat bottom right;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     &__left {
         width: 275px;
-        background: url('/images/line-vertical.png') repeat-y right,
-            url('/images/parts/latest/left.jpg') no-repeat bottom right;
-        background-size: auto, 100%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -61,10 +66,14 @@
             max-width: 900px;
         }
     }
+    &__right__container {
+        background: url("/images/line-vertical.png") repeat-y left, url("/images/parts/latest/right.jpg") no-repeat bottom right;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     &__right {
         width: 94px;
-        background: url('/images/parts/latest/right.jpg') no-repeat bottom right;
-        background-size: 100%;
         display: flex;
         align-items: center;
         justify-content: center;

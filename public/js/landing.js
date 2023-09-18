@@ -3614,16 +3614,20 @@ var render = function render() {
   }, [_c("div", [_c("div", {
     staticClass: "latest-results__container"
   }, [_c("div", {
+    staticClass: "latest-results__left__container"
+  }, [_c("div", {
     staticClass: "latest-results__left"
   }, [_c("div", {
     staticClass: "latest-results__left-text font-family-heading"
-  }, [_vm._v("\n                  " + _vm._s(_vm.__("Latest")) + "\n                  "), _c("div", [_vm._v(_vm._s(_vm.__("Results")))])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                  " + _vm._s(_vm.__("Latest")) + "\n                  "), _c("div", [_vm._v(_vm._s(_vm.__("Results")))])])])]), _vm._v(" "), _c("div", {
     staticClass: "latest-results__middle"
   }, [_c("event-overview", {
     attrs: {
       event: _vm.activeEvent
     }
   })], 1), _vm._v(" "), _c("div", {
+    staticClass: "latest-results__right__container"
+  }, [_c("div", {
     staticClass: "latest-results__right"
   }, [_c("div", {
     staticClass: "latest-results__right-pagination mb-4 mb-md-0"
@@ -3655,7 +3659,7 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.__("Next"))), _c("span", {
     staticClass: "d-none d-md-inline"
-  }, [_vm._v(" " + _vm._s(_vm.__("race")))])])])])])])]) : _vm._e();
+  }, [_vm._v(" " + _vm._s(_vm.__("race")))])])])])])])])]) : _vm._e();
 };
 var staticRenderFns = [];
 render._withStripped = true;
