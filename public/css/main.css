@@ -11246,6 +11246,7 @@ h3 {
 .latest-results__container {
   display: flex;
   min-height: 500px;
+  max-height: 800px;
 }
 
 @media (max-width: 991.98px) {

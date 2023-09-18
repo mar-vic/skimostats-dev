@@ -4,6 +4,7 @@
     &__container {
         display: flex;
         min-height: 500px;
+        max-height: 800px;
 
         @include media-breakpoint-down(md) {
             flex-direction: column;
