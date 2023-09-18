@@ -11323,7 +11323,7 @@ h3 {
 }
 
 .latest-results__right__container {
-  background: url("/images/line-vertical.png") repeat-y left, url("/images/parts/latest/right.jpg") no-repeat bottom right;
+  background: url("/images/line-vertical.png") repeat-y left, url("/images/parts/latest/right.jpg") no-repeat top right;
   display: flex;
   align-items: center;
   justify-content: center;
