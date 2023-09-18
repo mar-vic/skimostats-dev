@@ -15,6 +15,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @include media-breakpoint-down(md) {
+            width: auto;
+            background: transparent;
+        }
     }
 
     &__left {
@@ -71,6 +76,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @include media-breakpoint-down(md) {
+            width: auto;
+            background: transparent;
+        }
     }
     &__right {
         width: 94px;

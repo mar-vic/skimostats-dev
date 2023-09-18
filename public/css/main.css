@@ -11261,6 +11261,13 @@ h3 {
   justify-content: center;
 }
 
+@media (max-width: 991.98px) {
+  .latest-results__left__container {
+    width: auto;
+    background: transparent;
+  }
+}
+
 .latest-results__left {
   width: 275px;
   display: flex;
@@ -11319,6 +11326,13 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media (max-width: 991.98px) {
+  .latest-results__right__container {
+    width: auto;
+    background: transparent;
+  }
 }
 
 .latest-results__right {
