@@ -1,5 +1,13 @@
 .table {
 
+    a {
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
     &--races {
         thead th {
             background: url('/images/line-horizontal.png') repeat-x top left, url('/images/line-horizontal.png') repeat-x bottom left;
