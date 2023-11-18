@@ -558,6 +558,8 @@ class RankingController extends Controller
             ->limit(10)
             ->get();
 
+        // dd($ranking);
+
         $result[] = [
             'ranking' => $ranking,
         ];
