@@ -507,6 +507,189 @@ class RaceEventController extends Controller
         ]);
     }
 
+    public function generateGCResults(Request $request, Entry $raceEvent) {
+        print("Generating General Classification results");
+
+        // Get all entries in all race event stages
+        $entriesInStages = Entry::where(
+            "parent", $raceEvent->parent
+        )->whereNot("id", $raceEvent->id)
+        ->get()
+        ->map(function(Entry $raceEvent) {
+            $entries = \DB::table("race_event_entries as entries")->where("entries.raceEventId", $raceEvent->id);
+
+            if ($raceEvent->isTeamRace()) {
+                $entries = $entries->join("race_event_teams as teams", "teams.id", "=", "entries.raceEventTeamId")
+                ->join("race_event_participants as participants", "participants.raceEventTeamId", "=", "teams.id")
+                ->leftJoin("countries", "countries.id", "=", "participants.countryId")
+                ->join("athletes", "athletes.id", "=", "participants.athleteId")
+                ->get();
+                $entries = $entries->groupBy("raceEventTeamId");
+            } else {
+                $entries = $entries->join("race_event_participants as participants","participants.id", "=", "entries.raceEventParticipantId")
+                ->join("athletes", "athletes.id", "=", "participants.athleteId")
+                ->get();
+                $entries = $entries->groupBy("athleteId");
+            }
+
+            return $entries;
+        });
+
+        // dd($entriesInStages);
+
+        // Calculate GC entries
+        $GCEntries = $entriesInStages->reduce(function($carriedEntries, $stageEntries) {
+            if ($carriedEntries == null) {
+                return $stageEntries;
+            } else {
+                foreach($carriedEntries as $carriedEntry) {
+                    // Extract athletes in carried entry
+                    $carriedEntryAthleteIds = $carriedEntry->map(function($participant) {
+                        return $participant->athleteId;
+                    });
+
+                    // Find the team in the stage
+                    $stageEntry = $stageEntries->first(function($stageEntry) use ($carriedEntryAthleteIds) {
+                        $stageEntryAthleteIds = $stageEntry->map(function($participant) {
+                            return $participant->athleteId;
+                        });
+
+                        return $carriedEntryAthleteIds->diff($stageEntryAthleteIds) == collect([]);
+                    });
+
+                    if ($stageEntry != null)  {
+
+                        if ($stageEntry->first()->status == "DNF" or $carriedEntry->first()->status == "DNF") {
+                            $carriedEntry = $carriedEntry->map(function($participant) {
+                                $participant->time = 0;
+                                $participant->timeRaw = "0";
+                                $participant->status = "DNF";
+                            });
+                        } else {
+                            $newTime = Helper::rawTimeToMillis($carriedEntry->first()->timeRaw) + Helper::rawTimeToMillis($stageEntry->first()->timeRaw);
+                            $newTimeRaw = Helper::millisToTime($newTime);
+
+                            // dd($newTime, $newTimeRaw);
+
+                            // calculate carried result for all participants
+                            $carriedEntry = $carriedEntry->map(function($participant) use($newTime, $newTimeRaw) {
+                                $participant->time = $newTime;
+                                $participant->timeRaw = $newTimeRaw;
+                            });
+                        }
+                    }
+                }
+                return $carriedEntries;
+            }
+        });
+
+        // dd($GCEntries);
+
+        // Generate rankings
+        //
+        // First we need to grup by category, since rankings in categories are independent
+        $GCEntries = $GCEntries->groupBy(function($GCEntry) {
+            return $GCEntry->first()->categoryId;
+        });
+
+        // dd($GCEntries);
+
+        foreach($GCEntries->keys() as $key) {
+            // Sorting by time
+            $GCEntries[$key] = $GCEntries[$key]->sortBy(function($data, $key) {
+                return $data->first()->time;
+            });
+
+            // Ranking is generated on the basis of the sort
+            $rank = 1;
+            foreach ($GCEntries[$key] as $entry) {
+                if ($entry->first()->status != "DNF") {
+                    $entry->first()->rank = $rank;
+                    $rank += 1;
+                } else {
+                    $entry->first()->rank = 0;
+                }
+            }
+        }
+
+        // dd($GCEntries[1]);
+
+        /* Removing category groups ('1' representes the depth of flattening) */
+        $GCEntries = $GCEntries->flatten(1);
+
+        if ($raceEvent->isTeam == 1) { /* Team races */
+            foreach($GCEntries as $GCEntry) {
+                $raceEventTeam = new RaceEventTeam();
+                $raceEventTeam->name = $GCEntry->first()->name ? $GCEntry->first()->name : "Unnamed Team";
+                $raceEventTeam->countryId = $GCEntry->first()->countryId;
+                $raceEventTeam->raceEventId = $raceEvent->id;
+                $raceEventTeam->categoryId = $GCEntry->first()->categoryId;
+                // dd($raceEventTeam);
+                $raceEventTeam->save();
+
+                foreach($GCEntry as $participantToCreate) {
+                    // Create participants
+                    $participant = new RaceEventParticipant();
+                    $participant->name = $participantToCreate->firstName . " " . $participantToCreate->lastName;
+                    $participant->raceEventId = $raceEvent->id;
+                    $participant->categoryId = $participantToCreate->categoryId;
+                    $participant->athleteId = $participantToCreate->athleteId;
+                    $participant->attended = $participantToCreate->attended;
+                    $participant->disqualified = $participantToCreate->status == "DSQ";
+                    $participant->countryId = $participantToCreate->countryId;
+                    $participant->raceEventTeamId = $raceEventTeam->id;
+                    // dd($participant);
+                    $participant->save();
+                }
+
+                // Create entries
+                $raceEventEntry = new RaceEventEntry();
+                $raceEventEntry->raceEventId = $raceEvent->id;
+                $raceEventEntry->categoryId = $participantToCreate->categoryId;
+                $raceEventEntry->raceEventTeamId = $raceEventTeam->id;
+                $raceEventEntry->timeRaw = $GCEntry->first()->timeRaw;
+                $raceEventEntry->time = $GCEntry->first()->time;
+                $raceEventEntry->rank = $GCEntry->first()->status ? $GCEntry->first()->status : $GCEntry->first()->rank;
+                $raceEventEntry->status = $GCEntry->first()->status;
+                // $raceEventEntry->created_at = \DB::raw('NOW()');
+                // $raceEventEntry->updated_at = \DB::raw('NOW()');
+                // dd($raceEventEntry);
+                $raceEventEntry->save();
+            }
+        } else { /* Individual races */
+            foreach ($GCEntries as $GCEntry)  {
+                foreach($GCEntry as $participantToCreate) {
+                    // Create participant
+                    $participant = new RaceEventParticipant();
+                    $participant->name = $participantToCreate->firstName . " " . $participantToCreate->lastName;
+                    $participant->raceEventId = $raceEvent->id;
+                    $participant->categoryId = $participantToCreate->categoryId;
+                    $participant->athleteId = $participantToCreate->athleteId;
+                    $participant->attended = $participantToCreate->attended;
+                    $participant->disqualified = $participantToCreate->status == "DSQ";
+                    $participant->countryId = $participantToCreate->countryId;
+                    // dd($participant);
+                    $participant->save();
+
+                    // Create entry
+                    $raceEventEntry = new RaceEventEntry();
+                    $raceEventEntry->raceEventId = $raceEvent->id;
+                    $raceEventEntry->categoryId = $participantToCreate->categoryId;
+                    $raceEventEntry->raceEventParticipantId = $participant->id;
+                    $raceEventEntry->timeRaw = $GCEntry->first()->timeRaw;
+                    $raceEventEntry->time = $GCEntry->first()->time;
+                    $raceEventEntry->rank = $GCEntry->first()->status ? $GCEntry->first()->status : $GCEntry->first()->rank;
+                    $raceEventEntry->status = $GCEntry->first()->status;
+                    // dd($raceEventEntry);
+                    $raceEventEntry->save();
+                }
+
+            }
+        }
+
+        return back()->with([ 'success' => 'Results were generated.', ]);
+    }
+
     public function deleteAllResults(Request $request, Entry $entry, $categoryId, $stageId) {
         $builder = RaceEventEntry::where('raceEventId', $entry->id)
             ->where('categoryId', $categoryId);
@@ -514,8 +697,6 @@ class RaceEventController extends Controller
         if ($stageId) {
             $builder->where('raceEventStageId', $stageId);
         }
-
-
 
         $builder->delete();
 
