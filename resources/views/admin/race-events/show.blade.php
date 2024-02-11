@@ -58,6 +58,10 @@
 <a href="{{ route('admin.race-events.export-entries.csv', [$entry->id, $selectedRaceCategory->id]) }}" class="btn btn-dark">Export as CSV</a>
        </form>
 
+        @if ($entry->isGeneralClassification == 1)
+            <a class="btn btn-warning tw-border-2 tw-border-red-500" href="{{route('admin.race-events.generateGCResults', $entry)}}" onclick="return confirm('Calculate GC results? (this will modify the database)');">Generate GC results</a>
+        @endif
+
        <a class='btn btn-danger' href='{{ route('admin.race-events.deleteAllResults', [$entry, $selectedRaceCategory, $selectedStage ? $selectedStage->id : 0]) }}' onclick="return confirm('Really delete all entries?');">Delete all entries</a>
        </div>
 

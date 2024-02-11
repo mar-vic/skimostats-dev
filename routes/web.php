@@ -255,6 +255,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('race-event/{raceEvent}/{category}/export-entries/csv', 'Admin\RaceEventController@exportEntriesToCsv')->name('race-events.export-entries.csv');
     Route::get('race-event/{entry}/{categoryId}/{stageId}/deleteAll', 'Admin\RaceEventController@deleteAllResults')->name('race-events.deleteAllResults');
 
+    // Added by MV
+    Route::get("race-event/{raceEvent}/generateGCResults", "Admin\RaceEventController@generateGCResults")->name("race-events.generateGCResults");
+
     Route::post('race-event/{event}/c/{category}/add', 'Admin\RaceEventEntryController@add')->name('race-events.add-entry');
     Route::get('race-event-entry/{entry}/delete', 'Admin\RaceEventEntryController@delete')->name('race-event-entry.delete');
     Route::post('race-event-entry/{entry}/update', 'Admin\RaceEventEntryController@updateSingle')->name('race-event-entry.update');
