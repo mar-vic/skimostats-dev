@@ -3,6 +3,7 @@
 
 <div class="container py-5">
     @foreach($partnerCategories as $category)
+    @if ($category->name != "National Federations" && $category->name != "Races")
     <h1 class="mb-3 mb-md-5 text-uppercase text-blue font-weight-bold">{{ $category->name }}</h1>
 
     <div class="row mb-3 align-items-center">
@@ -14,7 +15,7 @@
         </div>
         @endforeach
     </div>
-
+    @endif
     @endforeach
 
 </div>
