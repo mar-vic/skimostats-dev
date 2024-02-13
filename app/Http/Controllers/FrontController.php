@@ -424,11 +424,23 @@ class FrontController extends Controller
 
     public function races(Request $request) {
         $races = RaceEvent::where('is_visible', 1)->whereNotNull('type')->with('country')->with('raceType')->orderBy('startDate', 'asc')->get();
+        $raceEventPartnersCat = PartnerCategory::where("name", "Race events")->get()->first();
+
+        // Randomly choose partner to show
+        if ($raceEventPartnersCat) {
+            $raceEventPartners = $raceEventPartnersCat->entries;
+            if ($raceEventPartners) {
+                $partnerToShow = $raceEventPartners[rand(0, sizeof($raceEventPartners) - 1)];
+            } else {
+                $partnerToShow = null;
+            }
+        }
 
         return view('front.races', [
             'data' => [
                 'races' => $races,
             ],
+            'partner' => $partnerToShow
         ]);
     }
 

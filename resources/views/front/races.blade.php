@@ -5,6 +5,12 @@
 ])
 @section('content')
 
+<div class="container pt-4 px-5">
+    <a href="{{ $partner->url }}" title="{{ $partner->name }}">
+        <img src="{{ asset('uploads/'.$partner->image) }}" style="max-width: 100%;">
+    </a>
+</div>
+
 <div id="races-container"></div>
 
 @endsection
