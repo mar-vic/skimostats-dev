@@ -2603,7 +2603,7 @@ var render = function render() {
     }
   }, [_c("svg", {
     attrs: {
-      width: "72",
+      width: "64",
       height: "22",
       viewBox: "0 0 144 44",
       fill: "none",
