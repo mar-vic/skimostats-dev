@@ -13,18 +13,18 @@
 
         <div class="py-5" id="complete-results">
             <div class="container">
-                <div v-if="!showResults && event.location && checkin" class="row justify-content-center">
+                <div v-if="!showResults && event.place && checkin" class="row justify-content-center">
                     <div class="col-md-10 px-4">
                         <h1 class="font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4">Rent a place to stay at during the event</h1>
                         <stay22-embed
-                            :location="event.location"
+                            :location="event.place"
                             :checkin="checkin"
                             :checkout="checkout"
                         />
                     </div>
                 </div>
 
-                <div v-if="showResults || !event.location || !checkin"  class="row justify-content-center">
+                <div v-if="showResults || !event.place || !checkin"  class="row justify-content-center">
                     <div class="col-md-10 col-lg-9">
 
                         <div class="d-flex justify-content-between align-items-center mb-3 flex-column flex-md-row">

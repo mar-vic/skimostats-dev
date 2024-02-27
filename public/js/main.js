@@ -170,7 +170,7 @@ window.getInstaFeed = function (_ref) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/marcus/Projects/skimostats-dev/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /home/marek/Projects/skimostats-dev/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })
