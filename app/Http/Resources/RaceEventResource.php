@@ -57,10 +57,11 @@ class RaceEventResource extends JsonResource
             'countryCode' => $this->country ? $this->country->code : null,
             'countryName' => $this->country ? $this->country->name : null,
             'year' => $this->year,
-            'categories' => RaceEventCategoryResource::collection($this->categories)->toArray($raceEvent),
+            'categories' => RaceEventCategoryResource::collection($this->categories)->toArray(request()),
             'resultCount' => RaceEventEntry::where('raceEventId', $this->id)->count(),
             'stageSlugs' => $stageSlugs,
-            'gcSlug' => $generalClassificationSlug
+            'gcSlug' => $generalClassificationSlug,
+            'place' => $this->place
         ];
     }
 }

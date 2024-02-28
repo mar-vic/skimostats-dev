@@ -28,7 +28,7 @@ class RaceEventCategoryResource extends JsonResource
                 ->orderBy('status', 'asc')
                 ->orderBy('rank', 'asc')
                 ->limit($raceEvent->isDetail ? 2000 : 4)
-                ->get())->toArray($raceEvent),
+                ->get())->toArray(request()),
         ];
     }
 }
