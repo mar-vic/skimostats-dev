@@ -14,6 +14,7 @@ class RaceEventResultsResource extends JsonResource
     public function toArray($raceEvent)
     {
         $raceEvent->isDetail = true;
+        // dd($raceEvent->isDetail);
         return RaceEventCategoryResource::collection($this->categories)->toArray(request());
     }
 }

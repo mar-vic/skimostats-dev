@@ -16,6 +16,9 @@ class RaceEventCategoryResource extends JsonResource
      */
     public function toArray($raceEvent)
     {
+        // $entries = RaceEventEntryResource::collection(RaceEventEntry::where('raceEventId', $this->pivot->raceEventId)->get())->toArray(request());
+        // dd($entries);
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -23,11 +26,10 @@ class RaceEventCategoryResource extends JsonResource
             'isU23' => (bool)$this->isU23,
             'gender' => $this->gender,
             'age' => $this->age,
-            'entries' => RaceEventEntryResource::collection(RaceEventEntry::where('raceEventId', $raceEvent->id)
+            'entries' => RaceEventEntryResource::collection(RaceEventEntry::where('raceEventId', $this->pivot->raceEventId)
                 ->where('categoryId', $this->id)
                 ->orderBy('status', 'asc')
                 ->orderBy('rank', 'asc')
-                ->limit($raceEvent->isDetail ? 2000 : 4)
                 ->get())->toArray(request()),
         ];
     }
