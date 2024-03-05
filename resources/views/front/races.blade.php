@@ -6,9 +6,9 @@
 @section('content')
 
 @if ($partner != null)
-<div class="container pt-4 px-5">
-    <a href="{{ $partner->url }}" title="{{ $partner->name }}">
-        <img src="{{ asset('uploads/'.$partner->image) }}" style="max-width: 100%;">
+<div class="container pt-4 px-5" style="text-align: center;">
+    <a class="m-auto" href="{{ $partner->url }}" title="{{ $partner->name }}">
+        <img src="{{ asset('uploads/'.$partner->image) }}" style="min-width: 100%; max-width: 100%;">
     </a>
 </div>
 @endif
