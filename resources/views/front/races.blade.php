@@ -5,11 +5,13 @@
 ])
 @section('content')
 
+@if ($partner != null)
 <div class="container pt-4 px-5">
     <a href="{{ $partner->url }}" title="{{ $partner->name }}">
         <img src="{{ asset('uploads/'.$partner->image) }}" style="max-width: 100%;">
     </a>
 </div>
+@endif
 
 <div id="races-container"></div>
 
