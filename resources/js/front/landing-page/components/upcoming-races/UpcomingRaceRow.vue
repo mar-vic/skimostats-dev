@@ -1,7 +1,7 @@
 <template>
     <tr>
-        <td><b>{{ event.startDate | date }}</b></td>
-        <td class="text-nowrap">
+        <td style="vertical-align:middle;"><b>{{ event.startDate | date }}</b></td>
+        <td style="vertical-align:middle;">
             <a :href="`/event/${event.slug}${categorySlug}`" class="d-flex align-items-center">
             <flag
                 v-if="event.country"
@@ -12,8 +12,8 @@
                 <b>{{ event.name }}</b>
             </a>
         </td>
-        <td class="text-nowrap" style="font-weight:700;"><em>{{ event.race_type ? event.race_type.name : '' }}</em></td>
-        <td class="text-center">
+        <td class="text-nowrap" style="vertical-align:middle;font-weight:700;"><em>{{ event.race_type ? event.race_type.name : '' }}</em></td>
+        <td class="text-center" style="vertical-align:middle;">
             <span v-if="event.place != null"
                 class="px-1"
                 data-bs-toggle="tooltip"

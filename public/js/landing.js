@@ -4366,8 +4366,14 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("tr", [_c("td", [_c("b", [_vm._v(_vm._s(_vm._f("date")(_vm.event.startDate)))])]), _vm._v(" "), _c("td", {
-    staticClass: "text-nowrap"
+  return _c("tr", [_c("td", {
+    staticStyle: {
+      "vertical-align": "middle"
+    }
+  }, [_c("b", [_vm._v(_vm._s(_vm._f("date")(_vm.event.startDate)))])]), _vm._v(" "), _c("td", {
+    staticStyle: {
+      "vertical-align": "middle"
+    }
   }, [_c("a", {
     staticClass: "d-flex align-items-center",
     attrs: {
@@ -4382,10 +4388,14 @@ var render = function render() {
   }) : _vm._e(), _vm._v(" "), _c("b", [_vm._v(_vm._s(_vm.event.name))])], 1)]), _vm._v(" "), _c("td", {
     staticClass: "text-nowrap",
     staticStyle: {
+      "vertical-align": "middle",
       "font-weight": "700"
     }
   }, [_c("em", [_vm._v(_vm._s(_vm.event.race_type ? _vm.event.race_type.name : ""))])]), _vm._v(" "), _c("td", {
-    staticClass: "text-center"
+    staticClass: "text-center",
+    staticStyle: {
+      "vertical-align": "middle"
+    }
   }, [_vm.event.place != null ? _c("span", {
     staticClass: "px-1",
     attrs: {
