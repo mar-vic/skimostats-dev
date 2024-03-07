@@ -13,9 +13,17 @@
 
         <div class="py-5" id="complete-results">
             <div class="container">
-                <div v-if="!showResults && event.place && checkin" class="row justify-content-center">
+                <div v-if="!showResults && event.place && checkin" class="s22-map row justify-content-center">
                     <div class="col-md-10 px-4">
-                        <h1 class="font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4">Rent a place to stay at during the event</h1>
+                        <div class="mb-3 p-3" >
+                            <h2 class="font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4">Rent a place to stay at during the event</h2>
+                            <p class="fs-5">
+                                <b>Skimostats</b> has partnered with <a href="https://www.stay22.com/"><b>Stay22</b></a> to provide you with all available accommodations (hotels, rentals, hostels, etc.) at the lowest price online.
+                            </p>
+                            <p>
+                                This pricing is equal or better than what you’ll find on any discount travel or hotel website. Book directly from the map below!
+                            </p>
+                        </div>
                         <stay22-embed
                             :location="event.place"
                             :checkin="checkin"
@@ -380,5 +388,9 @@ export default {
 
 .btn-switch input[type="checkbox"]:checked ~ .alert{
     display: block;
+}
+
+.s22-map > div > div, #stay22-widget {
+    box-shadow: 0 0 .8em rgba(21, 23, 74, .2);
 }
 </style>
