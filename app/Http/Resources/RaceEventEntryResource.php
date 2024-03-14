@@ -21,7 +21,7 @@ class RaceEventEntryResource extends JsonResource
      *
      * @return array
      */
-    public function toArray($raceEvent)
+    public function toArray($request)
     {
         global $participants;
 
@@ -48,7 +48,7 @@ class RaceEventEntryResource extends JsonResource
             }
         } else if ($this->raceEventTeamId) {
             $pts = RaceEventParticipant::where('raceEventTeamId', $this->raceEventTeamId)->get();
-            foreach($pts as $pt) {
+            foreach ($pts as $pt) {
                 if ($pt->athlete) {
                     $participants[] = [
                         'id' => $pt->athlete->id,
@@ -67,56 +67,60 @@ class RaceEventEntryResource extends JsonResource
         }
 
         $gcTime = null;
-
-        // dd($raceEvent);
+        $raceEvent = Cache::remember("raceEvent{$this->raceEventId}", 5, function () {
+            return DB::table("race_events as events")->where("events.id", "=", $this->raceEventId)->get()->first();
+        });
 
         // Calculate (provisional) GC times on stage events
         if (($raceEvent->stageNumber or $raceEvent->isGeneralClassification) && $this->status != 'DNF') {
 
             $queryBuilder = DB::table('race_events as events')
-                          ->join('race_event_entries as entries', 'entries.raceEventId', 'events.id')
-                          ->where('events.parent', '=', $raceEvent->parent);
+                ->join('race_event_entries as entries', 'entries.raceEventId', 'events.id')
+                ->where('events.parent', '=', $raceEvent->parent);
 
             // STAGE
             if ($raceEvent->stageNumber) {
                 $queryBuilder = $queryBuilder->where('events.stageNumber', '<', $raceEvent->stageNumber);
 
-            // GENERAL CLASSIFICATION
+                // GENERAL CLASSIFICATION
             } else {
                 $queryBuilder = $queryBuilder->whereRaw('events.stageNumber is not null');
             }
 
             // INDIVIDUALS
-            if($this->raceEventParticipantId) {
+            if ($this->raceEventParticipantId) {
                 $queryBuilder = $queryBuilder->leftJoin('race_event_participants as participants', 'participants.id', 'entries.raceEventParticipantId');
 
-            // TEAMS
+                // TEAMS
             } else {
                 $queryBuilder = $queryBuilder->leftJoin('race_event_participants as participants', 'participants.raceEventTeamId', 'entries.raceEventTeamId');
             }
 
-            $participantIds = collect($participants)->map(function($item) { return $item['id']; })->toArray();
+            $participantIds = collect($participants)->map(function ($item) {
+                return $item['id'];
+            })->toArray();
 
             // STORE THE SELECT TO CACHE
-            $cachedValue = Cache::remember("stagesAndGCWithEvent{$raceEvent->id}", 5, function() use($queryBuilder) {
-                return $queryBuilder->select('events.id',
-                                             'events.name',
-                                             'events.stageNumber',
-                                             'events.isGeneralClassification',
-                                             'events.parent',
-                                             'entries.raceEventParticipantId',
-                                             'entries.rank',
-                                             'entries.time',
-                                             'entries.categoryId',
-                                             'entries.raceEventTeamId',
-                                             'participants.athleteId',
-                                             'participants.name'
+            $cachedValue = Cache::remember("stagesAndGCWithEvent{$raceEvent->id}", 5, function () use ($queryBuilder) {
+                return $queryBuilder->select(
+                    'events.id',
+                    'events.name',
+                    'events.stageNumber',
+                    'events.isGeneralClassification',
+                    'events.parent',
+                    'entries.raceEventParticipantId',
+                    'entries.rank',
+                    'entries.time',
+                    'entries.categoryId',
+                    'entries.raceEventTeamId',
+                    'participants.athleteId',
+                    'participants.name'
                 )->get();
             });
 
             $gcTime = $cachedValue->whereIn('athleteId', $participantIds)
-                                  ->where('categoryId', $this->categoryId)
-                                  ->sum('time') / sizeof($participantIds) + (($raceEvent->isGeneralClassification) ? 0 : $this->time);
+                ->where('categoryId', $this->categoryId)
+                ->sum('time') / sizeof($participantIds) + (($raceEvent->isGeneralClassification) ? 0 : $this->time);
         }
 
         $categoryName = DB::table('categories')->where('id', $this->categoryId)->select('name')->get()->first()->name;

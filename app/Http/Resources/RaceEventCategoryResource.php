@@ -14,11 +14,8 @@ class RaceEventCategoryResource extends JsonResource
      * @param  App\RaceEvent  $raceEvent
      * @return array
      */
-    public function toArray($raceEvent)
+    public function toArray($request)
     {
-        // $entries = RaceEventEntryResource::collection(RaceEventEntry::where('raceEventId', $this->pivot->raceEventId)->get())->toArray(request());
-        // dd($entries);
-
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -30,7 +27,7 @@ class RaceEventCategoryResource extends JsonResource
                 ->where('categoryId', $this->id)
                 ->orderBy('status', 'asc')
                 ->orderBy('rank', 'asc')
-                ->get())->toArray(request()),
+                ->get())->toArray($request),
         ];
     }
 }
