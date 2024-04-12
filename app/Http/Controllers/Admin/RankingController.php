@@ -23,11 +23,13 @@ use Illuminate\Support\Facades\DB;
 
 class RankingController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('admin.rankings.index');
     }
 
-    public function refreshAllIsmfRankings(Request $request) {
+    public function refreshAllIsmfRankings(Request $request)
+    {
         set_time_limit(300);
 
         $type = RankingType::ISMF;
@@ -69,21 +71,26 @@ class RankingController extends Controller
             ->whereNotNull('p.athleteId')
             ->whereIn('ev.raceId', $ismfRaceIds)
             ->having('rnk', '>=', 1)
-            ->having('rnk', '<', 51)
-            // ->limit(10)
             ->get();
-
-        // dd($entries);
-
-        // dd(Ranking::where('type', $type)->get());
 
         $rankings = [];
         $now = Carbon::now();
         foreach ($entries as $entry) {
+
+            // After season 2023 / 24, all ranks above 50 are awarded 1 point each
+            $entryDate = strtotime($entry->obtainedAt);
+            $cutoffDate = strtotime("01-09-2023");
+
+            if ($entryDate >= $cutoffDate && $entry->rnk > 50) {
+                $points = 1; // All ranks above 50 after season 23 / 24 are awarded one point
+            } else {
+                $points = Ranking::mapIsmfPointsToRank($entry->rnk); // Use standard mapping for all other cases
+            }
+
             $ranking = [
                 'type' => $type,
                 'rank' => $entry->rnk,
-                'points' => Ranking::mapIsmfPointsToRank($entry->rnk),
+                'points' => $points,
                 'athleteId' => $entry->athleteId,
                 'obtainedAt' => $entry->obtainedAt,
                 'participantId' => $entry->participantId,
@@ -101,26 +108,23 @@ class RankingController extends Controller
             $rankings[] = $ranking;
         }
 
-        // dd($rankings);
-
-        // Code ...
-
         // Script end
-        function rutime($ru, $rus, $index) {
-            return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
-            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+        function rutime($ru, $rus, $index)
+        {
+            return ($ru["ru_$index.tv_sec"] * 1000 + intval($ru["ru_$index.tv_usec"] / 1000))
+                -  ($rus["ru_$index.tv_sec"] * 1000 + intval($rus["ru_$index.tv_usec"] / 1000));
         }
 
         $ru = getrusage();
-        echo count($rankings)." rank entries created.\n";
+        echo count($rankings) . " rank entries created.\n";
         echo "This process used " . rutime($ru, $rustart, "utime") .
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
             " ms in system calls\n";
-
     }
 
-    public function refreshAllIsmfYouthWcRankings(Request $request) {
+    public function refreshAllIsmfYouthWcRankings(Request $request)
+    {
         set_time_limit(300);
         $type = RankingType::YOUTH_WC;
         $user = Auth::user();
@@ -194,20 +198,22 @@ class RankingController extends Controller
         // Code ...
 
         // Script end
-        function rutime($ru, $rus, $index) {
-            return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
-            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+        function rutime($ru, $rus, $index)
+        {
+            return ($ru["ru_$index.tv_sec"] * 1000 + intval($ru["ru_$index.tv_usec"] / 1000))
+                -  ($rus["ru_$index.tv_sec"] * 1000 + intval($rus["ru_$index.tv_usec"] / 1000));
         }
 
         $ru = getrusage();
-        echo count($rankings)." rank entries created.\n";
+        echo count($rankings) . " rank entries created.\n";
         echo "This process used " . rutime($ru, $rustart, "utime") .
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
             " ms in system calls\n";
     }
 
-    public function refreshAllSkimostatsRankings(Request $request) {
+    public function refreshAllSkimostatsRankings(Request $request)
+    {
         set_time_limit(300);
 
         $type = RankingType::SKIMO_STATS;
@@ -241,22 +247,22 @@ class RankingController extends Controller
                     ->orOn('ev.id', '=', 'p.raceEventId');
             })
             ->whereNotNull('p.athleteId')
-            ->where(function($qb) {
+            ->where(function ($qb) {
                 $qb->whereNotNull('e.rank')
                     ->orWhereNotNull('ee.rank');
             })
-            ->where(function($qb) {
+            ->where(function ($qb) {
                 $qb->where('e.rank', '>=', 1)
                     ->orWhere('ee.rank', '>=', 1);
             })
-            ->where(function($qb) {
+            ->where(function ($qb) {
                 $qb->where('e.rank', '<', 101)
                     ->orWhere('ee.rank', '<', 101);
             })
-            ->where(function($qb) {
+            ->where(function ($qb) {
                 $qb->whereIn('e.categoryId', [1, 2, 38])
-                   ->orWhereIn('ee.categoryId', [1, 2, 38])
-                   ->orWhereIn('p.categoryId', [1, 2, 38]);
+                    ->orWhereIn('ee.categoryId', [1, 2, 38])
+                    ->orWhereIn('p.categoryId', [1, 2, 38]);
             })
             ->get();
 
@@ -317,22 +323,23 @@ class RankingController extends Controller
         // dd($rankings);
 
         // Script end
-        function rutime($ru, $rus, $index) {
-            return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
-            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+        function rutime($ru, $rus, $index)
+        {
+            return ($ru["ru_$index.tv_sec"] * 1000 + intval($ru["ru_$index.tv_usec"] / 1000))
+                -  ($rus["ru_$index.tv_sec"] * 1000 + intval($rus["ru_$index.tv_usec"] / 1000));
         }
 
         $ru = getrusage();
-        echo count($rankings)." rank entries created.\n";
+        echo count($rankings) . " rank entries created.\n";
         echo "This process used " . rutime($ru, $rustart, "utime") .
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
             " ms in system calls\n";
-
     }
 
 
-    public function updateRankingTable(int $rankingType = null, int $year = null) {
+    public function updateRankingTable(int $rankingType = null, int $year = null)
+    {
         set_time_limit(300);
 
         // Script start
@@ -343,7 +350,9 @@ class RankingController extends Controller
         $categories = [1, 2, 38];
 
         if ($rankingType == 2 or $rankingType == 3) {
-            $categories = array_map(function($item){return $item['id'];}, Category::all()->toArray());
+            $categories = array_map(function ($item) {
+                return $item['id'];
+            }, Category::all()->toArray());
         }
 
         if ($rankingType) {
@@ -367,7 +376,9 @@ class RankingController extends Controller
                     ->groupBy(DB::raw('YEAR(obtainedAt)'))
                     ->get();
 
-                $years = array_map(function($item){return $item->year;}, $yearsRes->toArray());
+                $years = array_map(function ($item) {
+                    return $item->year;
+                }, $yearsRes->toArray());
 
                 $thisYear = date("Y");
                 if (!in_array($thisYear, $years)) {
@@ -400,13 +411,14 @@ class RankingController extends Controller
 
 
 
-        function rutime($ru, $rus, $index) {
-            return ($ru["ru_$index.tv_sec"]*1000 + intval($ru["ru_$index.tv_usec"]/1000))
-            -  ($rus["ru_$index.tv_sec"]*1000 + intval($rus["ru_$index.tv_usec"]/1000));
+        function rutime($ru, $rus, $index)
+        {
+            return ($ru["ru_$index.tv_sec"] * 1000 + intval($ru["ru_$index.tv_usec"] / 1000))
+                -  ($rus["ru_$index.tv_sec"] * 1000 + intval($rus["ru_$index.tv_usec"] / 1000));
         }
 
         $ru = getrusage();
-        echo count($rankings)." rank entries created.\n";
+        echo count($rankings) . " rank entries created.\n";
         echo "This process used " . rutime($ru, $rustart, "utime") .
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
@@ -415,7 +427,8 @@ class RankingController extends Controller
         // dd($rankings);
     }
 
-    public function updateRankingTableYearResults(int $type, int $year, int $categoryId) {
+    public function updateRankingTableYearResults(int $type, int $year, int $categoryId)
+    {
         // $entries = DB::table('rankings as r')
         //     ->select(
         //         DB::raw('SUM(r.points) as points,
@@ -435,7 +448,8 @@ class RankingController extends Controller
 
         $rankingYearTimespan = Ranking::getRankingYearTimeSpan($year);
 
-        $entries = DB::select('SELECT
+        $entries = DB::select(
+            'SELECT
         r.athleteId,
         SUM(r.points) as points,
         (SELECT IF(SUM(r.points)=rt.points, rt.pointsBefore, rt.points) FROM ranking_tables as rt WHERE rt.athleteId=r.athleteId && rt.categoryId=r.categoryId && rt.type=r.type && rt.year=? && rt.points IS NOT NULL LIMIT 1) as pointsBefore,
@@ -449,16 +463,17 @@ class RankingController extends Controller
         && r.`type`=?
         GROUP BY r.athleteId
         ORDER BY points DESC, a.lastName ASC',
-        [
-            $year,
-            $year,
-            $year,
-            $rankingYearTimespan[0], $rankingYearTimespan[1],
-            $categoryId,
-            $type,
-        ]);
+            [
+                $year,
+                $year,
+                $year,
+                $rankingYearTimespan[0], $rankingYearTimespan[1],
+                $categoryId,
+                $type,
+            ]
+        );
 
-        if(!count($entries)) {
+        if (!count($entries)) {
             return [];
         }
 
