@@ -34,7 +34,7 @@ class RankingController extends Controller
 
         Log::debug("Entered 'refreshedAllIsmfRankings'");
 
-        set_time_limit(300);
+        // set_time_limit(300);
 
         $type = RankingType::ISMF;
         $user = Auth::user();
@@ -134,7 +134,7 @@ class RankingController extends Controller
 
         Log::debug("Entered 'refreshAllIsmfYouthWcRankings'");
 
-        set_time_limit(300);
+        // set_time_limit(300);
         $type = RankingType::YOUTH_WC;
         $user = Auth::user();
 
@@ -228,7 +228,7 @@ class RankingController extends Controller
     {
         Log::debug("Entered 'refreshAllSkimostatsRankings'");
 
-        set_time_limit(300);
+        // set_time_limit(300);
 
         $type = RankingType::SKIMO_STATS;
         $user = Auth::user();
@@ -360,7 +360,7 @@ class RankingController extends Controller
 
         Log::debug("Entered 'updateRankingTable'");
 
-        set_time_limit(300);
+        // set_time_limit(300);
 
         // Script start
         $rustart = getrusage();
