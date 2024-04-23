@@ -26,6 +26,7 @@ class RankingController extends Controller
 {
     public function index()
     {
+        Log::debug("I am at RankingController Index");
         return view('admin.rankings.index');
     }
 
@@ -34,7 +35,7 @@ class RankingController extends Controller
 
         Log::debug("Entered 'refreshedAllIsmfRankings'");
 
-        // set_time_limit(300);
+        set_time_limit(300);
 
         $type = RankingType::ISMF;
         $user = Auth::user();
