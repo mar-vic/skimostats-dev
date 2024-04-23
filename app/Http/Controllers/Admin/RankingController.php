@@ -20,6 +20,7 @@ use App\RaceEventTeam;
 use App\Ranking;
 use App\RankingTable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class RankingController extends Controller
 {
@@ -30,6 +31,9 @@ class RankingController extends Controller
 
     public function refreshAllIsmfRankings(Request $request)
     {
+
+        Log::debug("Entered 'refreshedAllIsmfRankings'");
+
         set_time_limit(300);
 
         $type = RankingType::ISMF;
@@ -121,10 +125,15 @@ class RankingController extends Controller
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
             " ms in system calls\n";
+
+        Log::debug("Exitting 'refreshAllIsmfRankings'");
     }
 
     public function refreshAllIsmfYouthWcRankings(Request $request)
     {
+
+        Log::debug("Entered 'refreshAllIsmfYouthWcRankings'");
+
         set_time_limit(300);
         $type = RankingType::YOUTH_WC;
         $user = Auth::user();
@@ -210,10 +219,15 @@ class RankingController extends Controller
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
             " ms in system calls\n";
+
+
+        Log::debug("Exiting 'refreshAllIsmfYouthWcRankings'");
     }
 
     public function refreshAllSkimostatsRankings(Request $request)
     {
+        Log::debug("Entered 'refreshAllSkimostatsRankings'");
+
         set_time_limit(300);
 
         $type = RankingType::SKIMO_STATS;
@@ -335,11 +349,17 @@ class RankingController extends Controller
             " ms for its computations\n";
         echo "It spent " . rutime($ru, $rustart, "stime") .
             " ms in system calls\n";
+
+
+        Log::debug("Exitting 'refreshAllSkimostatsRankings'");
     }
 
 
     public function updateRankingTable(int $rankingType = null, int $year = null)
     {
+
+        Log::debug("Entered 'updateRankingTable'");
+
         set_time_limit(300);
 
         // Script start
@@ -425,10 +445,15 @@ class RankingController extends Controller
             " ms in system calls\n";
 
         // dd($rankings);
+
+        Log::debug("Exitting 'updateRankingTable'");
     }
 
     public function updateRankingTableYearResults(int $type, int $year, int $categoryId)
     {
+
+        Log::debug("Entered 'updateRankingTableYearResults'");
+
         // $entries = DB::table('rankings as r')
         //     ->select(
         //         DB::raw('SUM(r.points) as points,
@@ -500,6 +525,8 @@ class RankingController extends Controller
             //     echo $entry->rankBefore." /  RB / ".$year."<br>";
             // }
         }
+
+        Log::debug("Exitting 'updateRankingTableYearResults'");
 
         return $entries;
     }
