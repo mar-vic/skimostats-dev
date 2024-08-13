@@ -17,192 +17,200 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
 
+use Illuminate\Http\Request;
+
 Auth::routes(['register' => false]);
 
-    // Set locale
-    Route::get('language/{locale}', function ($locale) {
-        app()->setLocale($locale);
-        session()->put('locale', $locale);
+// Set locale
+Route::get('language/{locale}', function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
 
-        return redirect()->back();
+    return redirect()->back();
+});
+
+// Exposing laravel localization assets to JS / Vue
+Route::get('/js/lang.js', function () {
+    $strings = Cache::rememberForever('lang.js', function () {
+        $lang = config('app.locale');
+
+        $files   = glob(resource_path('lang/' . $lang . '.json'));
+        $strings = [];
+
+        foreach ($files as $file) {
+            $name           = basename($file, '.json');
+            $strings[$name] = json_decode(file_get_contents($file));
+        }
+
+        return $strings;
     });
 
-    // Exposing laravel localization assets to JS / Vue
-    Route::get('/js/lang.js', function () {
-      $strings = Cache::rememberForever('lang.js', function () {
-          $lang = config('app.locale');
+    // dd($strings);
 
-          $files   = glob(resource_path('lang/' . $lang . '.json'));
-          $strings = [];
+    $lang = config('app.locale');
+    // error_log('LANG: ' . $lang);
 
-          foreach ($files as $file) {
-              $name           = basename($file, '.json');
-              $strings[$name] = json_decode(file_get_contents($file));
-          }
+    $files   = glob(resource_path('lang/' . $lang . '.json'));
+    $strings = json_decode((file_get_contents(($files[0]))));
 
-          return $strings;
-      });
+    // foreach ($files as $file) {
+    //     $name = basename($file, '.json');
+    //     $strings[$name] =  json_decode(file_get_contents($file));
+    // }
+    // dd($strings);
 
-      // dd($strings);
+    // $lang = config('app.locale');
+    // error_log(($lang));
 
-      $lang = config('app.locale');
-      // error_log('LANG: ' . $lang);
+    // $files = glob(resource_path('lang/' . $lang . '.json'));
+    // foreach ($files as $file) {
+    //     error_log(basename($file, '.json'));
+    // }
 
-      $files   = glob(resource_path('lang/' . $lang . '.json'));
-      $strings = json_decode((file_get_contents(($files[0]))));
+    // foreach ($strings as $string) {
+    //     error_log($string);
+    // }
 
-      // foreach ($files as $file) {
-      //     $name = basename($file, '.json');
-      //     $strings[$name] =  json_decode(file_get_contents($file));
-      // }
-      // dd($strings);
-
-      // $lang = config('app.locale');
-      // error_log(($lang));
-
-      // $files = glob(resource_path('lang/' . $lang . '.json'));
-      // foreach ($files as $file) {
-      //     error_log(basename($file, '.json'));
-      // }
-
-      // foreach ($strings as $string) {
-      //     error_log($string);
-      // }
-
-      header('Content-Type: text/javascript');
-      echo ('window.i18n = ' . json_encode($strings) . ';');
-      exit();
-    })->name('assets.lang');
+    header('Content-Type: text/javascript');
+    echo ('window.i18n = ' . json_encode($strings) . ';');
+    exit();
+})->name('assets.lang');
 
 // Route::middleware('auth')->group(function() {
-    Route::get('/', 'FrontController@preview')->name('landing');
-    Route::get('/contributions', 'FrontController@contributions')->name('contributions');
-    Route::get('/partners', 'FrontController@partners')->name('partners');
-    Route::get('/sitemap.xml', 'SitemapController@sitemap')->name('sitemap');
-    Route::get('/search', 'SearchController@search')->name('search');
-    Route::get('/cookies', 'FrontController@cookies')->name('cookies');
-    Route::get('/privacy-policy', 'FrontController@privacyPolicy')->name('privacy-policy');
+Route::get('/', 'FrontController@preview')->name('landing');
+Route::get('/contributions', 'FrontController@contributions')->name('contributions');
+Route::get('/partners', 'FrontController@partners')->name('partners');
+Route::get('/sitemap.xml', 'SitemapController@sitemap')->name('sitemap');
+Route::get('/search', 'SearchController@search')->name('search');
+Route::get('/cookies', 'FrontController@cookies')->name('cookies');
+Route::get('/privacy-policy', 'FrontController@privacyPolicy')->name('privacy-policy');
 
-    // Athletes
-    Route::get('/athletes', 'FrontController@athletes')->name('athletes');
-    Route::get('/athletes/{athlete}', 'FrontController@athleteDetailRedirect')->name('athletes.detail');
-    Route::get('/athlete/{slug}', 'FrontController@athleteDetail')->name('athletes.detail.slug');
-    Route::get('/v1/popular-athletes', 'AthleteController@getPopularAthletes');
-    Route::get('/v1/athlete/{athlete}', 'AthleteController@getAthlete');
-    Route::post('/v1/athlete/predict', 'AthleteController@athletePredictions');
-    Route::get('/v1/athlete/{athlete}/race-year-list', 'AthleteController@raceYearList');
-    // Route::get('/v1/athlete/{athlete}/races', 'AthleteController@races');
-    Route::get('/v1/athlete/{athlete}/races/{year}', 'AthleteController@races');
-    Route::get('/v1/athlete/{athlete}/ranking-per-season', 'AthleteController@rankingPerSeason');
-    Route::get('/v1/athlete/{athlete}/races-per-country', 'AthleteController@racesPerCountry');
-    // NEW STUFF BY MV
-    Route::get('/v1/athlete/{athlete}/career-wins', 'AthleteController@careerWins'); // Athlete's wins throughout their career
-    Route::get('/v1/athlete/{athlete}/top-results', 'AthleteController@topResults');  // Top results of an athlete
-    Route::get('/v1/athlete/{athlete}/race-days/{year}', 'AthleteController@raceDays');  // Days raced in a season
-    Route::get('/v1/athlete/{athlete}/elevation/{year}', 'AthleteController@elevation'); // Elevation overcome by an athlete during a season
-    Route::get('/v1/athlete/{athlete}/seasonSummary/{year}', 'AthleteController@seasonSummary'); // summary stats for a season <elevation, raceDays, points>
-    // Statistics
-    Route::get('/v1/statistics/years', 'StatisticsController@years');
-    Route::get('/v1/statistics/mostWins/{year?}', 'StatisticsController@mostWins');
-    Route::get('/v1/statistics/mostRaceDays/{year?}', 'StatisticsController@mostRaceDays');
-    Route::get('/v1/statistics/mostVerticalMeters/{year?}', 'StatisticsController@mostVerticalMeters');
-    Route::get('/v1/statistics/mostGrandeCourseWins/{year?}', 'StatisticsController@mostGrandeCourseWins');
-    Route::get('/v1/statistics/mostWorldCupWins/{year?}', 'StatisticsController@mostWorldCupWins');
-    Route::get('/v1/statistics/mostChocolates/{year?}', 'StatisticsController@mostChocolates');
-    Route::get('/v1/statistics/mostTopTens/{year?}', 'StatisticsController@mostTopTens');
-    Route::get('/v1/statistics/mostPointsPerRaceDay/{year?}', 'StatisticsController@mostPointsPerRaceDay');
-    Route::get('/v1/statistics/activeAthletes/{raceCat?}', 'StatisticsController@activeAthletes');
-    Route::get('/v1/statistics/pointsPerMonth/{year?}/{month?}', 'StatisticsController@pointsPerMonth');
-    Route::get('/v1/statistics/youngestAthletes/{raceCat?}', 'StatisticsController@youngestAthletes');
-    Route::get('/v1/statistics/oldestAthletes/{raceCat?}', 'StatisticsController@oldestAthletes');
-    Route::get('/v1/statistics/winsByCountries/{year?}', 'StatisticsController@mostWinsByCountries');
-    Route::get('/v1/statistics/winnersByCountries/{year?}', 'StatisticsController@mostWinnersByCountries');
-    Route::get('/v1/statistics/mostNationsRacedIn/{year?}', 'StatisticsController@mostNationsRacedIn');
+// Athletes
+Route::get('/athletes', 'FrontController@athletes')->name('athletes');
+Route::get('/athletes/{athlete}', 'FrontController@athleteDetailRedirect')->name('athletes.detail');
+Route::get('/athlete/{slug}', 'FrontController@athleteDetail')->name('athletes.detail.slug');
+Route::get('/v1/popular-athletes', 'AthleteController@getPopularAthletes');
+Route::get('/v1/athlete/{athlete}', 'AthleteController@getAthlete');
+Route::post('/v1/athlete/predict', 'AthleteController@athletePredictions');
+Route::get('/v1/athlete/{athlete}/race-year-list', 'AthleteController@raceYearList');
+// Route::get('/v1/athlete/{athlete}/races', 'AthleteController@races');
+Route::get('/v1/athlete/{athlete}/races/{year}', 'AthleteController@races');
+Route::get('/v1/athlete/{athlete}/ranking-per-season', 'AthleteController@rankingPerSeason');
+Route::get('/v1/athlete/{athlete}/races-per-country', 'AthleteController@racesPerCountry');
+// NEW STUFF BY MV
+Route::get('/v1/athlete/{athlete}/career-wins', 'AthleteController@careerWins'); // Athlete's wins throughout their career
+Route::get('/v1/athlete/{athlete}/top-results', 'AthleteController@topResults');  // Top results of an athlete
+Route::get('/v1/athlete/{athlete}/race-days/{year}', 'AthleteController@raceDays');  // Days raced in a season
+Route::get('/v1/athlete/{athlete}/elevation/{year}', 'AthleteController@elevation'); // Elevation overcome by an athlete during a season
+Route::get('/v1/athlete/{athlete}/seasonSummary/{year}', 'AthleteController@seasonSummary'); // summary stats for a season <elevation, raceDays, points>
+// Statistics
+Route::get('/v1/statistics/years', 'StatisticsController@years');
+Route::get('/v1/statistics/mostWins/{year?}', 'StatisticsController@mostWins');
+Route::get('/v1/statistics/mostRaceDays/{year?}', 'StatisticsController@mostRaceDays');
+Route::get('/v1/statistics/mostVerticalMeters/{year?}', 'StatisticsController@mostVerticalMeters');
+Route::get('/v1/statistics/mostGrandeCourseWins/{year?}', 'StatisticsController@mostGrandeCourseWins');
+Route::get('/v1/statistics/mostWorldCupWins/{year?}', 'StatisticsController@mostWorldCupWins');
+Route::get('/v1/statistics/mostChocolates/{year?}', 'StatisticsController@mostChocolates');
+Route::get('/v1/statistics/mostTopTens/{year?}', 'StatisticsController@mostTopTens');
+Route::get('/v1/statistics/mostPointsPerRaceDay/{year?}', 'StatisticsController@mostPointsPerRaceDay');
+Route::get('/v1/statistics/activeAthletes/{raceCat?}', 'StatisticsController@activeAthletes');
+Route::get('/v1/statistics/pointsPerMonth/{year?}/{month?}', 'StatisticsController@pointsPerMonth');
+Route::get('/v1/statistics/youngestAthletes/{raceCat?}', 'StatisticsController@youngestAthletes');
+Route::get('/v1/statistics/oldestAthletes/{raceCat?}', 'StatisticsController@oldestAthletes');
+Route::get('/v1/statistics/winsByCountries/{year?}', 'StatisticsController@mostWinsByCountries');
+Route::get('/v1/statistics/winnersByCountries/{year?}', 'StatisticsController@mostWinnersByCountries');
+Route::get('/v1/statistics/mostNationsRacedIn/{year?}', 'StatisticsController@mostNationsRacedIn');
 
-    // Rankings
-    Route::get('/rankings', 'RankingController@ranking')->name('rankings');
-    Route::get('/rankings/skimostats/all-time/{category}', 'RankingController@rankingAllTime')->name('rankings.all-time');
-    Route::get('/rankings/ismf/all-time/{category}', 'RankingController@rankingAllTimeISMF')->name('rankings.all-time-ismf');
-    Route::get('/rankings/youthwc/all-time/{category}', 'RankingController@rankingAllTimeYouthWc')->name('rankings.all-time-youthwc');
-    Route::get('/rankings/skimostats/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceType')->name('rankings.type.category');
-    Route::get('/rankings/ismf/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeISMF')->name('rankings.type.category.ismf');
-    Route::get('/rankings/youthwc/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYouthWc')->name('rankings.type.category.youthwc');
-    Route::get('/rankings/skimostats/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYear')->name('rankings.type.year');
-    Route::get('/rankings/ismf/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearISMF')->name('rankings.type.year.ismf');
-    Route::get('/rankings/youthwc/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearYouthWc')->name('rankings.type.year.youthwc');
-    Route::get('/rankings/{rankingType}/{category}', 'RankingController@rankingCategorySlug')->name('rankings.category');
-    Route::get('/rankings/{rankingType}/{year}/{category}', 'RankingController@rankingYear')->name('rankings.year');
-    // End rankings
+// Rankings
+Route::get('/rankings', 'RankingController@ranking')->name('rankings');
+Route::get('/rankings/skimostats/all-time/{category}', 'RankingController@rankingAllTime')->name('rankings.all-time');
+Route::get('/rankings/ismf/all-time/{category}', 'RankingController@rankingAllTimeISMF')->name('rankings.all-time-ismf');
+Route::get('/rankings/youthwc/all-time/{category}', 'RankingController@rankingAllTimeYouthWc')->name('rankings.all-time-youthwc');
+Route::get('/rankings/skimostats/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceType')->name('rankings.type.category');
+Route::get('/rankings/ismf/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeISMF')->name('rankings.type.category.ismf');
+Route::get('/rankings/youthwc/all-time/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYouthWc')->name('rankings.type.category.youthwc');
+Route::get('/rankings/skimostats/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYear')->name('rankings.type.year');
+Route::get('/rankings/ismf/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearISMF')->name('rankings.type.year.ismf');
+Route::get('/rankings/youthwc/{year}/type/{raceType}/{category}', 'RankingController@rankingRaceTypeYearYouthWc')->name('rankings.type.year.youthwc');
+Route::get('/rankings/{rankingType}/{category}', 'RankingController@rankingCategorySlug')->name('rankings.category');
+Route::get('/rankings/{rankingType}/{year}/{category}', 'RankingController@rankingYear')->name('rankings.year');
+// End rankings
 
-    Route::get('/races', 'FrontController@races')->name('races');
-    Route::get('/races/{year}', 'FrontController@races')->name('races.year');
-    Route::get('/races/{year}/{month}', 'FrontController@races')->name('races.month');
+Route::get('/races', 'FrontController@races')->name('races');
+Route::get('/races/{year}', 'FrontController@races')->name('races.year');
+Route::get('/races/{year}/{month}', 'FrontController@races')->name('races.month');
 
 // STATISTICS
 // FOR ATHLETES FILTERED BY SEASON
-    Route::get('/statistics/', 'StatisticsController@victories')->name('statistics');
-    Route::get('/statistics/victories/{year?}', 'StatisticsController@victories')->name('statistics.victories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/race-days/{year?}', 'StatisticsController@raceDays')->name('statistics.raceDays')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/points-per-raceday/{year?}', 'StatisticsController@pointsPerRaceday')->name('statistics.pointsPerRaceday')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/grand-course-victories/{year?}', 'StatisticsController@grandCourseVictories')->name('statistics.grandCourseVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/world-cup-victories/{year?}', 'StatisticsController@worldCupVictories')->name('statistics.worldCupVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/chocolates/{year?}', 'StatisticsController@chocolates')->name('statistics.chocolates')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/top-tens/{year?}', 'StatisticsController@topTens')->name('statistics.topTens')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-    Route::get('/statistics/countries-raced-in/{year?}', 'StatisticsController@countriesRacedIn')->name('statistics.countriesRacedIn')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/', 'StatisticsController@victories')->name('statistics');
+Route::get('/statistics/victories/{year?}', 'StatisticsController@victories')->name('statistics.victories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/race-days/{year?}', 'StatisticsController@raceDays')->name('statistics.raceDays')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/points-per-raceday/{year?}', 'StatisticsController@pointsPerRaceday')->name('statistics.pointsPerRaceday')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/grand-course-victories/{year?}', 'StatisticsController@grandCourseVictories')->name('statistics.grandCourseVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/world-cup-victories/{year?}', 'StatisticsController@worldCupVictories')->name('statistics.worldCupVictories')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/chocolates/{year?}', 'StatisticsController@chocolates')->name('statistics.chocolates')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/top-tens/{year?}', 'StatisticsController@topTens')->name('statistics.topTens')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/countries-raced-in/{year?}', 'StatisticsController@countriesRacedIn')->name('statistics.countriesRacedIn')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
 
 // ATHLETES BY SEASON WITH HISTOGRAM
-   Route::get('/statistics/points-per-age/{year?}', 'StatisticsController@pointsPerAge')->name('statistics.pointsPerAge')->where('year', '^(\b(19|20)\d{2}\b)$');
+Route::get('/statistics/points-per-age/{year?}', 'StatisticsController@pointsPerAge')->name('statistics.pointsPerAge')->where('year', '^(\b(19|20)\d{2}\b)$');
 
 // ATHLETES BY RANKING CATEGORY
-    Route::get('/statistics/active-athletes/{rankingCategory?}', 'StatisticsController@activeAthletes')->name('statistics.activeAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
-    Route::get('/statistics/youngest-athletes/{rankingCategory?}', 'StatisticsController@youngestAthletes')->name('statistics.youngestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
-    Route::get('/statistics/oldest-athletes/{rankingCategory?}', 'StatisticsController@oldestAthletes')->name('statistics.oldestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+Route::get('/statistics/active-athletes/{rankingCategory?}', 'StatisticsController@activeAthletes')->name('statistics.activeAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+Route::get('/statistics/youngest-athletes/{rankingCategory?}', 'StatisticsController@youngestAthletes')->name('statistics.youngestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
+Route::get('/statistics/oldest-athletes/{rankingCategory?}', 'StatisticsController@oldestAthletes')->name('statistics.oldestAthletes')->where('rankingCategory', '^(all|world-cup|grand-course)$');
 
 // ATHLETES MONTHLY
 Route::get('/statistics/points-per-month/{monthYear?}', 'StatisticsController@pointsPerMonth')->name('statistics.pointPerMonth')->where('monthYear', '\b(0[1-9]|1[0-2])-(19|20)\d{2}\b');
 
 // COUNTRIES BY SEASON
-    Route::get('/statistics/wins-per-countries/{year?}', 'StatisticsController@winsPerCountries')->name('statistics.winsPerCountries')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
-   Route::get('/statistics/winners-per-countries/{year?}', 'StatisticsController@winnersPerCountry')->name('statistics.winnersPerCountry')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/wins-per-countries/{year?}', 'StatisticsController@winsPerCountries')->name('statistics.winsPerCountries')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
+Route::get('/statistics/winners-per-countries/{year?}', 'StatisticsController@winnersPerCountry')->name('statistics.winnersPerCountry')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
 Route::get('/statistics/points-per-country/{year?}', 'StatisticsController@pointsPerCountry')->name('statistics.pointsPerCountry')->where('year', '^(|all-seasons|\b(19|20)\d{2}\b)$');
 // END STATISTICS
 
-    Route::get('/about-us', 'FrontController@aboutUs')->name('about-us');
-    Route::get('/get-instafeed', 'FrontController@getInstafeed')->name('get-instafeed');
-    Route::get('/race-event/{event}', 'FrontController@raceEventDetailRedirect')->name('raceEventDetail');
-    Route::get('/event/{slug}', 'FrontController@raceEventDetail')->name('raceEventDetail.slug');
-    Route::get('/event/{slug}/{category}', 'FrontController@raceEventDetail')->name('raceEventDetail.slug.category');
-    Route::get('/event/{slug}/{category}/gc', 'FrontController@raceEventDetail')->name('raceEventDetail.slug.category.gc');
+Route::get('/about-us', 'FrontController@aboutUs')->name('about-us');
+Route::get('/get-instafeed', 'FrontController@getInstafeed')->name('get-instafeed');
+Route::get('/race-event/{event}', 'FrontController@raceEventDetailRedirect')->name('raceEventDetail');
+Route::get('/event/{slug}', 'FrontController@raceEventDetail')->name('raceEventDetail.slug');
+Route::get('/event/{slug}/{category}', 'FrontController@raceEventDetail')->name('raceEventDetail.slug.category');
+Route::get('/event/{slug}/{category}/gc', 'FrontController@raceEventDetail')->name('raceEventDetail.slug.category.gc');
 
-    Route::post('/rankings/homepage', 'RankingController@getHomepageRankings');
-    Route::post('/rankings/homepage/nations', 'RankingController@getHomepageRankingsNations');
+Route::post('/rankings/homepage', 'RankingController@getHomepageRankings');
+Route::post('/rankings/homepage/nations', 'RankingController@getHomepageRankingsNations');
 
-    Route::get('/world-cup', 'FrontController@worldCup')->name('world-cup');
-    Route::get('/world-cup/{year}', 'FrontController@worldCup')->name('world-cup.year');
+Route::get('/world-cup', 'FrontController@worldCup')->name('world-cup');
+Route::get('/world-cup/{year}', 'FrontController@worldCup')->name('world-cup.year');
 
-    Route::get('/race/{slug}', 'FrontController@raceOverview')->name('race-overview');
-    Route::get('/race/{slug}/{year}', 'FrontController@raceOverview')->name('race-overview.year');
+Route::get('/race/{slug}', 'FrontController@raceOverview')->name('race-overview');
+Route::get('/race/{slug}/{year}', 'FrontController@raceOverview')->name('race-overview.year');
 
 // TESTING
 Route::get('/test', 'FrontController@test')->name('test');
 Route::get('/testlist', function () {
     return ['Laravel', 'Vue', 'PHP', 'Javascript', 'Tooling'];
 });
-// });
 
+// Testing issuing tokens with Sanctum
+Route::post("/tokens/create", function (Request $request) {
+    $token = $request->user()->createToken($request->token_name);
+
+    return ["token" => $token->plainTextToken];
+});
 
 // Artisan
-Route::middleware(['auth', 'admin'])->group(function(){
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/artisan/migrate', 'Admin\ArtisanController@migrate');
     Route::get('/artisan/dump-autoload', 'Admin\ArtisanController@dumpAutoload');
 });
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function() {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/', 'Admin\HomeController@index')->name('home');
 
     Route::get('/users', 'Admin\ApiUsageController@index')->name('users.list');
     Route::post('/users', 'Admin\ApiUsageController@create')->name('users.create');
+    Route::delete("/users/{id}", "Admin\ApiUsageController@delete")->name("users.delete");
 
     $adminControllers = [
         'athletes' => 'Admin\AthleteController',
@@ -213,7 +221,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     ];
 
     foreach ($adminControllers as $slug => $controller) {
-        Route::prefix($slug)->name($slug . '.')->group(function() use ($controller) {
+        Route::prefix($slug)->name($slug . '.')->group(function () use ($controller) {
             Route::get('/', $controller . '@list')->name('list');
             Route::get('add', $controller . '@add')->name('add');
             Route::get('edit/{entry}', $controller . '@edit')->name('edit');
@@ -265,7 +273,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('race-event-entry/add-team-entry', 'Admin\RaceEventEntryController@addSingleTeam')->name('race-event-entry.add-team');
 
     Route::get('countries', 'Admin\CountryController@list')->name('countries');
-
 
     Route::post('team/{team}/add-athlete', 'Admin\TeamController@addAthlete')->name('team.add-athlete');
     Route::get('team/remove-athlete/{teamAthlete}', 'Admin\TeamController@removeAthlete')->name('team.remove-athlete');

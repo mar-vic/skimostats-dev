@@ -14,18 +14,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(function() {
+Route::prefix('v1')->group(function () {
     Route::get('home', 'FrontController@getHomeData');
     Route::get('athletes', 'AthleteController@getApiV1List');
     Route::get('rankings', 'RankingController@getRankingsV1List');
     Route::get('races', 'FrontController@getRacesV1List');
 });
 
-
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->group(function(){
+Route::middleware('auth:api')->group(function () {
     Route::get('/athletes', 'AthleteController@getApiList');
+});
+
+
+// Third party data api
+Route::prefix("v2")->group(function () {
+    Route::group(["middleware" => ["auth:sanctum"]], function () {
+        Route::get("athletes", "AthleteController@getAthletesDataByName");
+    });
 });
