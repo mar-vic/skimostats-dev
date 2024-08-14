@@ -2373,6 +2373,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _LandingStatistics_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LandingStatistics.vue */ "./resources/js/front/landing-page/components/LandingStatistics.vue");
 /* harmony import */ var _UpcomingRaces_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./UpcomingRaces.vue */ "./resources/js/front/landing-page/components/UpcomingRaces.vue");
 /* harmony import */ var _HeadToHead_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./HeadToHead.vue */ "./resources/js/front/landing-page/components/HeadToHead.vue");
+/* harmony import */ var _TopAthlete_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TopAthlete.vue */ "./resources/js/front/landing-page/components/TopAthlete.vue");
+
 
 
 
@@ -2384,7 +2386,8 @@ __webpack_require__.r(__webpack_exports__);
     LandingStatistics: _LandingStatistics_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     UpcomingRaces: _UpcomingRaces_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
     TodayRaces: _TodayRaces_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    HeadToHead: _HeadToHead_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+    HeadToHead: _HeadToHead_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    TopAthlete: _TopAthlete_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
   }
 });
 
@@ -2766,6 +2769,17 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
 
 /***/ }),
 
@@ -3914,6 +3928,84 @@ var render = function render() {
   }, [_vm._v(_vm._s(_vm.shownRace.name))]) : _vm._e()])], 1) : _c("span", [_vm._v("\n              " + _vm._s(_vm.__("No race today")) + "\n            ")])])])]);
 };
 var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=template&id=6c6d1c06&":
+/*!**************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=template&id=6c6d1c06& ***!
+  \**************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _vm.activeEvent ? _c("div", {
+    staticClass: "latest-results"
+  }, [_c("div", [_c("div", {
+    staticClass: "latest-results__container"
+  }, [_c("div", {
+    staticClass: "latest-results__left__container"
+  }, [_c("div", {
+    staticClass: "latest-results__left"
+  }, [_c("div", {
+    staticClass: "latest-results__left-text font-family-heading"
+  }, [_vm._v("\n                        " + _vm._s(_vm.__("Latest")) + "\n                        "), _c("div", [_vm._v(_vm._s(_vm.__("Results")))])])])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("div", {
+    staticClass: "latest-results__right__container"
+  }, [_c("div", {
+    staticClass: "latest-results__right"
+  }, [_c("div", {
+    staticClass: "latest-results__right-pagination mb-4 mb-md-0"
+  }, [_c("a", {
+    staticClass: "latest-results__prev-race",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.changeEvent("prev");
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.__("Previous"))), _c("span", {
+    staticClass: "d-none d-md-inline"
+  }, [_vm._v(" " + _vm._s(_vm.__("race")))])]), _vm._v(" "), _c("span", {
+    staticClass: "h1 my-md-3 my-0 mx-3 mx-lg-0 font-weight-bold"
+  }, [_vm._v(_vm._s(String(_vm.activeEventPosition).padStart(2, "0")) + "/" + _vm._s(String(_vm.eventCount).padStart(2, "0")))]), _vm._v(" "), _c("a", {
+    staticClass: "latest-results__next-race",
+    attrs: {
+      href: "#"
+    },
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.changeEvent("next");
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.__("Next"))), _c("span", {
+    staticClass: "d-none d-md-inline"
+  }, [_vm._v(" " + _vm._s(_vm.__("race")))])])])])])])])]) : _vm._e();
+};
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c,
+    _setup = _vm._self._setupProxy;
+  return _c("div", {
+    staticClass: "latest-results__middle"
+  }, [_c("h1", {
+    staticClass: "text-uppercase font-weight-bold mb-0"
+  }, [_c("span", {
+    staticClass: "d-block float-none float-md-right"
+  }, [_vm._v("{}")])])]);
+}];
 render._withStripped = true;
 
 
@@ -58590,6 +58682,78 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_TodayRaces_vue_vue_type_template_id_184ce8d4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_TodayRaces_vue_vue_type_template_id_184ce8d4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/front/landing-page/components/TopAthlete.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/front/landing-page/components/TopAthlete.vue ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TopAthlete_vue_vue_type_template_id_6c6d1c06___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TopAthlete.vue?vue&type=template&id=6c6d1c06& */ "./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=template&id=6c6d1c06&");
+/* harmony import */ var _TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TopAthlete.vue?vue&type=script&lang=js& */ "./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=script&lang=js&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TopAthlete_vue_vue_type_template_id_6c6d1c06___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TopAthlete_vue_vue_type_template_id_6c6d1c06___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/front/landing-page/components/TopAthlete.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./TopAthlete.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=template&id=6c6d1c06&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=template&id=6c6d1c06& ***!
+  \**************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_template_id_6c6d1c06___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??ref--6!../../../../../node_modules/vue-loader/lib??vue-loader-options!./TopAthlete.vue?vue&type=template&id=6c6d1c06& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/front/landing-page/components/TopAthlete.vue?vue&type=template&id=6c6d1c06&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_template_id_6c6d1c06___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ref_6_node_modules_vue_loader_lib_index_js_vue_loader_options_TopAthlete_vue_vue_type_template_id_6c6d1c06___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
