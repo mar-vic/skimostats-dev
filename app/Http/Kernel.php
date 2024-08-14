@@ -42,7 +42,8 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\ForceJsonResponse::class,
             'throttle:60,1',
             'bindings',
-            \App\Http\Middleware\LogApiUsage::class
+            \App\Http\Middleware\LogApiUsage::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ],
     ];
 
