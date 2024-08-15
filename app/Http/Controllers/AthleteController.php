@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 class AthleteController extends Controller
 {
-    public function raceYearList(Request $request, Athlete $athlete) {
+    public function raceYearList(Request $request, Athlete $athlete)
+    {
         $result = DB::table('race_event_participants as rep')
             ->select(
                 DB::raw('IF(MONTH(re.startDate) > 9, YEAR(re.startDate) + 1, YEAR(re.startDate)) as year')
@@ -29,10 +30,13 @@ class AthleteController extends Controller
             ->get()
             ->toArray();
 
-        return array_map(function($item) { return $item->year; }, $result);
+        return array_map(function ($item) {
+            return $item->year;
+        }, $result);
     }
 
-    public function races(Request $request, Athlete $athlete, $year = null) {
+    public function races(Request $request, Athlete $athlete, $year = null)
+    {
         $timespan = Ranking::getRankingYearTimespan($year);
 
         // dd($timespan);
@@ -59,15 +63,19 @@ class AthleteController extends Controller
             ->join('categories as cat', 'cat.id', 'rep.categoryId')
             ->leftJoin('countries as c', 'c.id', 're.countryId')
             ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
-            ->join('race_event_entries as ree', function($qb) {
+            ->join('race_event_entries as ree', function ($qb) {
                 $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
                     ->orOn('ree.raceEventTeamId', '=', 'ret.id');
             })
-            ->leftJoin('rankings as rnk', function($qb) {$qb->on('rnk.participantId', '=', 'rep.id')->whereIn('rnk.type', [1])->whereIn('rnk.categoryId', [1, 2, 14, 38]);})
+            ->leftJoin('rankings as rnk', function ($qb) {
+                $qb->on('rnk.participantId', '=', 'rep.id')->whereIn('rnk.type', [1])->whereIn('rnk.categoryId', [1, 2, 14, 38]);
+            })
             ->leftJoin('race_types as rt', 'rt.id', 're.type')
             ->where('rep.athleteId', $athlete->id)
             ->whereBetween('re.startDate', $timespan)
             ->groupBy('re.id');
+
+        dd($builder->get());
 
         return [
             'year' => $theYear,
@@ -75,7 +83,8 @@ class AthleteController extends Controller
         ];
     }
 
-    public function rankingPerSeason(Request $request, Athlete $athlete) {
+    public function rankingPerSeason(Request $request, Athlete $athlete)
+    {
         $qb = DB::table('ranking_tables as rt')
             ->select(
                 'rt.rank',
@@ -97,7 +106,8 @@ class AthleteController extends Controller
         return $qb->get();
     }
 
-    public function racesPerCountry(Request $request, Athlete $athlete, $year = null) {
+    public function racesPerCountry(Request $request, Athlete $athlete, $year = null)
+    {
         $timespan = Ranking::getRankingYearTimespan($year);
 
         $qb = DB::table('race_event_participants as rep')
@@ -110,7 +120,7 @@ class AthleteController extends Controller
             ->join('race_events as re', 're.id', 'rep.raceEventId')
             ->join('countries as c', 'c.id', 're.countryId')
             ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
-            ->join('race_event_entries as ree', function($qb) {
+            ->join('race_event_entries as ree', function ($qb) {
                 $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
                     ->orOn('ree.raceEventTeamId', '=', 'ret.id');
             })
@@ -124,8 +134,8 @@ class AthleteController extends Controller
         return $qb->get();
     }
 
-
-    public function getAthlete(Request $request, Athlete $athlete) {
+    public function getAthlete(Request $request, Athlete $athlete)
+    {
         $athleteService = new AthleteService();
         return [
             'firstName' => $athlete->firstName,
@@ -144,7 +154,8 @@ class AthleteController extends Controller
         ];
     }
 
-    public function getPopularAthletes(Request $request) {
+    public function getPopularAthletes(Request $request)
+    {
         $popularAthletes = DB::table('athletes as a')
             ->join('athlete_visits as av', 'av.athleteId', 'a.id')
             ->leftJoin('countries as co', 'co.id', 'a.countryId')
@@ -167,19 +178,21 @@ class AthleteController extends Controller
         return $popularAthletes;
     }
 
-    public function athletePredictions(Request $request) {
+    public function athletePredictions(Request $request)
+    {
         return Athlete::with('country')
-        ->where(
-            DB::raw('CONCAT(firstName, " ", lastName)'),
-            'LIKE',
-            '%'.$request->get('q').'%'
-        )
-        ->orderBy('firstName', 'asc')
-        ->limit(8)
-        ->get();
+            ->where(
+                DB::raw('CONCAT(firstName, " ", lastName)'),
+                'LIKE',
+                '%' . $request->get('q') . '%'
+            )
+            ->orderBy('firstName', 'asc')
+            ->limit(8)
+            ->get();
     }
 
-    public function getApiV1List(Request $request) {
+    public function getApiV1List(Request $request)
+    {
         $q = $request->get('q');
 
         $res = DB::table('athletes as a')
@@ -196,12 +209,12 @@ class AthleteController extends Controller
                 DB::raw('MIN(r.rank) as rank')
             ])
             ->leftJoin('countries as c', 'c.id', 'a.countryId')
-            ->leftJoin('ranking_tables as r', function(JoinClause $join) {
+            ->leftJoin('ranking_tables as r', function (JoinClause $join) {
                 $join->on('r.athleteId', 'a.id')
                     ->where('r.type', RankingType::SKIMO_STATS)
                     ->where('r.year', RankingController::getActualYear());
             })
-            ->where(function($qr) use ($q) {
+            ->where(function ($qr) use ($q) {
                 $qr->where('a.firstName', 'LIKE', '%' . $q . '%')
                     ->orWhere('a.lastName', 'LIKE', '%' . $q . '%')
                     ->orWhere('a.placeOfBirth', 'LIKE', '%' . $q . '%')
@@ -240,11 +253,12 @@ class AthleteController extends Controller
         return $response;
     }
 
-    public function getApiListOld(Request $request) {
+    public function getApiListOld(Request $request)
+    {
         $q = $request->get('q');
 
         $res = Athlete::where('show_in_api', true)
-            ->where(function($qr) use ($q) {
+            ->where(function ($qr) use ($q) {
                 $qr->where('firstName', 'LIKE', '%' . $q . '%')
                     ->orWhere('firstName', 'LIKE', '%' . $q . '%')
                     ->orWhere(DB::raw("CONCAT(athletes.firstName, ' ', athletes.lastName)"), 'LIKE', '%' . $q . '%')
@@ -259,7 +273,7 @@ class AthleteController extends Controller
                 'url' => route('athletes.detail.slug', $athlete->slug),
                 'firstName' => $athlete->firstName,
                 'lastName' => $athlete->lastName,
-                'image' => asset('images/athletes/'.$athlete->image),
+                'image' => asset('images/athletes/' . $athlete->image),
                 'name' => $athlete->firstName . ' ' . $athlete->lastName,
                 'height' => $athlete->height,
                 'weight' => $athlete->weight,
@@ -279,21 +293,22 @@ class AthleteController extends Controller
     }
 
     // NEW STUFF by MV
-    private function topResultsForApiList(Athlete $athlete) {
+    private function topResultsForApiList(Athlete $athlete)
+    {
         // returns top results of an athlete. To be consumed only by API calls.
         $queryBuilder = DB::table('rankings')
-             ->where('athleteId', '=', $athlete->id)
-             ->whereNotNull('rankings.rankingCategoryId')
-             ->whereRaw('rankings.rank in (1, 2, 3, 4)')
-             ->join('race_events as events', 'events.id', 'rankings.raceEventId')
-             ->join('races', 'races.id', 'events.raceId')
-             ->selectRaw('races.id as raceId, '.
-                         'races.name as raceName, '.
-                         'races.rankingCategoryId as rankingCategory, '.
-                         'events.name as eventName, '.
-                         'events.startDate as date, '.
-                         'rankings.points, '.
-                         'rankings.rank');
+            ->where('athleteId', '=', $athlete->id)
+            ->whereNotNull('rankings.rankingCategoryId')
+            ->whereRaw('rankings.rank in (1, 2, 3, 4)')
+            ->join('race_events as events', 'events.id', 'rankings.raceEventId')
+            ->join('races', 'races.id', 'events.raceId')
+            ->selectRaw('races.id as raceId, ' .
+                'races.name as raceName, ' .
+                'races.rankingCategoryId as rankingCategory, ' .
+                'events.name as eventName, ' .
+                'events.startDate as date, ' .
+                'rankings.points, ' .
+                'rankings.rank');
 
         // get php collection object from querybuilder
         $collection = $queryBuilder->get();
@@ -303,12 +318,12 @@ class AthleteController extends Controller
         // group the collection by races
         $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
             return [$item->raceId => [
-                    'raceName' => $item->raceName,
-                    'eventName' => $item->eventName,
-                    'eventDate' => $item->date,
-                    'points' => $item->points,
-                    'rank' => $item->rank,
-                    'rankingCategoryId' => $item->rankingCategory,
+                'raceName' => $item->raceName,
+                'eventName' => $item->eventName,
+                'eventDate' => $item->date,
+                'points' => $item->points,
+                'rank' => $item->rank,
+                'rankingCategoryId' => $item->rankingCategory,
             ]];
         });
 
@@ -342,11 +357,11 @@ class AthleteController extends Controller
     private function rankingPerSeasonForApiList(Athlete $athlete)
     {
         $qb = DB::table('ranking_tables as rt')
-        ->select(
-            'rt.rank',
-            'rt.points',
-            'rt.year',
-        )
+            ->select(
+                'rt.rank',
+                'rt.points',
+                'rt.year',
+            )
             ->join('categories as cat', 'cat.id', 'rt.categoryId')
             ->join('athletes as a', 'a.id', 'rt.athleteId')
             ->where('rt.type', RankingType::SKIMO_STATS)
@@ -360,11 +375,12 @@ class AthleteController extends Controller
         return $qb->get()->slice(0, 2);
     }
 
-    public function getApiList(Request $request) {
+    public function getApiList(Request $request)
+    {
         $q = $request->get('q');
 
         $queryBuilder = Athlete::where('show_in_api', true)
-            ->where(function($qr) use ($q) {
+            ->where(function ($qr) use ($q) {
                 $qr->where('firstName', 'LIKE', '%' . $q . '%')
                     ->orWhere('firstName', 'LIKE', '%' . $q . '%')
                     ->orWhere(DB::raw("CONCAT(athletes.firstName, ' ', athletes.lastName)"), 'LIKE', '%' . $q . '%')
@@ -382,7 +398,7 @@ class AthleteController extends Controller
                 'url' => route('athletes.detail.slug', $athlete->slug),
                 'firstName' => $athlete->firstName,
                 'lastName' => $athlete->lastName,
-                'image' => asset('images/athletes/'.$athlete->image),
+                'image' => asset('images/athletes/' . $athlete->image),
                 'name' => $athlete->firstName . ' ' . $athlete->lastName,
                 'height' => $athlete->height,
                 'weight' => $athlete->weight,
@@ -403,7 +419,8 @@ class AthleteController extends Controller
         return $response;
     }
 
-    public function careerWins(Request $request, Athlete $athlete) {
+    public function careerWins(Request $request, Athlete $athlete)
+    {
 
         $builder = DB::table('race_events as re')
             ->select(
@@ -421,11 +438,11 @@ class AthleteController extends Controller
             ->join('categories as cat', 'cat.id', 'rep.categoryId')
             ->leftJoin('countries as c', 'c.id', 're.countryId')
             ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
-            ->join('race_event_entries as ree', function($qb) {
+            ->join('race_event_entries as ree', function ($qb) {
                 $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
                     ->orOn('ree.raceEventTeamId', '=', 'ret.id');
             })
-            ->leftJoin('rankings as rnk', function($qb) {
+            ->leftJoin('rankings as rnk', function ($qb) {
                 $qb->on('rnk.participantId', '=', 'rep.id')
                     ->where('rnk.type', 1)
                     ->whereIn('rnk.categoryId', [1, 2]);
@@ -434,32 +451,33 @@ class AthleteController extends Controller
             ->where('rep.athleteId', $athlete->id)
             ->where('ree.rank', 1)
             ->whereRaw('rnk.rankingCategoryId in (1, 2, 4, 5, 6, 7, 8, 9, 10, 13)');
-            // ->groupBy('re.id');
+        // ->groupBy('re.id');
 
         return $builder->get();
     }
 
-    public function topResults(Request $request, Athlete $athlete) {
+    public function topResults(Request $request, Athlete $athlete)
+    {
         // return the top results of the athlete
         // top results are grouped by races and order by category IDs as follows: 6, 5, 1, 7, 8, 2, 4, 11, 3, 10
         $queryBuilder = DB::table('rankings')
-             ->where('athleteId', '=', $athlete->id)
-             ->whereNotNull('rankings.rankingCategoryId')
-             ->whereRaw('rankings.rank in (1, 2, 3, 4)')
-             ->join('race_events as events', 'events.id', 'rankings.raceEventId')
-             ->join('races', 'races.id', 'events.raceId')
-             ->whereRaw("events.slug not like '%stage%'")
-             ->selectRaw('races.id as raceId, '.
-                         'races.name as raceName, '.
-                         'races.rankingCategoryId as rankingCategory, '.
-                         'events.name as eventName, '.
-                         'events.slug as eventSlug, '.
-                         'events.startDate as date, '.
-                         "events.parent, ".
-                         "events.isGeneralClassification, ".
-                         'rankings.points, '.
-                         'rankings.type, '.
-                         'rankings.rank');
+            ->where('athleteId', '=', $athlete->id)
+            ->whereNotNull('rankings.rankingCategoryId')
+            ->whereRaw('rankings.rank in (1, 2, 3, 4)')
+            ->join('race_events as events', 'events.id', 'rankings.raceEventId')
+            ->join('races', 'races.id', 'events.raceId')
+            ->whereRaw("events.slug not like '%stage%'")
+            ->selectRaw('races.id as raceId, ' .
+                'races.name as raceName, ' .
+                'races.rankingCategoryId as rankingCategory, ' .
+                'events.name as eventName, ' .
+                'events.slug as eventSlug, ' .
+                'events.startDate as date, ' .
+                "events.parent, " .
+                "events.isGeneralClassification, " .
+                'rankings.points, ' .
+                'rankings.type, ' .
+                'rankings.rank');
 
         // get php collection object from querybuilder
         $collection = $queryBuilder->get();
@@ -469,14 +487,14 @@ class AthleteController extends Controller
         // group the collection by races
         $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
             return [$item->raceId => [
-                    'raceName' => $item->raceName,
-                    'eventName' => $item->eventName,
-                    'eventSlug' => $item->eventSlug,
-                    'eventDate' => $item->date,
-                    'points' => $item->points,
-                    'rank' => $item->rank,
-                    'rankingCategoryId' => $item->rankingCategory,
-                    'raceId' => $item->raceId
+                'raceName' => $item->raceName,
+                'eventName' => $item->eventName,
+                'eventSlug' => $item->eventSlug,
+                'eventDate' => $item->date,
+                'points' => $item->points,
+                'rank' => $item->rank,
+                'rankingCategoryId' => $item->rankingCategory,
+                'raceId' => $item->raceId
             ]];
         });
 
@@ -533,11 +551,11 @@ class AthleteController extends Controller
             ->join('categories as cat', 'cat.id', 'rep.categoryId')
             ->leftJoin('countries as c', 'c.id', 're.countryId')
             ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
-            ->join('race_event_entries as ree', function($qb) {
+            ->join('race_event_entries as ree', function ($qb) {
                 $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
                     ->orOn('ree.raceEventTeamId', '=', 'ret.id');
             })
-            ->leftJoin('rankings as rnk', function($qb) {
+            ->leftJoin('rankings as rnk', function ($qb) {
                 $qb->on('rnk.participantId', '=', 'rep.id')
                     ->where('rnk.type', 1)
                     ->whereIn('rnk.categoryId', [1, 2]);
@@ -554,11 +572,11 @@ class AthleteController extends Controller
     {
         // return the elevation overcome by an athlete during a season
         $queryBuilder = DB::table('race_event_participants as participants')
-                      ->join('race_events as events', 'participants.raceEventId', 'events.id')
-                      ->where('participants.id', '=', $athlete->id)
-                      // ->where('events.year', '=', $year)  // TODO: the seasons needs to be selected, not year
-                      ->groupBy('events.year')
-                      ->selectRaw('sum(events.elevation)');
+            ->join('race_events as events', 'participants.raceEventId', 'events.id')
+            ->where('participants.id', '=', $athlete->id)
+            // ->where('events.year', '=', $year)  // TODO: the seasons needs to be selected, not year
+            ->groupBy('events.year')
+            ->selectRaw('sum(events.elevation)');
 
         return $queryBuilder->get();
     }
@@ -585,11 +603,11 @@ class AthleteController extends Controller
             ->join('categories as cat', 'cat.id', 'rep.categoryId')
             ->leftJoin('countries as c', 'c.id', 're.countryId')
             ->leftJoin('race_event_teams as ret', 'ret.id', 'rep.raceEventTeamId')
-            ->join('race_event_entries as ree', function($qb) {
+            ->join('race_event_entries as ree', function ($qb) {
                 $qb->on('ree.raceEventParticipantId', '=', 'rep.id')
                     ->orOn('ree.raceEventTeamId', '=', 'ret.id');
             })
-            ->leftJoin('rankings as rnk', function($qb) {
+            ->leftJoin('rankings as rnk', function ($qb) {
                 $qb->on('rnk.participantId', '=', 'rep.id')
                     ->where('rnk.type', 1)
                     ->whereIn('rnk.categoryId', [1, 2]);
@@ -607,5 +625,64 @@ class AthleteController extends Controller
             'raceDays' => $collection->count(),
             'points' => $collection->sum('points')
         ]);
+    }
+
+    // Third party data api methods
+    public function getAthletes()
+    {
+        $athletes = DB::table('athletes')
+            ->leftJoin('countries', 'countries.id', 'athletes.countryId')
+            ->select(
+                'athletes.id',
+                'athletes.slug',
+                'countries.code as countryCode',
+                'athletes.firstName',
+                'athletes.lastName',
+            )
+            ->orderBy('lastName', 'asc')
+            ->orderBy('firstName', 'asc')
+            ->limit(10)
+            ->get();
+
+        return $athletes;
+    }
+
+    public function getAthletesDataByName(Request $request)
+    {
+        $firstName = $request->input("firstName");
+        $lastName = $request->input("lastName");
+        // dd($firstName, $lastName);
+        // $athletes = Athlete::where(function ($query) use ($firstName, $lastName) {
+        //     $query->where("firstName", "like", "%" . $firstName . "%")->orWhere("lastName", "like", "%" . $lastName . "%");
+        // })->get();
+        $athletes = Athlete::where("firstName", "like", "%" . $firstName . "%")
+            ->where("lastName", "like", "%" . $lastName . "%")->get();
+
+        $data = $athletes->map(function ($athlete) {
+            $athleteService = new AthleteService();
+            return [
+                'firstName' => $athlete->firstName,
+                'lastName' => $athlete->lastName,
+                'slug' => $athlete->slug,
+                'image' => $athlete->image,
+                'age' => $athlete->age,
+                'weight' => $athlete->weight,
+                'height' => $athlete->height,
+                'country' => $athlete->country,
+                'rank' => $athlete->rank,
+                'points' => $athlete->getTotalPoints(),
+                'gender' => $athlete->gender,
+                'victories' => $athlete->getCareerWins()->count(),
+                'pointsPerSpecialty' => $athleteService->getPointsPerSpecialty($athlete)
+            ];
+        });
+
+        // dd($data);
+
+        if ($data) {
+            return $data;
+        } else {
+            return "Nobody was found";
+        }
     }
 }
