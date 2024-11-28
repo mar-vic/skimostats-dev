@@ -189,20 +189,14 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-4">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
-                    <h2>Spiders</h2>
+                    <h2>Create Heats and Final Roosters</h2>
                 </div>
                 <div class="card-body">
-                    @foreach($categories as $category)
-                        @if (!$entry->id || $entry->hasCategory($category->id))
-                            <h3>{{ $category->name }}</h3>
-                            @include("includes.elimination_rounds")
-                        @endif
-                    @endforeach
-
+                    @include("includes.sprint_heats_admin")
                 </div>
             </div>
         </div>
