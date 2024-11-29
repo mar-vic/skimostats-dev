@@ -1,7 +1,10 @@
 <div class="row border border-primary ">
-    <div class="col border border-secondary">
-        <div class="row">
-            <div class="col border border-success">
+    <div class="col">
+        <div class="row text-center font-weight-bold text-white">
+            <div class="col p-2" style="background-color:#227dc7;">Quarter-Finals</div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
                 <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
@@ -55,8 +58,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col border border-success">
-               <table class="table border table-striped" style="font-size:0.7rem;">
+            <div class="col">
+                <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
                         <th>Bib</th>
@@ -109,8 +112,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col border border-success">
-               <table class="table border table-striped" style="font-size:0.7rem;">
+            <div class="col">
+                <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
                         <th>Bib</th>
@@ -163,8 +166,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col border border-success">
-               <table class="table border table-striped" style="font-size:0.7rem;">
+            <div class="col">
+                <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
                         <th>Bib</th>
@@ -217,7 +220,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col border border-success">
+            <div class="col">
                 <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
@@ -271,9 +274,12 @@
             </div>
         </div>
     </div>
-    <div class="col border border-secondary">
-        <div class="row">
-            <div class="col border border-success">
+    <div class="col">
+        <div class="row text-center font-weight-bold text-white">
+            <div class="col p-2" style="background-color:#227dc7;">Semi-Finals</div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
                 <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
@@ -327,8 +333,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col border border-success">
-               <table class="table border table-striped" style="font-size:0.7rem;">
+            <div class="col">
+                <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
                         <th>Bib</th>
@@ -381,10 +387,13 @@
             </div>
         </div>
     </div>
-    <div class="col border border-secondary">
-        <div class="row">
-            <div class="col border border-success">
-<table class="table border table-striped" style="font-size:0.7rem;">
+    <div class="col">
+        <div class="row text-center font-weight-bold text-white">
+            <div class="col p-2" style="background-color:#227dc7;">Finals</div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
                         <th>Bib</th>
@@ -437,7 +446,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col border border-success">
+            <div class="col">
                 <table class="table border table-striped" style="font-size:0.7rem;">
                     <tr>
                         <th>Rk</th>
