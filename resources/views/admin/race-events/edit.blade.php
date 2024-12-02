@@ -189,13 +189,31 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center mt-4">
+    <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
-                    <h2>Create Heats and Final Roosters</h2>
+                    <h2>Sprint Heats and Finals</h2>
                 </div>
-                <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-1">Categories:</div>
+                    @foreach($categories as $category)
+                        @if (!$entry->id || $entry->hasCategory($category->id))
+                            <div class="col">
+                                <a
+                                    class="btn btn-sm btn-primary text-white"
+                                    hx-trigger="click"
+                                    hx-get="/"
+                                    hx-target="#sprint-heats-admin-widget"
+                                >
+                                    {{ $category->name }}
+                                </a>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+                <div id="sprint-heats-admin-widget" class="card-body">
                     @include("includes.sprint_heats_admin")
                 </div>
             </div>
