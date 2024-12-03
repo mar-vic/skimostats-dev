@@ -263,7 +263,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('race-event/{raceEvent}/{category}/export-entries/csv', 'Admin\RaceEventController@exportEntriesToCsv')->name('race-events.export-entries.csv');
     Route::get('race-event/{entry}/{categoryId}/{stageId}/deleteAll', 'Admin\RaceEventController@deleteAllResults')->name('race-events.deleteAllResults');
 
+
     // Added by MV
+    // Sprint heats config
+    Route::get("race-event/edit/{raceEvent}/{category}/sprint-heats", "Admin\RaceEventController@loadSprintHeats")->name("sprint-heats");
+
+    // GC results genration
     Route::get("race-event/{raceEvent}/generateGCResults", "Admin\RaceEventController@generateGCResults")->name("race-events.generateGCResults");
 
     Route::post('race-event/{event}/c/{category}/add', 'Admin\RaceEventEntryController@add')->name('race-events.add-entry');
@@ -286,4 +291,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('rankings/table/update', 'Admin\RankingController@updateRankingTable')->name('rankings.table.update');
     Route::get('rankings/table/update/{type}', 'Admin\RankingController@updateRankingTable')->name('rankings.table.update.type');
     Route::get('rankings/table/update/{type}/{year}', 'Admin\RankingController@updateRankingTable')->name('rankings.table.update.year');
+
 });

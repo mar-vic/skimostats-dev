@@ -204,7 +204,7 @@
                                 <a
                                     class="btn btn-sm btn-primary text-white"
                                     hx-trigger="click"
-                                    hx-get="/"
+                                    hx-get="2043/1/sprint-heats"
                                     hx-target="#sprint-heats-admin-widget"
                                 >
                                     {{ $category->name }}
@@ -214,7 +214,7 @@
                     @endforeach
                 </div>
                 <div id="sprint-heats-admin-widget" class="card-body">
-                    @include("includes.sprint_heats_admin")
+                    SPRINT HEATS WILL GO HERE
                 </div>
             </div>
         </div>

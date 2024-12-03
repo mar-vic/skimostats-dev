@@ -720,4 +720,8 @@ class RaceEventController extends Controller
             'success' => 'Successfully deleted ' . $name . '.'
         ]);
     }
+
+    public function loadSprintHeats(Request $request, Entry $raceEvent, $categoryId) {
+        return view("admin.race-events.partials.sprintHeats");
+    }
 }
