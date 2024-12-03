@@ -266,7 +266,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
     // Added by MV
     // Sprint heats config
-    Route::get("race-event/edit/{raceEvent}/{category}/sprint-heats", "Admin\RaceEventController@loadSprintHeats")->name("sprint-heats");
+    Route::get("race-event/edit/{raceEvent}/{category}/knockouts", "Admin\RaceEventController@knockouts")->name("knockouts");
 
     // GC results genration
     Route::get("race-event/{raceEvent}/generateGCResults", "Admin\RaceEventController@generateGCResults")->name("race-events.generateGCResults");

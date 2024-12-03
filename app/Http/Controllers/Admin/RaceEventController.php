@@ -721,7 +721,7 @@ class RaceEventController extends Controller
         ]);
     }
 
-    public function loadSprintHeats(Request $request, Entry $raceEvent, $categoryId) {
-        return view("admin.race-events.partials.sprintHeats");
+    public function knockouts(Request $request, Entry $raceEvent, $categoryId) {
+        return view("admin.race-events.partials.knockouts");
     }
 }

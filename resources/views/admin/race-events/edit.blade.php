@@ -193,7 +193,22 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
-                    <h2>Sprint Heats and Finals</h2>
+                    <div>
+                        <a href='{{ route('admin.races.list') }}'>Races</a> &raquo;
+                        <a href='{{ route('admin.races.edit', $race) }}'>{{ $race->name }}</a>
+                        &raquo; <a href='{{ route('admin.' . $slug . '.list', $race) }}'>Race events</a>
+                        @if($parentEvent)
+                            &raquo; <a href='{{route('admin.race-events.list-subevents', $parentEvent)}}'>{{$parentEvent->name}}</a>
+                        @endif
+                        &raquo;
+                        Race events
+                        &raquo;
+                        @if($edit)
+                            {{ $entry->name }} (Edit Knockout Rounds)
+                        @else
+                            Add
+                        @endif
+                    </div>
                 </div>
 
                 <div class="row">
@@ -204,8 +219,8 @@
                                 <a
                                     class="btn btn-sm btn-primary text-white"
                                     hx-trigger="click"
-                                    hx-get="2043/1/sprint-heats"
-                                    hx-target="#sprint-heats-admin-widget"
+                                    hx-get="2043/1/knockouts"
+                                    hx-target="#knockouts-admin-widget"
                                 >
                                     {{ $category->name }}
                                 </a>
@@ -213,8 +228,8 @@
                         @endif
                     @endforeach
                 </div>
-                <div id="sprint-heats-admin-widget" class="card-body">
-                    SPRINT HEATS WILL GO HERE
+                <div id="knockouts-admin-widget" class="card-body">
+                    SPRINT KNOCKOUTS WILL GO HERE
                 </div>
             </div>
         </div>
