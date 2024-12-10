@@ -19,6 +19,15 @@ use Illuminate\Support\Facades\Cache;
 
 use Illuminate\Http\Request;
 
+use App\Livewire\HelloWorld;
+use App\Livewire\Todos;
+use App\Livewire\Counter;
+use App\Livewire\CreatePost;
+use App\Livewire\CreateRaceEvent;
+use App\Livewire\Posts;
+use App\Livewire\Races;
+use App\Livewire\SprintKnockoutsAdmin;
+
 Auth::routes(['register' => false]);
 
 // Set locale
@@ -295,4 +304,16 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 });
 
 // Experimenting with livewire
-Route::get("/counter", "App\Livewire\Counter");
+// Route::get("/counter", "App\Livewire\Counter");
+// Route::get("/hello", "App\Livewire\HelloWorld");
+// Route::get("/todos", "App\Livewire\Todos");
+
+Route::get("/todos", Todos::class);
+Route::get("/counter", Counter::class);
+Route::get("/hello", HelloWorld::class);
+Route::get("/posts", Posts::class);
+Route::get("/races", Races::class);
+Route::get("/create-post", CreatePost::class);
+Route::get("/create-race-event", CreateRaceEvent::class);
+Route::get("/sprint-knockouts-admin", SprintKnockoutsAdmin::class);
+Route::get("/livewire",  function () { return view("welcomeLiveWire"); });
