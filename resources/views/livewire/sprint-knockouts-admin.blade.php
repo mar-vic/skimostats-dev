@@ -19,7 +19,7 @@
                                 <td>{{ $entry[2] }}</td>
                                 <td>{{ $entry[3] }}</td>
                                 <td>{{ $entry[4] }}</td>
-                                <td><button>Edit</button><button x-on:click="$wire.deleteEntry([round, heatIdx, entryIdx])">Del</button></td>
+                                <td><button>Edit</button><button x-on:click="$wire.deleteEntry(round, heatIdx, entryIdx)">Del</button></td>
                             </tr>
                         @endforeach
                         <tr>
@@ -28,9 +28,10 @@
                             <td><input type="text"></td>
                             <td><input type="text"></td>
                             <td><input type="text"></td>
-                            <td><button x-on:click="$wire.addEntry([round, heatIdx])">Add</button></td>
+                            <td><button x-on:click="$wire.addEntry(round, heatIdx)">Add</button></td>
                         </tr>
                     </table>
+                    <button x-on:click="$wire.deleteHeat(round, heatIdx)">Delete heat</button>
                 </div>
             @endforeach
             <button x-on:click="$wire.addHeat(round)">Add new heat</button>

@@ -40,24 +40,29 @@ class SprintKnockoutsAdmin extends Component
         // ];
     }
 
-    public function addEntry($idx) {
+    public function addEntry($round, $heatIdx) {
         // dd("Adding entry: ", $idx[0], $idx[1]);
         // dd($this->knockouts[$idx[0]][$idx[1]]);
-        $heat = &$this->knockouts[$idx[0]][$idx[1]];
+        $heat = &$this->knockouts[$round][$heatIdx];
         $heat[] = [1, "John Doe", "USA", "0:00.00", "+0.00"];
+        // dd($this->knockouts[$idx[0]][$idx[1]]);
     }
 
-    public function deleteEntry($idx) {
-        // dd($idx);
-        // dd($this->knockouts[$idx[0]][$idx[1]][$idx[2]]);
-        unset($this->knockouts[$idx[0]][$idx[1]][$idx[2]]);
-        // TODO: deleting entries makes in some cases indexes out of sync
-        // dd($this->knockouts[$idx[0]][$idx[1]]);
+    public function deleteEntry($round, $heatIdx, $entryIdx)
+    {
+        unset($this->knockouts[$round][$heatIdx][$entryIdx]);
+        // Restting array indexing
+        $this->knockouts[$round][$heatIdx] = array_values($this->knockouts[$round][$heatIdx]);
     }
 
     public function addHeat($round) {
-        $heats = &$this->knockouts[$round];
-        $heats[] = [];
+        $this->knockouts[$round][] = [];
+    }
+
+    public function deleteHeat($round, $heatIdx) {
+        unset($this->knockouts[$round][$heatIdx]);
+        // Resetting array indexing
+        $this->knockouts[$round] = array_values($this->knockouts[$round]);
     }
 
     public function render()
