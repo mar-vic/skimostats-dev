@@ -22,6 +22,7 @@
         <a href="/races">Races</a>
         <a href="/create-race-event">Create Race Event</a>
         <a href="/sprint-knockouts-admin">Sprint Knockouts Admin</a>
+        <a href="/knockouts-admin">Knockouts Admin</a>
     </nav>
     {{ $slot }}
 </body>

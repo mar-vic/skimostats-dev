@@ -27,6 +27,7 @@ use App\Livewire\CreateRaceEvent;
 use App\Livewire\Posts;
 use App\Livewire\Races;
 use App\Livewire\SprintKnockoutsAdmin;
+use App\Livewire\KnockoutsAdmin;
 
 Auth::routes(['register' => false]);
 
@@ -315,4 +316,5 @@ Route::get("/posts", Posts::class);
 Route::get("/create-post", CreatePost::class);
 Route::get("/create-race-event", CreateRaceEvent::class);
 Route::get("/sprint-knockouts-admin", SprintKnockoutsAdmin::class);
+Route::get("/knockouts-admin", KnockoutsAdmin::class);
 Route::get("/livewire",  function () { return view("welcomeLiveWire"); });
