@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class HeatEntry extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['heatId', 'athleteName', 'nationality', 'timeRaw', 'time', 'rank'];
 }

@@ -14,6 +14,6 @@
     </head>
     <body>
         <h1>Knockouts Admin Test</h1>
-        <livewire:sprint-knockouts-admin />
+        <livewire:knockouts-admin />
     </body>
 </html>
