@@ -15,15 +15,36 @@
                             <th>Actions</th>
                         </tr>
                         @foreach ($heat->entries as $entryIdx => $entry)
-                            <tr>
-                                <td>{{ $entry->rank }}</td>
-                                <td>{{ $entry->athleteName }}</td>
-                                <td>{{ $entry->nationality }}</td>
-                                <td>{{ $entry->time }}</td>
-                                <td><button>Edit</button><button wire:click="deleteHeatEntry({{$entry->id}})">Delete</button></td>
+                            <tr wire:key="{{$entryIdx}}" x-data="{ editable: false, entryData: { rank: {{$entry->rank}}, athleteName: '{{$entry->athleteName}}', nationality: '{{$entry->nationality}}', timeRaw: '{{$entry->timeRaw}}' }}">
+                                <td>
+                                    <span x-show="!editable">{{ $entry->rank }}</span>
+                                    <input x-show="editable"
+                                           type="number"
+                                           min="1"
+                                           step="1"
+                                           size="1"
+                                           x-bind:value="entryData.rank" />
+                                </td>
+                                <td>
+                                    <span x-show="!editable">{{ $entry->athleteName }}</span>
+                                    <input x-show="editable" type="text" x-bind:value="entryData.athleteName" />
+                                </td>
+                                <td>
+                                    <span x-show="!editable">{{ $entry->nationality }}</span>
+                                    <input x-show="editable" type="text" size="3" x-bind:value="entryData.nationality" />
+                                </td>
+                                <td>
+                                    <span x-show="!editable">{{ $entry->timeRaw }}</span>
+                                    <input x-show="editable" type="text" size="5" x-bind:value="entryData.timeRaw" />
+                                </td>
+                                <td>
+                                    <button x-show="!editable" x-on:click="editable=true">Edit</button>
+                                    <button x-show="editable" x-on:click="editable=false" wire:click="updateHeatEntry({{$entry->id}},entryData)">Save</button>
+                                    <button wire:click="deleteHeatEntry({{$entry->id}})">Delete</button>
+                                </td>
                             </tr>
                         @endforeach
-                            <tr x-data="{entry: { rnk: 0, name: '', nsa: '', timeRaw: '' }}">
+                            <tr wire:key="{{$heatIdx}}" x-data="{entry: { rnk: 0, name: '', nsa: '', timeRaw: '' }}">
                                 <td><input type="number" min="1" step="1" size="1" x-model="entry.rnk" /></td>
                                 <td><input type="text" placeholder="Athlete name" x-model="entry.name" /></td>
                                 <td><input type="text" placeholder="Nationality" size="3" x-model="entry.nsa" /></td>

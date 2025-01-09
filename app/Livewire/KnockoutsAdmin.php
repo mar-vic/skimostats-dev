@@ -13,18 +13,19 @@ use Livewire\Attributes\Title;
 class KnockoutsAdmin extends Component
 {
     public $knockouts;
+    public $rounds;
 
     public function mount() {
-        $this->knockouts = Knockouts::all();
+        $this->knockouts = Knockouts::all()->first();
+        $this->rounds = $this->knockouts->rounds;
+        // dd($this->rounds);
     }
 
     public function render()
     {
-        $rounds = $this->knockouts->first()->rounds;
-        // dd($rounds->first()->knockouts);
         return view('livewire.knockouts-admin',
                     [
-                        'knockoutRounds' => $rounds
+                        'knockoutRounds' => $this->rounds
                     ]
         );
     }
@@ -42,6 +43,19 @@ class KnockoutsAdmin extends Component
             'rank' => $entry['rnk']
         ]);
         // dd($hentry);
+    }
+
+    public function updateHeatEntry($entryId, $entryData) {
+        $hentry = HeatEntry::find($entryId);
+
+        $hentry->athleteName = $entryData['athleteName'];
+        $hentry->rank = $entryData['rank'];
+        $hentry->nationality = $entryData['nationality'];
+        $hentry->timeRaw = $entryData['timeRaw'];
+
+        dd($hentry, $entryData);
+
+        $hentry->save();
     }
 
     public function deleteHeatEntry($entryId) {
