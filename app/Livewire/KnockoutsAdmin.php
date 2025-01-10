@@ -18,7 +18,6 @@ class KnockoutsAdmin extends Component
     public function mount() {
         $this->knockouts = Knockouts::all()->first();
         $this->rounds = $this->knockouts->rounds;
-        // dd($this->rounds);
     }
 
     public function render()
@@ -53,7 +52,7 @@ class KnockoutsAdmin extends Component
         $hentry->nationality = $entryData['nationality'];
         $hentry->timeRaw = $entryData['timeRaw'];
 
-        dd($hentry, $entryData);
+        // dd($hentry, $entryData);
 
         $hentry->save();
     }
