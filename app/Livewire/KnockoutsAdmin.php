@@ -29,36 +29,36 @@ class KnockoutsAdmin extends Component
         );
     }
 
-    public function addHeatEntry($heatId, $entry) {
-        // dd("Heat ID: ".$heatId);
-        // dd($entry, $heatId);
-        // dd($entry);
+    public function addHeatEntry($heatId, $rank, $athleteName, $nationality, $timeRaw) {
         $hentry = HeatEntry::create([
             'heatId' => $heatId,
-            'athleteName' => $entry['name'],
-            'nationality' => $entry['nsa'],
-            'timeRaw' => $entry['timeRaw'],
+            'rank' => $rank,
+            'athleteName' => $athleteName,
+            'nationality' => $nationality,
+            'timeRaw' => $timeRaw,
             'time' => null,
-            'rank' => $entry['rnk']
         ]);
-        // dd($hentry);
+
+        $this->dispatch('entryAdded');
     }
 
-    public function updateHeatEntry($entryId, $entryData) {
+    public function updateHeatEntry($entryId, $rank, $athleteName, $nationality, $timeRaw) {
         $hentry = HeatEntry::find($entryId);
 
-        $hentry->athleteName = $entryData['athleteName'];
-        $hentry->rank = $entryData['rank'];
-        $hentry->nationality = $entryData['nationality'];
-        $hentry->timeRaw = $entryData['timeRaw'];
-
-        // dd($hentry, $entryData);
+        $hentry->athleteName = $athleteName;
+        $hentry->rank = $rank;
+        $hentry->nationality = $nationality;
+        $hentry->timeRaw = $timeRaw;
 
         $hentry->save();
+
+        $this->dispatch('entryUpdated');
     }
 
     public function deleteHeatEntry($entryId) {
         // dd(HeatEntry::find($entryId));
         HeatEntry::find($entryId)->delete();
+        // $this->render();
+        $this->dispatch('entryDeleted');
     }
 }
