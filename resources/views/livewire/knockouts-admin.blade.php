@@ -6,7 +6,7 @@
             </div>
             @foreach ($round->heats as $heatIdx => $heat)
                 <div wire:key="{{$roundIdx}}-{{$heatIdx}}" x-data="{heatEntries:{{$heat->entries}}}">
-                    <table class="table border table-striped" style="font-size:0.7rem"">
+                    <table class="table border table-striped" style="font-size:0.7rem">
                         <span></span>
                         <thead>
                             <tr>
@@ -82,6 +82,8 @@
 
  $wire.on('entryAdded', () => {
      console.log('An entry was created!');
+     $wire.$refresh();
+     $wire.$refresh();
      $wire.$refresh();
  });
 </script>
