@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\RaceEvent;
 use App\KnockoutRound;
 use App\Knockouts;
 use App\Heat;
@@ -12,53 +13,29 @@ use Livewire\Attributes\Title;
 #[Title('Knockouts')]
 class KnockoutsAdmin extends Component
 {
-    public $knockouts;
-    public $rounds;
+    public $raceEvent;
+    public $knockoutsId = null;
+    public $selectedCategoryId = 1;
 
-    public function mount() {
-        $this->knockouts = Knockouts::all()->first();
-        $this->rounds = $this->knockouts->rounds;
+    public function mount($raceEventId)
+    {
+        $this->raceEvent = RaceEvent::find($raceEventId);
     }
 
     public function render()
     {
-        return view('livewire.knockouts-admin',
-                    [
-                        'knockoutRounds' => $this->rounds
-                    ]
-        );
+        return view('livewire.knockouts-admin');
     }
 
-    public function addHeatEntry($heatId, $rank, $athleteName, $nationality, $timeRaw) {
-        $hentry = HeatEntry::create([
-            'heatId' => $heatId,
-            'rank' => $rank,
-            'athleteName' => $athleteName,
-            'nationality' => $nationality,
-            'timeRaw' => $timeRaw,
-            'time' => null,
-        ]);
-
-        $this->dispatch('entryAdded');
-    }
-
-    public function updateHeatEntry($entryId, $rank, $athleteName, $nationality, $timeRaw) {
-        $hentry = HeatEntry::find($entryId);
-
-        $hentry->athleteName = $athleteName;
-        $hentry->rank = $rank;
-        $hentry->nationality = $nationality;
-        $hentry->timeRaw = $timeRaw;
-
-        $hentry->save();
-
-        $this->dispatch('entryUpdated');
-    }
-
-    public function deleteHeatEntry($entryId) {
-        // dd(HeatEntry::find($entryId));
-        HeatEntry::find($entryId)->delete();
-        // $this->render();
-        $this->dispatch('entryDeleted');
+    public function selectCategory($categoryId)
+    {
+        // dd($categoryId);
+        $this->selectedCategoryId = $categoryId;
+        // $knockouts = Knockouts::where('raceEventId', $this->raceEvent->id)->where('categoryId', $categoryId)->first();
+        // if($knockouts)
+        // {
+        //     $this->knockoutsId = $knockouts->id;
+        // }
+        $this->dispatch("new-category-selected");
     }
 }

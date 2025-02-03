@@ -211,26 +211,10 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-1">Categories:</div>
-                    @foreach($categories as $category)
-                        @if (!$entry->id || $entry->hasCategory($category->id))
-                            <div class="col">
-                                <a
-                                    class="btn btn-sm btn-primary text-white"
-                                    hx-trigger="click"
-                                    hx-get="2043/1/knockouts"
-                                    hx-target="#knockouts-admin-widget"
-                                >
-                                    {{ $category->name }}
-                                </a>
-                            </div>
-                        @endif
-                    @endforeach
-                </div>
-                <div id="knockouts-admin-widget" class="card-body">
-                    SPRINT KNOCKOUTS WILL GO HERE
-                </div>
+                @if ($entry->type == 3)
+                    <livewire:KnockoutsAdmin :raceEventId="$entry->id" />
+                @endif
+
             </div>
         </div>
     </div>

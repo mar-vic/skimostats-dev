@@ -9,6 +9,8 @@ class Knockouts extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['raceEventId', 'categoryId'];
+
     public function raceEvent() {
         return $this->belongsTo('App\RaceEvent', 'raceEventId');
     }

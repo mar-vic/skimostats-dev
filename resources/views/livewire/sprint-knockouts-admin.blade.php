@@ -13,22 +13,31 @@
                             <th>Actions</th>
                         </tr>
                         @foreach ($heat as $entry)
-                            <tr  x-data="{ entryIdx: {{ $loop->index }}}">
-                                <td>{{ $entry[0] }}</td>
-                                <td>{{ $entry[1] }}</td>
-                                <td>{{ $entry[2] }}</td>
-                                <td>{{ $entry[3] }}</td>
-                                <td>{{ $entry[4] }}</td>
-                                <td><button>Edit</button><button x-on:click="$wire.deleteEntry(round, heatIdx, entryIdx)">Del</button></td>
-                            </tr>
+                                <tr x-data="{ entryIdx: {{ $loop->index }}, editable: false, rnk: {{ $entry[0] }}, name: '{{ $entry[1] }}', nsa: '{{ $entry[2] }}', time: '{{ $entry[3] }}', diff: '{{ $entry[4] }}'}">
+                                    <td><span x-show="!editable">{{ $entry[0] }}</span><input x-show="editable" type="number" x-model="rnk"></td>
+                                    <td><span x-show="!editable">{{ $entry[1] }}</span><input x-show="editable" type="text" x-model="name"></td>
+                                    <td><span x-show="!editable">{{ $entry[2] }}</span><input x-show="editable" type="text" x-model="nsa"></td>
+                                    <td><span x-show="!editable">{{ $entry[3] }}</span><input x-show="editable" type="text" x-model="time"></td>
+                                    <td><span x-show="!editable">{{ $entry[4] }}</span><input x-show="editable" type="text" x-model="diff"></td>
+                                    <td>
+                                        <button x-show="!editable" x-on:click="editable=true">Edit</button>
+                                        <button x-show="editable" x-on:click="$wire.saveEntry(round, heatIdx, entryIdx, [rnk, name, nsa, time, diff]);editable=false">Save</button>
+                                        <button x-on:click="$wire.deleteEntry(round, heatIdx, entryIdx)">Del</button>
+                                    </td>
+                                </tr>
+                            </form>
                         @endforeach
-                        <tr>
-                            <td><input type="number"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><input type="text"></td>
-                            <td><button x-on:click="$wire.addEntry(round, heatIdx)">Add</button></td>
+                        <tr x-data="{ rnk: 0, name: '', nsa: '', time: '', diff: ''}">
+                            <td><input type="number" x-model="rnk"></td>
+                            <td><input type="text" x-model="name"></td>
+                            <td><input type="text" x-model="nsa"></td>
+                            <td><input type="time" step="0.001" x-model="time"></td>
+                            <td><input type="text" x-model="diff"></td>
+                            <td>
+                                <button x-on:click="$wire.addEntry(round, heatIdx, [rnk, name, nsa, time, diff])">
+                                    Add
+                                </button>
+                            </td>
                         </tr>
                     </table>
                     <button x-on:click="$wire.deleteHeat(round, heatIdx)">Delete heat</button>

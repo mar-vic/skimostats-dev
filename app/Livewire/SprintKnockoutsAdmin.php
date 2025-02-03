@@ -15,37 +15,17 @@ class SprintKnockoutsAdmin extends Component
     ];
 
     public function mount() {
-        // $quaterFinals = [
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]],
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]],
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]],
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]],
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]]
-        // ];
-
-        // $semiFinals = [
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]],
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]]
-        // ];
-
-        // $finals = [
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]],
-        //     [[1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"], [1, "John Doe", "USA", "0:00.00", "+0.00"]]
-        // ];
-
-        // $this->knockouts = [
-        //     "quaterFinals" => $quaterFinals,
-        //     "semiFinals" => $semiFinals,
-        //     "finals" => $finals
-        // ];
     }
 
-    public function addEntry($round, $heatIdx) {
+    public function addEntry($round, $heatIdx, $vals) {
         // dd("Adding entry: ", $idx[0], $idx[1]);
         // dd($this->knockouts[$idx[0]][$idx[1]]);
         $heat = &$this->knockouts[$round][$heatIdx];
-        $heat[] = [1, "John Doe", "USA", "0:00.00", "+0.00"];
-        // dd($this->knockouts[$idx[0]][$idx[1]]);
+        $heat[] = $vals;
+    }
+
+    public function saveEntry($round, $heatIdx, $entryIdx , $vals) {
+        $this->knockouts[$round][$heatIdx][$entryIdx] = $vals;
     }
 
     public function deleteEntry($round, $heatIdx, $entryIdx)

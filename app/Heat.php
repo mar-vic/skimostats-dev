@@ -9,7 +9,9 @@ class Heat extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['knockoutRoundId'];
+
     public function entries() {
-        return $this->hasMany("App\HeatEntry", "heatId");
+        return $this->hasMany('App\HeatEntry', 'heatId');
     }
 }

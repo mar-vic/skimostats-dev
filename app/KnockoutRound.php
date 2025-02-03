@@ -9,6 +9,8 @@ class KnockoutRound extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['knockoutsId', 'name', 'order'];
+
     public function knockouts() {
         return $this->belongsTo('App\Knockouts', 'knockoutsId');
     }

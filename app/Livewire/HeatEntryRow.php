@@ -15,10 +15,8 @@ class HeatEntryRow extends Component
 
     public function mount($heatEntryId = null)
     {
-        $this->heatEntryId = $heatEntryId;
-
         $heatEntry = HeatEntry::find($heatEntryId);
-
+        $this->heatEntryId = $heatEntryId;
         $this->rank = $heatEntry->rank;
         $this->athleteName = $heatEntry->athleteName;
         $this->nationality = $heatEntry->nationality;
@@ -33,10 +31,18 @@ class HeatEntryRow extends Component
     public function updateHeatEntry()
     {
         $heatEntry = HeatEntry::find($this->heatEntryId);
+
         $heatEntry->rank = $this->rank;
         $heatEntry->athleteName = $this->athleteName;
         $heatEntry->nationality = $this->nationality;
         $heatEntry->timeRaw = $this->timeRaw;
         $heatEntry->save();
+
+        $this->dispatch('entry-updated');
+    }
+
+    public function delete()
+    {
+        $this->dispatch('delete-entry', heatEntryId: $this->heatEntryId);
     }
 }
