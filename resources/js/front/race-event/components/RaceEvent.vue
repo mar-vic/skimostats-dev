@@ -146,6 +146,35 @@ General Classification - {{ category.name }}
                                 </tbody>
                             </table>
                         </div>
+
+                        <div v-if="selectedKnockouts!=null">
+                            <h1 class="font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4">Knockouts</h1>
+                            <div class="row">
+                                <div v-for="round in selectedKnockouts.rounds" class="col">
+                                    <h2>{{ round.name }}</h2>
+                                    <div v-for="heat in round.heats" class="pt-3 pb-3">
+                                        <table class="table table--races table--races-striped text-uppercase">
+                                            <thead>
+                                                <tr>
+                                                    <th>Rnk</th>
+                                                    <th>Athlete</th>
+                                                    <th>NSA</th>
+                                                    <th>time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="entry in heat[0]">
+                                                    <td>{{ entry.rank }}</td>
+                                                    <td>{{ entry.athleteName }}</td>
+                                                    <td>{{ entry.nationality  }}</td>
+                                                    <td>{{ entry.time }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,7 +201,7 @@ export default {
         Stay22Embed,
     },
     computed: {
-        ...mapState(['event', 'results', 'stage', 'gcWinningTimes', 'isGeneralClassification', 'showGeneralClassification', 'generalClassificationResults']),
+        ...mapState(['event', 'results', 'stage', 'gcWinningTimes', 'isGeneralClassification', 'showGeneralClassification', 'generalClassificationResults', 'knockouts']),
         showResults() {
             // Returns true, if there are some result entries.
             return this.results.reduce((previous, current) => {
@@ -216,7 +245,14 @@ export default {
         year() {
             return this.event.year
         },
-
+        selectedKnockouts() {
+            for (let i = 0; i < this.knockouts.length; i++) {
+                if (this.knockouts[i].categoryId == this.selectedCategory.id) {
+                    return this.knockouts[i]
+                }
+            }
+            return null
+        },
     },
     methods: {
         ...mapMutations(['SET_CATEGORY']),

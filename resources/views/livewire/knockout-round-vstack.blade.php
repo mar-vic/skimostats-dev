@@ -1,9 +1,11 @@
-<div class="vstack ms-3 me-3">
-    <div class="hstack">
-        <h2>{{ $knockoutRound->name }}</h2>
-        <button type="button"
-                class="ms-2"
-                wire:click="deleteKnockoutRound">X</button>
+<div class="col-6">
+    <div class="row">
+        <div class="col-auto">
+            <h2>{{ $knockoutRound->name }}</h2>
+        </div>
+        <div class="col d-flex justify-content-end">
+            <button type="button" wire:click="deleteKnockoutRound">X</button>
+        </div>
     </div>
     @foreach ($knockoutRound->heats as $heat)
         <livewire:heat-table :heatId="$heat->id" :key="$heat->id" />

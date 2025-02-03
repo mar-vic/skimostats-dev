@@ -7,7 +7,7 @@
         </div>
     </form>
     @if ($knockouts != null)
-        <div class="hstack">
+        <div class="row">
             @foreach ($knockouts->rounds as $knockoutRound)
                 <livewire:knockout-round-vstack :knockoutRoundId="$knockoutRound->id" :key="$knockoutRound->id" />
             @endforeach

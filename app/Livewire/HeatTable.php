@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Heat;
 use App\HeatEntry;
 use Livewire\Component;
+use Livewire\Attributes\On;
 
 use Illuminate\Support\Facades\Log;
 

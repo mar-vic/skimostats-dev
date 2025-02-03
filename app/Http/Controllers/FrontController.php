@@ -15,6 +15,7 @@ use App\Country;
 use App\Category;
 use App\Athlete;
 use App\Enums\RankingType;
+use App\Http\Resources\KnockoutsResource;
 use App\PartnerCategory;
 use App\RaceEventCategory;
 use App\Ranking;
@@ -22,13 +23,15 @@ use App\RaceEventParticipant;
 
 use App\Http\Resources\RaceEventResource;
 use App\Http\Resources\RaceEventResultsResource;
+use App\Knockouts;
 use App\Services\AthleteService;
 use Throwable;
 
 class FrontController extends Controller
 {
     // TESTING
-    public function test(Request $request) {
+    public function test(Request $request)
+    {
         dd(RaceEvent::all());
         return view('test', [
             'data' => $this->getHomeData(),
@@ -37,22 +40,26 @@ class FrontController extends Controller
     }
     // END TESTING
 
-    public function cookies(Request $request) {
+    public function cookies(Request $request)
+    {
         return view('front.cookies');
     }
 
-    public function privacyPolicy(Request $request) {
+    public function privacyPolicy(Request $request)
+    {
         return view('front.privacy-policy');
     }
 
-    public function preview(Request $request) {
+    public function preview(Request $request)
+    {
         return view('front.index', [
             'data' => $this->getHomeData(),
-	        'partners' => PartnerCategory::where('id', 1)->get()
+            'partners' => PartnerCategory::where('id', 1)->get()
         ]);
     }
 
-    public function getHomeData() {
+    public function getHomeData()
+    {
         $eventsDb = RaceEvent::latestEntries()->get();
 
         $events = [];
@@ -84,8 +91,11 @@ class FrontController extends Controller
 
         $upcomingEvents = [];
 
-        function mapAgeToIds($age) {
-            return array_map(function($item){return $item['id'];}, Category::where('age', $age)->get()->toArray());
+        function mapAgeToIds($age)
+        {
+            return array_map(function ($item) {
+                return $item['id'];
+            }, Category::where('age', $age)->get()->toArray());
         }
 
         // $cats = [
@@ -106,7 +116,7 @@ class FrontController extends Controller
             $eventsToCheck = RaceEvent::with(['categories', 'country', 'raceType'])
                 ->where('startDate', '>=', Carbon::now()->startOfDay())
                 ->where('is_visible', 1)
-                ->whereHas('categories', function($q) use ($catsToAdd) {
+                ->whereHas('categories', function ($q) use ($catsToAdd) {
                     $q->whereIn('categories.id', $catsToAdd);
                 })
                 ->orderBy('startDate', 'ASC')
@@ -114,8 +124,8 @@ class FrontController extends Controller
                 ->get();
 
             foreach ($eventsToCheck as $eventToCheck) {
-                $findInArray = array_filter($upcomingEvents, function($item) use ($eventToCheck) {
-                    return ($item->id ===$eventToCheck->id);
+                $findInArray = array_filter($upcomingEvents, function ($item) use ($eventToCheck) {
+                    return ($item->id === $eventToCheck->id);
                 });
 
                 if (!$findInArray) {
@@ -126,9 +136,9 @@ class FrontController extends Controller
 
         $categories = [];
 
-        foreach($upcomingEvents as $event) {
-            foreach($event->categories as $eventCat) {
-                if (!count(array_filter($categories, function($cat) use ($eventCat) {
+        foreach ($upcomingEvents as $event) {
+            foreach ($event->categories as $eventCat) {
+                if (!count(array_filter($categories, function ($cat) use ($eventCat) {
                     return $cat->id === $eventCat->id;
                 }))) {
                     $categories[] = $eventCat;
@@ -149,7 +159,8 @@ class FrontController extends Controller
         ];
     }
 
-    public function athletes(Request $request) {
+    public function athletes(Request $request)
+    {
         $athleteCount = Athlete::count();
         $countries = DB::table('countries')
             ->select(
@@ -179,7 +190,7 @@ class FrontController extends Controller
                 'c.code as countryCode'
             ])
             ->leftJoin('countries as c', 'c.id', 'a.countryId')
-            ->leftJoin('ranking_tables as rt', function($q){
+            ->leftJoin('ranking_tables as rt', function ($q) {
                 $q->on('rt.athleteId', 'a.id')
                     ->on('rt.type', DB::raw(RankingType::SKIMO_STATS))
                     ->on('rt.year', DB::raw(RankingController::getActualYear()));
@@ -201,11 +212,11 @@ class FrontController extends Controller
         if ($searchQuery == 'Lausanne 2020') {
             $query->where('attendsLausanne', true);
         } else if ($searchQuery) {
-            $query->where(function($qb) use ($searchQuery) {
-                $qb->where('a.firstName', 'LIKE', '%'.$searchQuery.'%')
-                ->orWhere('a.lastName', 'LIKE', '%'.$searchQuery.'%')
-                ->orWhereRaw('CONCAT(a.firstName, " ", a.lastName) LIKE ?', ['%' . $searchQuery . '%'])
-                ->orWhereRaw('CONCAT(a.lastName, " ", a.firstName) LIKE ?', ['%' . $searchQuery . '%']);
+            $query->where(function ($qb) use ($searchQuery) {
+                $qb->where('a.firstName', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('a.lastName', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhereRaw('CONCAT(a.firstName, " ", a.lastName) LIKE ?', ['%' . $searchQuery . '%'])
+                    ->orWhereRaw('CONCAT(a.lastName, " ", a.firstName) LIKE ?', ['%' . $searchQuery . '%']);
             });
         } else if ($request->has('country')) {
             $country = Country::whereCode($request->get('country'))->first();
@@ -237,7 +248,8 @@ class FrontController extends Controller
         ]);
     }
 
-    public function getInstafeed(Request $request) {
+    public function getInstafeed(Request $request)
+    {
         $instafeed = [];
 
         try {
@@ -258,16 +270,19 @@ class FrontController extends Controller
             //         'image' => $edge->thumbnail_src,
             //     ];
             // }
-        } catch(Throwable $e) {}
+        } catch (Throwable $e) {
+        }
 
         return $instafeed ?? [];
     }
 
-    public function athleteDetailRedirect(Request $request, Athlete $athlete) {
+    public function athleteDetailRedirect(Request $request, Athlete $athlete)
+    {
         return redirect(route('athletes.detail.slug', $athlete->slug), 302);
     }
 
-    public function athleteDetail(Request $request, string $slug) {
+    public function athleteDetail(Request $request, string $slug)
+    {
         $athlete = Athlete::where('slug', $slug)->first();
 
         if (!$athlete) {
@@ -306,7 +321,7 @@ class FrontController extends Controller
             ->limit(6)
             ->get();
         if (count($customTopResults) > 0) {
-            foreach($customTopResults as $topResult) {
+            foreach ($customTopResults as $topResult) {
                 $topResults[$topResult->topResult] = (object)[
                     'event' => $topResult->raceEvent,
                     'rank' => $topResult->raceEventEntry ? $topResult->raceEventEntry->rank : $topResult->raceEventTeam->raceEventEntry->rank,
@@ -347,9 +362,9 @@ class FrontController extends Controller
         $topResultsNew = $this->topResults($athlete);
         $grouppedRankCounts = array();
 
-        foreach($topResultsNew as $raceResults) {
+        foreach ($topResultsNew as $raceResults) {
             $ranks = array();
-            foreach($raceResults as $result) {
+            foreach ($raceResults as $result) {
                 $ranks[] = $result['rank'];
             }
             $grouppedRankCounts[$result['raceName']] = collect($ranks)->countBy();
@@ -370,24 +385,29 @@ class FrontController extends Controller
         ]);
     }
 
-    public function aboutUs(Request $request) {
+    public function aboutUs(Request $request)
+    {
         return view('front.about-us');
     }
 
-    public function contributions() {
+    public function contributions()
+    {
         return view('front.contributions');
     }
 
-    public function partners() {
+    public function partners()
+    {
         return view('front.partners', [
             'partnerCategories' => PartnerCategory::orderBy('position', 'asc')->get(),
         ]);
     }
 
-    public function raceEventDetailRedirect(Request $request, RaceEvent $event) {
+    public function raceEventDetailRedirect(Request $request, RaceEvent $event)
+    {
         return redirect(route('raceEventDetail.slug', $event->slug), 302);
     }
-    public function raceEventDetail(Request $request, string $slug, string $categorySlug = null) {
+    public function raceEventDetail(Request $request, string $slug, string $categorySlug = null)
+    {
         $event = RaceEvent::where('slug', $slug)->first();
 
         if (!$event) {
@@ -395,8 +415,10 @@ class FrontController extends Controller
         }
 
         $eventCategory = RaceEventCategory::where('raceEventId', $event->id)->orderBy('id', 'asc')->first();
+
         $category = Category::where('id', $eventCategory->categoryId)->first();
-        if($categorySlug) {
+
+        if ($categorySlug) {
             $category = Category::where('slug', $categorySlug)->first();
         }
 
@@ -404,10 +426,16 @@ class FrontController extends Controller
             return abort(404);
         }
 
-        $results = (new RaceEventResultsResource($event))->toArray($event);
-        // dd($results);
-        $generalClassificationResults = [];
+        $results = (new RaceEventResultsResource($event))->toArray(request());
 
+        $knockouts = Knockouts::where("raceEventId", $event->id)->get();
+        if ($knockouts) {
+            $knockouts = KnockoutsResource::collection($knockouts);
+        }
+
+        // dd($results);
+        // dd($results);
+        // $generalClassificationResults = [];
         // dd($event->isGeneralClassification);
 
         return view('front.race-event', [
@@ -418,11 +446,13 @@ class FrontController extends Controller
                 'isGeneralClassification' => $event->isGeneralClassification,
                 'showGeneralClassification' => $event->eventParent && $event->eventParent->hasStages(),
                 'generalClassificationResults' => $event->getGeneralClassificationResults(),
+                'knockouts' => $knockouts,
             ],
         ]);
     }
 
-    public function races(Request $request) {
+    public function races(Request $request)
+    {
         $races = RaceEvent::where('is_visible', 1)->whereNotNull('type')->with('country')->with('raceType')->orderBy('startDate', 'asc')->get();
         $raceEventPartnersCat = PartnerCategory::where("name", "Race events")->get()->first();
         $partnerToShow = null;
@@ -443,11 +473,12 @@ class FrontController extends Controller
         ]);
     }
 
-    public function getRacesV1List(Request $request) {
+    public function getRacesV1List(Request $request)
+    {
         $year = $request->get('year', RankingController::getActualYear());
         $races = RaceEvent::where('is_visible', 1)
             ->whereNotNull('type')
-            ->where(function($q) use ($year) {
+            ->where(function ($q) use ($year) {
                 $q
                     ->orWhere(DB::raw('YEAR(startDate)'), $year)
                     ->orWhere(DB::raw('YEAR(endDate)'), $year);
@@ -469,17 +500,21 @@ class FrontController extends Controller
             ->toArray();
 
         return [
-            'years' => array_map(function($y) { return $y->year; }, $years),
+            'years' => array_map(function ($y) {
+                return $y->year;
+            }, $years),
             'races' => $races,
             'year' => $year
         ];
     }
 
-    public function rankings(Request $request) {
+    public function rankings(Request $request)
+    {
         return view('front.rankings');
     }
 
-    public function statistics(Request $request) {
+    public function statistics(Request $request)
+    {
         $racersPerCountry = DB::table('athletes as a')
             ->join('countries as co', 'co.id', 'a.countryId')
             ->select(
@@ -492,13 +527,13 @@ class FrontController extends Controller
             ->groupBy('co.id')
             ->get();
 
-        $racersPerAge = DB::query()->fromSub(function($qb) {
-                $qb->from('athletes as a')
+        $racersPerAge = DB::query()->fromSub(function ($qb) {
+            $qb->from('athletes as a')
                 ->select(
                     'a.id',
                     DB::raw("ROUND(DATEDIFF(CURDATE(), Cast(a.dateOfBirth as Date)) / 365.25, 0) as age")
                 );
-            }, 'sub')
+        }, 'sub')
             ->select(
                 'sub.age',
                 DB::raw("COUNT(`sub`.`id`) as athleteCount")
@@ -548,7 +583,8 @@ class FrontController extends Controller
         ]);
     }
 
-    public function worldCup(Request $request, int $year = 0) {
+    public function worldCup(Request $request, int $year = 0)
+    {
 
         if (!$year) {
             $year = date("Y");
@@ -558,7 +594,7 @@ class FrontController extends Controller
 
         $events = RaceEvent::whereIn('raceId', $ismfWorldCupIds)
             ->with(['raceType', 'country'])
-            ->whereBetween('startDate', [($year - 1).'-11-01 00:00:00', $year.'-05-31 23:59:59'])
+            ->whereBetween('startDate', [($year - 1) . '-11-01 00:00:00', $year . '-05-31 23:59:59'])
             ->where('is_visible', true)
             ->whereNotNull('type')
             ->orderBy('startDate', 'asc')
@@ -579,11 +615,14 @@ class FrontController extends Controller
         return view('front.world-cup', [
             'events' =>  $events,
             'year' => $year,
-            'years' => array_map(function($item){return $item->year;}, $years),
+            'years' => array_map(function ($item) {
+                return $item->year;
+            }, $years),
         ]);
     }
 
-    public function raceOverview(Request $request, string $slug, int $year = 0) {
+    public function raceOverview(Request $request, string $slug, int $year = 0)
+    {
 
         $race = Race::where('slug', $slug)->first();
 
@@ -592,9 +631,10 @@ class FrontController extends Controller
         }
 
         $years = array_map(
-            function($item){
+            function ($item) {
                 return $item->year;
-            }, DB::table('race_events')
+            },
+            DB::table('race_events')
                 ->select(DB::raw('YEAR(startDate) as year'))
                 ->where('is_visible', true)
                 ->where('raceId', $race->id)
@@ -635,7 +675,8 @@ class FrontController extends Controller
         ]);
     }
 
-    public function parseStartEndDates($yearStart, $yearEnd, $year) {
+    public function parseStartEndDates($yearStart, $yearEnd, $year)
+    {
         if (!$yearStart) {
             $yearStart = new Carbon("2019-01-01 00:00:00");
         }
@@ -665,25 +706,26 @@ class FrontController extends Controller
     }
 
     // New stuff by MV
-    public function topResults(Athlete $athlete) {
+    public function topResults(Athlete $athlete)
+    {
         // return the top results of the athlete
         // top results are grouped by races and order by category IDs as follows: 6, 5, 1, 7, 8, 2, 4, 11, 3, 10
         $queryBuilder = DB::table('rankings')
-             ->where('athleteId', '=', $athlete->id)
-             ->whereNotNull('rankings.rankingCategoryId')
-             ->whereRaw('rankings.rank in (1, 2, 3)')
-             ->join('race_events as events', 'events.id', 'rankings.raceEventId')
-             ->join('races', 'races.id', 'events.raceId')
-             ->whereNotIn('races.rankingCategoryId', [10, 7])
-             ->whereRaw("events.slug NOT LIKE '%stage%'")
-             ->selectRaw('races.id as raceId, '.
-                         'races.name as raceName, '.
-                         'rankings.rankingCategoryId as rankingCategory, '.
-                         'events.name as eventName, '.
-                         'events.slug as eventSlug, '.
-                         'events.startDate as date, '.
-                         'rankings.points, '.
-                         'rankings.rank');
+            ->where('athleteId', '=', $athlete->id)
+            ->whereNotNull('rankings.rankingCategoryId')
+            ->whereRaw('rankings.rank in (1, 2, 3)')
+            ->join('race_events as events', 'events.id', 'rankings.raceEventId')
+            ->join('races', 'races.id', 'events.raceId')
+            ->whereNotIn('races.rankingCategoryId', [10, 7])
+            ->whereRaw("events.slug NOT LIKE '%stage%'")
+            ->selectRaw('races.id as raceId, ' .
+                'races.name as raceName, ' .
+                'rankings.rankingCategoryId as rankingCategory, ' .
+                'events.name as eventName, ' .
+                'events.slug as eventSlug, ' .
+                'events.startDate as date, ' .
+                'rankings.points, ' .
+                'rankings.rank');
 
         // get php collection object from querybuilder
         $collection = $queryBuilder->get();
@@ -693,14 +735,14 @@ class FrontController extends Controller
         // group the collection by races
         $grouppedByRace = $collection->mapToGroups(function ($item, $key) {
             return [$item->raceId => [
-                    'raceName' => $item->raceName,
-                    'eventName' => $item->eventName,
-                    'eventSlug' => $item->eventSlug,
-                    'eventDate' => $item->date,
-                    'points' => $item->points,
-                    'rank' => $item->rank,
-                    'rankingCategoryId' => $item->rankingCategory,
-                    'raceId' => $item->raceId
+                'raceName' => $item->raceName,
+                'eventName' => $item->eventName,
+                'eventSlug' => $item->eventSlug,
+                'eventDate' => $item->date,
+                'points' => $item->points,
+                'rank' => $item->rank,
+                'rankingCategoryId' => $item->rankingCategory,
+                'raceId' => $item->raceId
             ]];
         });
 

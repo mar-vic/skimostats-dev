@@ -43,53 +43,57 @@ const router = new VueRouter({
 })
 
 window.raceEventVM = new Vue({
-  components: {
-    RaceEvent,
-  },
+    components: {
+        RaceEvent,
+    },
 
-  router,
+    router,
 
-  store,
+    store,
 
-  template: '<router-view></router-view>',
+    template: '<router-view></router-view>',
 
-  methods: {
+    methods: {
 
-    setData(data) {
-      if (data.event) {
-        this.$store.commit('SET_EVENT', data.event)
-      }
+        setData(data) {
+            if (data.event) {
+                this.$store.commit('SET_EVENT', data.event)
+            }
 
-      if (data.results) {
-        this.$store.commit('SET_RESULTS', data.results)
+            if (data.results) {
+                this.$store.commit('SET_RESULTS', data.results)
 
-        // Generate a dictionary of gc winning times where applicable
-        if (data.stage || data.isGeneralClassification) {
-          let gcWinningTimes = {}
+                // Generate a dictionary of gc winning times where applicable
+                if (data.stage || data.isGeneralClassification) {
+                    let gcWinningTimes = {}
 
-          data.results.forEach(element => {
-            gcWinningTimes[element.name] = element.entries.map(element => element.gcTime).filter(element => element).sort((a, b) => a - b)[0]
-          })
+                    data.results.forEach(element => {
+                        gcWinningTimes[element.name] = element.entries.map(element => element.gcTime).filter(element => element).sort((a, b) => a - b)[0]
+                    })
 
-          this.$store.commit('SET_GC_WINNING_TIMES', gcWinningTimes)
+                    this.$store.commit('SET_GC_WINNING_TIMES', gcWinningTimes)
+                }
+            }
+
+            if (data.stage) {
+                this.$store.commit('SET_STAGE', data.stage)
+            }
+
+            if (data.knockouts) {
+                this.$store.commit('SET_KNOCKOUTS', data.knockouts)
+            }
+
+            // if (data.isGeneralClassification == 1) {
+            //   this.$store.commit('SET_IS_GENERAL_CLASSIFICATION', true)
+            // }
+
+            // if (data.showGeneralClassification) {
+            //   this.$store.commit('SHOW_GENERAL_CLASSIFICATION')
+            // }
+
+            // if (data.generalClassificationResults) {
+            //   this.$store.commit('SET_GENERAL_CLASSIFICATION_RESULTS', data.generalClassificationResults)
+            // }
         }
-      }
-
-      if (data.stage) {
-        this.$store.commit('SET_STAGE', data.stage)
-      }
-
-      // if (data.isGeneralClassification == 1) {
-      //   this.$store.commit('SET_IS_GENERAL_CLASSIFICATION', true)
-      // }
-
-      // if (data.showGeneralClassification) {
-      //   this.$store.commit('SHOW_GENERAL_CLASSIFICATION')
-      // }
-
-      // if (data.generalClassificationResults) {
-      //   this.$store.commit('SET_GENERAL_CLASSIFICATION_RESULTS', data.generalClassificationResults)
-      // }
     }
-  }
 }).$mount('#race-event-container')

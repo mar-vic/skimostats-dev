@@ -1,5 +1,9 @@
 <div class="border border-2 rounded p-2 mb-3" style="font-size:0.7rem">
-    <button type="button" class="mb-1" wire:click="deleteHeat">X</button>
+    <div class="row">
+        <div class="col d-flex justify-content-end">
+            <button type="button" class="mb-1" wire:click="deleteHeat">X</button>
+        </div>
+    </div>
     <table class="table border border-1 table-striped">
         <thead>
             <tr>
