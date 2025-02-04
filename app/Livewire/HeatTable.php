@@ -23,10 +23,9 @@ class HeatTable extends Component
         $this->dispatch("heat-table-mounted");
     }
 
-    #[On('ranking-updated'), On('delete-entry')]
+    #[On('ranking-updated'), On('delete-entry'), On('heat-entry-added')]
     public function render()
     {
-        // dd($this->heat->entries);
         return view('livewire.heat-table');
     }
 
@@ -56,7 +55,7 @@ class HeatTable extends Component
         $this->newNationality = '';
         $this->newTimeRaw = '';
 
-        $this->dispatch("heat-entry-added");
+        $this->dispatch('heat-entry-added');
     }
 
     public function deleteHeat()

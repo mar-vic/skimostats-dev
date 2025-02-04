@@ -29,16 +29,16 @@
                        size="1"
                        wire:model="newRank" />
             </div>
-            <div class="col-3 ms-1 me-1">
+            <div class="col-3">
                 <input type="text" placeholder="Athlete's name" wire:model="newAthleteName" />
             </div>
-            <div class="col-3 ms-1 me-1">
+            <div class="col-3">
                 <input type="text" placeholder="Nationality" wire:model="newNationality" />
             </div>
-            <div class="col-3 ms-1 me-1">
+            <div class="col-3">
                 <input type="text" placeholder="Time" wire:model="newTimeRaw" />
             </div>
-            <div class="col-auto ms-2">
+            <div class="col-auto">
                 <button type="submit" class="">Add</button>
             </div>
         </div>

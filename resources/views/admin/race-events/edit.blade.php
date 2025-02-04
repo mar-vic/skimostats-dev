@@ -211,6 +211,7 @@
                     </div>
                 </div>
 
+                <!-- Livewire component for knockouts administration (only relevent for sprints / type 3 race) -->
                 @if ($entry->type == 3)
                     <livewire:KnockoutsAdmin :raceEventId="$entry->id" />
                 @endif
