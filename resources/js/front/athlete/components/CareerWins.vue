@@ -64,7 +64,7 @@
                 </thead> <!-- END TABLE HEAD -->
 
                 <tbody> <!-- TABLE BODY -->
-                  <athlete-wins-row v-for="event in sortedWins" :item="event" :key="`e-${event.id}-${event.categorySlug}`" />
+                  <athlete-wins-row v-for="event in sortedWins" :item="event" :key="`e-${event.eventId}-${event.categorySlug}`" />
                 </tbody> <!-- END TABLE BODY -->
 
               </table> <!-- END CAREER WINS TABLE -->

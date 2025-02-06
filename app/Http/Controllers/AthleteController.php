@@ -424,6 +424,7 @@ class AthleteController extends Controller
 
         $builder = DB::table('race_events as re')
             ->select(
+                're.id as eventId',
                 're.startDate as eventStartDate',
                 're.name as eventName',
                 're.slug as eventSlug',

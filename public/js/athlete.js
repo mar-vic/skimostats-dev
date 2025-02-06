@@ -2968,7 +2968,7 @@ var render = function render() {
     }
   })], 1)])]), _vm._v(" "), _c("tbody", _vm._l(_vm.sortedWins, function (event) {
     return _c("athlete-wins-row", {
-      key: "e-".concat(event.id, "-").concat(event.categorySlug),
+      key: "e-".concat(event.eventId, "-").concat(event.categorySlug),
       attrs: {
         item: event
       }
@@ -57638,14 +57638,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
               return _context2.abrupt("return");
             case 5:
-              console.log("Getting races for athlete ".concat(athleteId, " and year ").concat(year));
-              _context2.next = 8;
+              _context2.next = 7;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/v1/athlete/".concat(athleteId, "/races/").concat(year));
-            case 8:
+            case 7:
               _yield$axios$get2 = _context2.sent;
               racesResult = _yield$axios$get2.data;
               commit('SET_RACES', racesResult);
-            case 11:
+            case 10:
             case "end":
               return _context2.stop();
           }
