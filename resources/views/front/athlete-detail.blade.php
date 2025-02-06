@@ -43,7 +43,7 @@
                 <div class="athlete__social-links pt-2">
                     @if($athlete->hasSocialLink('strava'))
                     <a href="{{ $athlete->getSocialLink('strava') }}" target="_blank" title="Strava">
-                        <i class="fab fa-strava" aria-hidden="true"></i>
+                        <i class="fa-brands fa-strava" aria-hidden="true"></i>
                     </a>
                     @endif
 
