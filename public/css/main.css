@@ -11740,6 +11740,10 @@ h3 {
   right: 0;
 }
 
+.highlighted {
+  border: 1px solid red;
+}
+
 body {
   background: #fff;
   font-family: "Open Sans", sans-serif;

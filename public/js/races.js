@@ -2237,6 +2237,8 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
           return true;
         }
         return race.country && race.country.code === _this.country.code;
+      }).sort(function (a, b) {
+        return new Date(a.startDate) - new Date(b.startDate);
       });
     },
     year: function year() {

@@ -1,7 +1,10 @@
 <template>
 <div>
+
     <latest-results></latest-results>
     <!-- END of latest results -->
+
+        <!-- <top-athlete></top-athlete> -->
 
     <today-races />
 
@@ -18,6 +21,7 @@ import LatestResults from './LatestResults.vue'
 import LandingStatistics from './LandingStatistics.vue'
 import UpcomingRaces from './UpcomingRaces.vue'
 import HeadToHead from './HeadToHead.vue'
+import TopAthlete from "./TopAthlete.vue"
 
 export default {
     components: {
@@ -26,6 +30,7 @@ export default {
         UpcomingRaces,
         TodayRaces,
         HeadToHead,
+        TopAthlete,
     },
 }
 </script>

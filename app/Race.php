@@ -37,33 +37,40 @@ class Race extends Model
         ];
     }
 
-    public static function getIsmfWorldCupIds() {
+    public static function getIsmfWorldCupIds()
+    {
         return self::$ismfWorldCupRaces;
     }
 
-    public static function getIsmfYouthWorldCupIds() {
+    public static function getIsmfYouthWorldCupIds()
+    {
         return self::$ismfYouthWorldCupRaces = [165];
     }
 
-    public function raceCategories() {
+    public function raceCategories()
+    {
         return $this->hasMany('App\RaceCategory', 'raceId');
     }
 
-    public function raceTypes() {
+    public function raceTypes()
+    {
         return $this->hasMany('App\RaceType', 'raceId');
     }
 
-    public function rankingCategory() {
+    public function rankingCategory()
+    {
         return $this->belongsTo('App\RankingCategory', 'rankingCategoryId');
     }
 
-    public function getImagePathAttribute() {
+    public function getImagePathAttribute()
+    {
         return '/' . $this->imagesFolder . $this->image;
     }
 
-    public function setImage($image) {
+    public function setImage($image)
+    {
         $imageName = $this->id . "-" . uniqid() . '.' . $image->getClientOriginalExtension();
-        $img = Image::make($image)->resize(600, 600, function($constraint) {
+        $img = Image::make($image)->resize(600, 600, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });

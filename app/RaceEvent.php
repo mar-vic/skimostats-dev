@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
 use \Carbon\Carbon;
 
-// Adding HasFactory trait class
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use App\Helpers\Helper;

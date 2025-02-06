@@ -2388,7 +2388,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     TimeDifference: _shared_components_TimeDifference_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     Stay22Embed: _shared_components_Stay22Embed_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['event', 'results', 'stage', 'gcWinningTimes', 'isGeneralClassification', 'showGeneralClassification', 'generalClassificationResults'])), {}, {
+  computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['event', 'results', 'stage', 'gcWinningTimes', 'isGeneralClassification', 'showGeneralClassification', 'generalClassificationResults', 'knockouts'])), {}, {
     showResults: function showResults() {
       // Returns true, if there are some result entries.
       return this.results.reduce(function (previous, current) {
@@ -2443,6 +2443,14 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
     },
     year: function year() {
       return this.event.year;
+    },
+    selectedKnockouts: function selectedKnockouts() {
+      for (var i = 0; i < this.knockouts.length; i++) {
+        if (this.knockouts[i].categoryId == this.selectedCategory.id) {
+          return this.knockouts[i];
+        }
+      }
+      return null;
     }
   }),
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])(['SET_CATEGORY'])), {}, {
@@ -2919,7 +2927,23 @@ var render = function render() {
         "text-align": "center"
       }
     }, [_vm.relativeTime(entry.gcTime, entry.category) != 0 && _vm.showTimeDifference ? _c("span", [_vm._v("\n                                                +" + _vm._s(_vm.relativeTime(entry.gcTime, entry.category)) + "\n                                            ")]) : _c("strong", [_vm._v(_vm._s(entry.gcTimeFormatted))])]) : _vm._e()]);
-  }), 0)])])])]) : _vm._e()])])]);
+  }), 0)])]), _vm._v(" "), _vm.selectedKnockouts != null ? _c("div", [_c("h1", {
+    staticClass: "font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4"
+  }, [_vm._v("Knockouts")]), _vm._v(" "), _c("div", {
+    staticClass: "row"
+  }, _vm._l(_vm.selectedKnockouts.rounds, function (round) {
+    return _c("div", {
+      staticClass: "col"
+    }, [_c("h2", [_vm._v(_vm._s(round.name))]), _vm._v(" "), _vm._l(round.heats, function (heat) {
+      return _c("div", {
+        staticClass: "pt-3 pb-3"
+      }, [_c("table", {
+        staticClass: "table table--races table--races-striped text-uppercase"
+      }, [_vm._m(1, true), _vm._v(" "), _c("tbody", _vm._l(heat[0], function (entry) {
+        return _c("tr", [_c("td", [_vm._v(_vm._s(entry.rank))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(entry.athleteName))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(entry.nationality))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(entry.time))])]);
+      }), 0)])]);
+    })], 2);
+  }), 0)]) : _vm._e()])]) : _vm._e()])])]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -2935,6 +2959,10 @@ var staticRenderFns = [function () {
       href: "https://www.stay22.com/"
     }
   }, [_c("b", [_vm._v("Stay22")])]), _vm._v(" to provide you with all available accommodations (hotels, rentals, hostels, etc.) at the lowest price online.\n                            ")]), _vm._v(" "), _c("p", [_vm._v("\n                                This pricing is equal or better than what you’ll find on any discount travel or hotel website. Book directly from the map below!\n                            ")])]);
+}, function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("Rnk")]), _vm._v(" "), _c("th", [_vm._v("Athlete")]), _vm._v(" "), _c("th", [_vm._v("NSA")]), _vm._v(" "), _c("th", [_vm._v("time")])])]);
 }];
 render._withStripped = true;
 
@@ -59934,6 +59962,9 @@ window.raceEventVM = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       if (data.stage) {
         this.$store.commit('SET_STAGE', data.stage);
       }
+      if (data.knockouts) {
+        this.$store.commit('SET_KNOCKOUTS', data.knockouts);
+      }
 
       // if (data.isGeneralClassification == 1) {
       //   this.$store.commit('SET_IS_GENERAL_CLASSIFICATION', true)
@@ -59968,7 +59999,8 @@ __webpack_require__.r(__webpack_exports__);
     category: {},
     stage: false,
     isGeneralClassification: false,
-    gcWinningTimes: {}
+    gcWinningTimes: {},
+    knockouts: {}
   },
   mutations: {
     SET_EVENT: function SET_EVENT(state, event) {
@@ -59991,6 +60023,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     SET_GC_WINNING_TIMES: function SET_GC_WINNING_TIMES(state, gcWinningTimes) {
       state.gcWinningTimes = gcWinningTimes;
+    },
+    SET_KNOCKOUTS: function SET_KNOCKOUTS(state, knockouts) {
+      state.knockouts = knockouts;
     } // SHOW_GENERAL_CLASSIFICATION(state) {
     //   state.showGeneralClassification = true
     // },

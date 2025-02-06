@@ -25,6 +25,11 @@ Install Ubuntu PHP packages:
 sudo apt-get install php-curl php-xml php-mbstring php-gd php-zip php-mysql
 ```
 
+Install and configure mysql:
+```
+sudo apt-get install mysql-server
+```
+
 Install composer dependencies:
 ```
 composer update

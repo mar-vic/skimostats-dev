@@ -219,6 +219,8 @@ export default {
                 }
 
                 return race.country && race.country.code === this.country.code
+            }).sort(function(a, b) {
+              return new Date(a.startDate) - new Date(b.startDate)
             })
         },
         year() {

@@ -27,7 +27,6 @@ class RaceEventEntryController extends Controller
     }
 
     public function update(Request $request, RaceEvent $event, Category $category, RaceEventEntry $entry) {
-        // dd('hello');
 
         $request->validate([
             'rank' => 'required',
@@ -127,6 +126,8 @@ class RaceEventEntryController extends Controller
         $entry->categoryId = $category->id;
         $entry->timeRaw = $request->get('time');
         $entry->time = Helper::rawTimeToMillis($entry->timeRaw);
+
+        // dd($entry);
 
         if ($request->has('raceEventStageId')) {
             $entry->raceEventStageId = $request->get('raceEventStageId');
