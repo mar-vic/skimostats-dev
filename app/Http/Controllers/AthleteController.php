@@ -75,7 +75,7 @@ class AthleteController extends Controller
             ->whereBetween('re.startDate', $timespan)
             ->groupBy('re.id');
 
-        dd($builder->get());
+        // dd($builder->get());
 
         return [
             'year' => $theYear,

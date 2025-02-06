@@ -57638,13 +57638,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               });
               return _context2.abrupt("return");
             case 5:
-              _context2.next = 7;
+              console.log("Getting races for athlete ".concat(athleteId, " and year ").concat(year));
+              _context2.next = 8;
               return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/v1/athlete/".concat(athleteId, "/races/").concat(year));
-            case 7:
+            case 8:
               _yield$axios$get2 = _context2.sent;
               racesResult = _yield$axios$get2.data;
               commit('SET_RACES', racesResult);
-            case 10:
+            case 11:
             case "end":
               return _context2.stop();
           }
