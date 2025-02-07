@@ -221,12 +221,6 @@
     </div>
 </div>
 
-<!-- Loading HTMX  -->
-<script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/pl2MU10Hqc6jd4RvrthNlDiE9U1tWmX7WRESftEDRosgxNsQG/Ze9YMRzHq" crossorigin="anonymous"></script>
-
-<!-- Loading AlpineJS -->
-<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
 <script>
     function checkCategories(check) {
         $('input[name^=category]').prop('checked', check);
