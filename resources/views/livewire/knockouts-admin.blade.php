@@ -20,11 +20,9 @@
             />
         @endif
     @endforeach
-    @script
-    <script>
-     $wire.on('new-category-selected', () => {
-         $wire.$refresh();
-     });
-    </script>
-    @endscript
+    <datalist id="countryCodes">
+        @foreach ($countries as $country)
+            <option wire:key="country-option-{{ $country->code }}" value="{{ $country->code }}">{{ $country->name }}</option>
+        @endforeach
+    </datalist>
 </div>

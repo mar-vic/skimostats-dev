@@ -53,23 +53,23 @@
 
 
                                 <!-- <div class="inline" v-if="showGeneralClassification">
-<router-link
-:to="{ name: 'event.category.gc', params: { event: event.slug, category: category.slug }}"
-class="badge badge--custom ml-1 my-1"
-:class="{'badge-active': selectedCategory.id === category.id && isGCscreen}"
-v-for="category in gcCategories"
-:key="`catzgc-${category.id}`"
->
-General Classification - {{ category.name }}
-</router-link>
-</div>
--->
+                                     <router-link
+                                     :to="{ name: 'event.category.gc', params: { event: event.slug, category: category.slug }}"
+                                     class="badge badge--custom ml-1 my-1"
+                                     :class="{'badge-active': selectedCategory.id === category.id && isGCscreen}"
+                                     v-for="category in gcCategories"
+                                     :key="`catzgc-${category.id}`"
+                                     >
+                                     General Classification - {{ category.name }}
+                                     </router-link>
+                                     </div>
+                                -->
                             </div>
 
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table--races table--races-striped text-uppercase">
+                            <table class="table table--races table--races-striped text-uppercase" >
                                 <thead>
                                     <tr>
                                         <th style="width:70px;0">Rnk</th>
@@ -153,21 +153,26 @@ General Classification - {{ category.name }}
                                 <div v-for="round in selectedKnockouts.rounds" class="col">
                                     <h2>{{ round.name }}</h2>
                                     <div v-for="heat in round.heats" class="pt-3 pb-3">
-                                        <table class="table table--races table--races-striped text-uppercase">
+                                        <table class="table table--races table--races-striped text-uppercase font-weight-bold">
                                             <thead>
                                                 <tr>
                                                     <th>Rnk</th>
                                                     <th>Athlete</th>
-                                                    <th>NSA</th>
                                                     <th>time</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="entry in heat[0]">
                                                     <td>{{ entry.rank }}</td>
-                                                    <td>{{ entry.athleteName }}</td>
-                                                    <td>{{ entry.nationality  }}</td>
-                                                    <td>{{ entry.time }}</td>
+                                                    <td>
+                                                        <img
+                                                            v-if="entry.nationality"
+                                                            class="latest-results__micro-flag mr-1"
+                                                            :src="`/images/flags/mini/${entry.nationality.toUpperCase()}.png`"
+                                                            :alt="'(' + entry.nationality + ')'" />
+                                                        {{ entry.athleteName }}
+                                                    </td>
+                                                    <td class="font-weight-normal">{{ entry.time }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

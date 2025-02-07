@@ -19,11 +19,9 @@ class KnockoutsHstack extends Component
 
     public function mount($raceEventId, $categoryId)
     {
-        // dd($this->categoryId);
         $this->raceEventId = $raceEventId;
         $this->categoryId = $categoryId;
         $this->knockouts = Knockouts::where('raceEventId', $raceEventId)->where('categoryId', $categoryId)->first();
-        // dd('Mounting knockouts for ' . $categoryId);
     }
 
     public function render()
@@ -50,14 +48,11 @@ class KnockoutsHstack extends Component
         ]);
 
         $this->newKnockoutName = '';
-
-        $this->dispatch('knockout-round-added');
     }
 
     #[On('delete-knockout-round')]
     public function deleteKnockoutRound($roundId)
     {
-        // dd('deleting round: ' . $roundId);
         $knockoutRound = KnockoutRound::find($roundId);
         $knockoutRound->delete();
     }

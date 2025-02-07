@@ -2865,7 +2865,7 @@ var render = function render() {
         return _vm.sortEntriesByStageTime.apply(null, arguments);
       }
     }
-  }, [_vm._v("\n                                                    Stage Time\n                                                    "), !_vm.sortedByGcTime ? _c("span", {
+  }, [_vm._v("\n                                                Stage Time\n                                                "), !_vm.sortedByGcTime ? _c("span", {
     staticClass: "fa fa-caret-down"
   }) : _vm._e()])]) : _c("span", [_vm._v("Time")])]) : _vm._e(), _vm._v(" "), _vm.stage ? _c("th", {
     staticStyle: {
@@ -2881,13 +2881,13 @@ var render = function render() {
         return _vm.sortEntriesByGcTime.apply(null, arguments);
       }
     }
-  }, [_vm._v("\n                                                GC Time\n                                                "), _vm.sortedByGcTime ? _c("span", {
+  }, [_vm._v("\n                                            GC Time\n                                            "), _vm.sortedByGcTime ? _c("span", {
     staticClass: "fa fa-caret-down"
   }) : _vm._e()])]) : _vm._e(), _vm._v(" "), _vm.isGeneralClassification ? _c("th", {
     staticStyle: {
       "text-align": "center"
     }
-  }, [_vm._v("\n                                            TIME\n                                        ")]) : _vm._e()])]), _vm._v(" "), _c("tbody", _vm._l(_vm.entries, function (entry) {
+  }, [_vm._v("\n                                        TIME\n                                    ")]) : _vm._e()])]), _vm._v(" "), _c("tbody", _vm._l(_vm.entries, function (entry) {
     return _c("tr", {
       key: "entry".concat(_vm.isGCscreen ? "-gc" : "", "-").concat(entry.id),
       "class": {
@@ -2914,9 +2914,9 @@ var render = function render() {
       staticStyle: {
         "text-align": "center"
       }
-    }, [_vm.isSprintRace ? _c("div", [_vm._v("\n                                                " + _vm._s(entry.prependTime ? entry.prependTime + " " : "") + "\n                                                " + _vm._s(entry.timeFormatted) + "\n                                            ")]) : _c("div", [_vm._v("\n                                                " + _vm._s(entry.prependTime ? entry.prependTime + " " : "") + "\n                                                "), entry.id === _vm.firstEntry.id || !_vm.showTimeDifference ? _c("span", {
+    }, [_vm.isSprintRace ? _c("div", [_vm._v("\n                                            " + _vm._s(entry.prependTime ? entry.prependTime + " " : "") + "\n                                            " + _vm._s(entry.timeFormatted) + "\n                                        ")]) : _c("div", [_vm._v("\n                                            " + _vm._s(entry.prependTime ? entry.prependTime + " " : "") + "\n                                            "), entry.id === _vm.firstEntry.id || !_vm.showTimeDifference ? _c("span", {
       staticClass: "font-weight-bold"
-    }, [_vm._v("\n                                                    " + _vm._s(entry.timeFormatted) + "\n                                                ")]) : _vm._e(), _vm._v(" "), entry.id !== _vm.firstEntry.id && entry.time != 0 && _vm.showTimeDifference ? _c("time-difference", {
+    }, [_vm._v("\n                                                " + _vm._s(entry.timeFormatted) + "\n                                            ")]) : _vm._e(), _vm._v(" "), entry.id !== _vm.firstEntry.id && entry.time != 0 && _vm.showTimeDifference ? _c("time-difference", {
       attrs: {
         time: entry.time,
         firstTime: _vm.firstEntry.time,
@@ -2926,7 +2926,7 @@ var render = function render() {
       staticStyle: {
         "text-align": "center"
       }
-    }, [_vm.relativeTime(entry.gcTime, entry.category) != 0 && _vm.showTimeDifference ? _c("span", [_vm._v("\n                                                +" + _vm._s(_vm.relativeTime(entry.gcTime, entry.category)) + "\n                                            ")]) : _c("strong", [_vm._v(_vm._s(entry.gcTimeFormatted))])]) : _vm._e()]);
+    }, [_vm.relativeTime(entry.gcTime, entry.category) != 0 && _vm.showTimeDifference ? _c("span", [_vm._v("\n                                            +" + _vm._s(_vm.relativeTime(entry.gcTime, entry.category)) + "\n                                        ")]) : _c("strong", [_vm._v(_vm._s(entry.gcTimeFormatted))])]) : _vm._e()]);
   }), 0)])]), _vm._v(" "), _vm.selectedKnockouts != null ? _c("div", [_c("h1", {
     staticClass: "font-weight-bold text-uppercase text-blue text-nowrap mr-0 mr-md-4"
   }, [_vm._v("Knockouts")]), _vm._v(" "), _c("div", {
@@ -2938,9 +2938,17 @@ var render = function render() {
       return _c("div", {
         staticClass: "pt-3 pb-3"
       }, [_c("table", {
-        staticClass: "table table--races table--races-striped text-uppercase"
+        staticClass: "table table--races table--races-striped text-uppercase font-weight-bold"
       }, [_vm._m(1, true), _vm._v(" "), _c("tbody", _vm._l(heat[0], function (entry) {
-        return _c("tr", [_c("td", [_vm._v(_vm._s(entry.rank))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(entry.athleteName))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(entry.nationality))]), _vm._v(" "), _c("td", [_vm._v(_vm._s(entry.time))])]);
+        return _c("tr", [_c("td", [_vm._v(_vm._s(entry.rank))]), _vm._v(" "), _c("td", [entry.nationality ? _c("img", {
+          staticClass: "latest-results__micro-flag mr-1",
+          attrs: {
+            src: "/images/flags/mini/".concat(entry.nationality.toUpperCase(), ".png"),
+            alt: "(" + entry.nationality + ")"
+          }
+        }) : _vm._e(), _vm._v("\n                                                    " + _vm._s(entry.athleteName) + "\n                                                ")]), _vm._v(" "), _c("td", {
+          staticClass: "font-weight-normal"
+        }, [_vm._v(_vm._s(entry.time))])]);
       }), 0)])]);
     })], 2);
   }), 0)]) : _vm._e()])]) : _vm._e()])])]);
@@ -2958,11 +2966,11 @@ var staticRenderFns = [function () {
     attrs: {
       href: "https://www.stay22.com/"
     }
-  }, [_c("b", [_vm._v("Stay22")])]), _vm._v(" to provide you with all available accommodations (hotels, rentals, hostels, etc.) at the lowest price online.\n                            ")]), _vm._v(" "), _c("p", [_vm._v("\n                                This pricing is equal or better than what you’ll find on any discount travel or hotel website. Book directly from the map below!\n                            ")])]);
+  }, [_c("b", [_vm._v("Stay22")])]), _vm._v(" to provide you with all available accommodations (hotels, rentals, hostels, etc.) at the lowest price online.\n                        ")]), _vm._v(" "), _c("p", [_vm._v("\n                            This pricing is equal or better than what you’ll find on any discount travel or hotel website. Book directly from the map below!\n                        ")])]);
 }, function () {
   var _vm = this,
     _c = _vm._self._c;
-  return _c("thead", [_c("tr", [_c("th", [_vm._v("Rnk")]), _vm._v(" "), _c("th", [_vm._v("Athlete")]), _vm._v(" "), _c("th", [_vm._v("NSA")]), _vm._v(" "), _c("th", [_vm._v("time")])])]);
+  return _c("thead", [_c("tr", [_c("th", [_vm._v("Rnk")]), _vm._v(" "), _c("th", [_vm._v("Athlete")]), _vm._v(" "), _c("th", [_vm._v("time")])])]);
 }];
 render._withStripped = true;
 

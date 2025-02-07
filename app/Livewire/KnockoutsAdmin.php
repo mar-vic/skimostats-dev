@@ -7,6 +7,7 @@ use App\KnockoutRound;
 use App\Knockouts;
 use App\Heat;
 use App\HeatEntry;
+use App\Country;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 
@@ -16,10 +17,12 @@ class KnockoutsAdmin extends Component
     public $raceEvent;
     public $knockoutsId = null;
     public $selectedCategoryId = 1;
+    public $countries;
 
     public function mount($raceEventId)
     {
         $this->raceEvent = RaceEvent::find($raceEventId);
+        $this->countries = Country::all();
     }
 
     public function render()
@@ -29,13 +32,6 @@ class KnockoutsAdmin extends Component
 
     public function selectCategory($categoryId)
     {
-        // dd($categoryId);
         $this->selectedCategoryId = $categoryId;
-        // $knockouts = Knockouts::where('raceEventId', $this->raceEvent->id)->where('categoryId', $categoryId)->first();
-        // if($knockouts)
-        // {
-        //     $this->knockoutsId = $knockouts->id;
-        // }
-        $this->dispatch("new-category-selected");
     }
 }

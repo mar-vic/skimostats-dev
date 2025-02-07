@@ -33,7 +33,7 @@
                 <input type="text" placeholder="Athlete's name" wire:model="newAthleteName" />
             </div>
             <div class="col-3">
-                <input type="text" placeholder="Nationality" wire:model="newNationality" />
+                <input type="text" placeholder="Nationality" list="countryCodes" wire:model="newNationality" />
             </div>
             <div class="col-3">
                 <input type="text" placeholder="Time" wire:model="newTimeRaw" />
