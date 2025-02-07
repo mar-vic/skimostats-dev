@@ -18,31 +18,32 @@
             @foreach ($heat->entries->sortBy('rank') as $entry)
                 <livewire:heat-entry-row :heatEntryId="$entry->id" :key="$entry->id" />
             @endforeach
+            <tr>
+                <form wire:submit="addNewEntry">
+                    <td>
+                        <input type="number"
+                               min="1"
+                               step="1"
+                               size="1"
+                               wire:model="newRank"
+                        />
+                    </td>
+                    <td>
+                        <input type="text" placeholder="Athlete's name" wire:model="newAthleteName" />
+                    </td>
+                    <td>
+                        <input type="text" size="3" placeholder="Country" list="countryCodes" wire:model="newNationality" />
+                    </td>
+                    <td>
+                        <input type="text" size="5" placeholder="Time" wire:model="newTimeRaw" />
+                    </td>
+                    <td>
+                        <button type="submit" class="btn btn-sm btn-success w-100">Add</button>
+                    </td>
+                </form>
+            </tr>
         </tbody>
     </table>
-    <form wire:submit="addNewEntry" class="border p-2 mt-2" style="font-size:0.7rem">
-        <div class="row border-1 pt-1 pb-1">
-            <div class="col-1">
-                <input type="number"
-                       min="1"
-                       step="1"
-                       size="1"
-                       wire:model="newRank" />
-            </div>
-            <div class="col-3">
-                <input type="text" placeholder="Athlete's name" wire:model="newAthleteName" />
-            </div>
-            <div class="col-3">
-                <input type="text" placeholder="Nationality" list="countryCodes" wire:model="newNationality" />
-            </div>
-            <div class="col-3">
-                <input type="text" placeholder="Time" wire:model="newTimeRaw" />
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="">Add</button>
-            </div>
-        </div>
-    </form>
     @script
     <script>
      $wire.on('heat-table-mounted', () => {
