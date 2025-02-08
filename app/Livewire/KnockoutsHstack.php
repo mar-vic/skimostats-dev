@@ -48,11 +48,14 @@ class KnockoutsHstack extends Component
         ]);
 
         $this->newKnockoutName = '';
+
+        $this->dispatch('knockout-round-added');
     }
 
     #[On('delete-knockout-round')]
     public function deleteKnockoutRound($roundId)
     {
+        // dd('deleting round: ' . $roundId);
         $knockoutRound = KnockoutRound::find($roundId);
         $knockoutRound->delete();
     }

@@ -19,4 +19,13 @@
             @endforeach
         </div>
     @endif
+    @script
+    <script>
+     $wire.on('knockout-round-added', () => {
+         /* console.log("Knockout round added"); */
+         /* Livewire.restart(); */
+         $wire.$refresh();
+     });
+    </script>
+    @endscript
 </div>
