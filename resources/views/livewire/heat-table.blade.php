@@ -18,8 +18,21 @@
             @foreach ($heat->entries->sortBy('rank') as $entry)
                 <livewire:heat-entry-row :heatEntryId="$entry->id" :key="$entry->id" />
             @endforeach
-            <tr>
-                <form wire:submit="addNewEntry">
+        </tbody>
+    </table>
+    <form wire:submit="addNewEntry">
+        <table class="table border border-1 table-striped">
+            <thead class="d-none">
+                <tr>
+                    <th>Rk</th>
+                    <th>Name</th>
+                    <th>NSA</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
                     <td>
                         <input type="number"
                                min="1"
@@ -40,10 +53,10 @@
                     <td>
                         <button type="submit" class="btn btn-sm btn-success w-100">Add</button>
                     </td>
-                </form>
-            </tr>
-        </tbody>
-    </table>
+                </tr>
+            </tbody>
+        </table>
+    </form>
     @script
     <script>
      $wire.on('heat-table-mounted', () => {
