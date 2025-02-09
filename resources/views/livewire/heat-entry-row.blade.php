@@ -17,7 +17,7 @@
         </td>
         <td>
             <span x-show="!editable" x-on:click="editable=true" style="cursor:pointer;">{{ $nationality }}</span>
-            <input x-show="editable" type="text" list="countryCodes" size="3" wire:model="nationality" />
+            <input x-show="editable" type="text" list="countryCodes" size="5" wire:model="nationality" />
         </td>
         <td>
             <span x-show="!editable" x-on:click="editable=true" style="cursor:pointer;">{{ $timeRaw }}</span>

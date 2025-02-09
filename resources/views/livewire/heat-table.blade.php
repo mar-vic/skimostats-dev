@@ -22,7 +22,7 @@
     </table>
     <form wire:submit="addNewEntry">
         <table class="table border border-1 table-striped">
-            <thead class="d-none">
+            <thead class="">
                 <tr>
                     <th>Rk</th>
                     <th>Name</th>
@@ -45,7 +45,7 @@
                         <input type="text" placeholder="Athlete's name" wire:model="newAthleteName" />
                     </td>
                     <td>
-                        <input type="text" size="3" placeholder="Country" list="countryCodes" wire:model="newNationality" />
+                        <input type="text" size="5" placeholder="Country" list="countryCodes" wire:model="newNationality" />
                     </td>
                     <td>
                         <input type="text" size="5" placeholder="Time" wire:model="newTimeRaw" />
