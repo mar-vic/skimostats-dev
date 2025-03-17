@@ -137,8 +137,9 @@
                     <li><a href="{{ route('athletes') }}" {!! isset($selectedPage) && $selectedPage=='athletes' ? " class='active'" : '' !!}>{{__('Athletes')}}</a></li>
                     <li><a href="{{ route('rankings') }}" {!! isset($selectedPage) && $selectedPage=='rankings' ? " class='active'" : '' !!}>{{__('Rankings')}}</a></li>
                     <li><a href="{{ route('statistics') }}" {!! isset($selectedPage) && $selectedPage=='statistics' ? " class='active'" : '' !!}>{{__('Statistics')}}</a></li>
-                    <li><a href="{{ route('about-us') }}" {!! isset($selectedPage) && $selectedPage=='about-us' ? " class='active'" : '' !!}>{{__('About us')}}</a></li>
+                    <li><a href="{{ route('about-us') }}" {!! isset($selectedPage) && $selectedPage=='about-us' ? " class='active'" : '' !!}>{{__('About')}}</a></li>
                     <li><a href="{{ route('partners') }}" {!! isset($selectedPage) && $selectedPage=='partners' ? " class='active'" : '' !!}>{{__('Partners')}}</a></li>
+                    <li><a href="https://www.patreon.com/skimostats">{{__('Support us')}}</a></li>
                 </ul>
                 <div class="d-none d-md-block topbar__search">
                     <form action="{{ route('search') }}" method="GET">
