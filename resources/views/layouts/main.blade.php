@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
 
-    <head>
-        <!-- Google Tag Manager -->
-        <script>
+<head>
+    <!-- Google Tag Manager -->
+    <script>
         (function(w, d, s, l, i) {
             w[l] = w[l] || [];
             w[l].push({
@@ -11,60 +11,63 @@
                 event: 'gtm.js'
             });
             var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
             j.async = true;
             j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-TVVWKXT');
-        </script>
-        <!-- End Google Tag Manager -->
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- CSRF Token -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ isset($title) ? $title . ' - SkiMo Stats' : 'SkiMo Stats' }}</title>
+    <title>{{ isset($title) ? $title . ' - SkiMo Stats' : 'SkiMo Stats' }}</title>
 
-        <meta name="description" content="{{ isset($meta_description) ? $meta_description : 'SkiMo results, calendars, statistics and rankings' }}">
-        <meta name="keywords" content="{{ isset($meta_keywords) ? $meta_keywords : 'skimo, ski mountaineering, skimo races, skimo events, vertical races, sprint races, skimo athletes, skimo statistics, skimo stats, skimo rank, skimo ranking, skimo rankings' }}">
-        <meta property="og:description" content="{{ isset($meta_description) ? $meta_description : 'SkiMo results, calendars, statistics and rankings' }}">
-        <meta property="og:image" content="{{ isset($og_image) ? $og_image : asset('images/og-image-2.jpg') }}">
-        <meta property="og:url" content="{{ url()->current() }}">
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="{{ isset($title) ? $title . ' - Skimostats' : 'Skimostats' }}">
+    <meta name="description" content="{{ isset($meta_description) ? $meta_description : 'SkiMo results, calendars, statistics and rankings' }}">
+    <meta name="keywords" content="{{ isset($meta_keywords) ? $meta_keywords : 'skimo, ski mountaineering, skimo races, skimo events, vertical races, sprint races, skimo athletes, skimo statistics, skimo stats, skimo rank, skimo ranking, skimo rankings' }}">
+    <meta property="og:description" content="{{ isset($meta_description) ? $meta_description : 'SkiMo results, calendars, statistics and rankings' }}">
+    <meta property="og:image" content="{{ isset($og_image) ? $og_image : asset('images/og-image-2.jpg') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ isset($title) ? $title . ' - Skimostats' : 'Skimostats' }}">
 
-        <!-- Scripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-        <!-- Fonts -->
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 
-        <!-- BOOTSTRAP STYLES -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <!-- FONT AWESOME -->
+    <script src="https://kit.fontawesome.com/7fa4b4e040.js" crossorigin="anonymous"></script>
 
-        <!-- BOOTSTRAP SCRIPTS -->
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP STYLES -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
-        <!-- faltpickr styles -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 
-        <!-- flatpickr monthselect plugin style -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+    <!-- faltpickr styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-        <!-- Styles -->
-        <link href="{{ mix('css/main.css') }}" rel="stylesheet">
+    <!-- flatpickr monthselect plugin style -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
 
-        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+    <!-- Styles -->
+    <link href="{{ mix('css/main.css') }}" rel="stylesheet">
 
-        <!-- LMA (Stay22) integration -->
-        <script>
-        (function (s, t, a, y, twenty, two) {
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}">
+
+    <!-- LMA (Stay22) integration -->
+    <script>
+        (function(s, t, a, y, twenty, two) {
             s.Stay22 = s.Stay22 || {};
 
             // Just fill out your configs here
@@ -79,7 +82,7 @@
             twenty.src = y;
             two.parentNode.insertBefore(twenty, two);
         })(window, document, "script", "https://scripts.stay22.com/letmeallez.js");
-        </script>
+    </script>
 </head>
 
 <body>
@@ -99,14 +102,18 @@
 
                 <!-- SOCIALS AND MAIL -->
                 <div class="topbar__social-icons d-none d-md-flex">
+
                     <a href='https://www.facebook.com/skimostats' target="_blank" class="topbar__social-icon mr-1">
-                        <i class="fab fa-facebook-f"></i>
+                        <i class="fa-brands fa-facebook-f"></i>
                     </a>
                     <a href='https://www.instagram.com/skimostats/' target="_blank" class="topbar__social-icon mr-1">
-                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                    </a>
+                    <a href='https://www.patreon.com/skimostats' class="topbar__social-icon mr-1">
+                        <i class="fa-brands fa-patreon"></i>
                     </a>
                     <a href='mailto:info@skimostats.com' class="topbar__social-icon">
-                        <i class="far fa-envelope"></i>
+                        <i class="far fa-envelope" aria-hidden="true"></i>
                     </a>
                 </div>
 
@@ -139,7 +146,7 @@
                     <li><a href="{{ route('statistics') }}" {!! isset($selectedPage) && $selectedPage=='statistics' ? " class='active'" : '' !!}>{{__('Statistics')}}</a></li>
                     <li><a href="{{ route('about-us') }}" {!! isset($selectedPage) && $selectedPage=='about-us' ? " class='active'" : '' !!}>{{__('About')}}</a></li>
                     <li><a href="{{ route('partners') }}" {!! isset($selectedPage) && $selectedPage=='partners' ? " class='active'" : '' !!}>{{__('Partners')}}</a></li>
-                    <li><a href="https://www.patreon.com/skimostats">{{__('Support us')}}</a></li>
+                    <li><a href="https://www.patreon.com/skimostats" style="color:#fce000;font-weight:bold;width:100%;padding-left:10px;padding-right:10px;">{{__('Support us')}}</a></li>
                 </ul>
                 <div class="d-none d-md-block topbar__search">
                     <form action="{{ route('search') }}" method="GET">
@@ -229,7 +236,7 @@
 
     <script src="{{ mix('js/main.js') }}"></script>
 
-            {{-- <script src="/js/lang.js"></script> --}}
+    {{-- <script src="/js/lang.js"></script> --}}
 
     @stack('scripts')
 </body>
