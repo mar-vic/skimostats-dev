@@ -41,12 +41,16 @@ sudo apt-get install npm
 npm install
 ```
 
-Recompile JavaScript assets:
+Recompile JavaScript assets for development:
 ```
 npm run dev 
 ```
 
-Run the dev server
+or for production:
 
 ```npm run production```
+
+Finally, run the dev server:
+
+```php artisan serve```
 
